@@ -1,0 +1,19 @@
+{
+  "name": "uade-movie-api",
+  "version": "1.0.0",
+  "description": "API powering the best UADE Movie Mobile app ever",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pawap90/uade-movie-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pawap90/uade-movie-api/issues"
+  },
+  "homepage": "https://github.com/pawap90/uade-movie-api#readme"
+}
