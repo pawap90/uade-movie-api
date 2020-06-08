@@ -1,3 +1,5 @@
+![Continous Integration](https://github.com/pawap90/uade-movie-api/workflows/Continous%20Integration/badge.svg)
+
 # uade-movie-api
 UADE | 2020 | Distribuidas | Movie backend API
 
