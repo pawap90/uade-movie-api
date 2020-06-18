@@ -22,8 +22,8 @@ jobs:
     - name: Build and push
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_AUTHTOKEN }}
-      run: heroku container:push -a uade-movieapp-g5-api-dev
+      run: heroku container:push -a uade-movieapp-g5-api-dev web
     - name: Release
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_AUTHTOKEN }}
-      run: heroku container:release -a uade-movieapp-g5-api-dev
+      run: heroku container:release -a uade-movieapp-g5-api-dev web
