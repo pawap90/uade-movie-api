@@ -19,7 +19,7 @@ module.exports.generateJwt = (payload) => {
  * @returns {string} Encrypted text.
  */
 module.exports.encrypt = (text) => {
-    const encrypted = crypto.createHmac('sha256', process.env.CRYPTO_KEY).update(text).digest('hex');
+    const encrypted = crypto.createHmac(process.env.CRYPTO_ALG, process.env.CRYPTO_KEY).update(text).digest('hex');
 
     return encrypted;
 };
