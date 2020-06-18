@@ -13,6 +13,24 @@ module.exports.generateJwt = (payload) => {
 };
 
 /**
+ * Verify if the token is valid and not expired.
+ * @param {String} token JWT
+ */
+module.exports.verifyJwt = (token) => {
+    try {
+        return jwt.verify(token, process.env.JWT_SIGNKEY);
+    }
+    catch (err) {
+        if (err.name == 'JsonWebTokenError')
+            throw new InvalidTokenError(err);
+        if (err.name == 'TokenExpiredError')
+            throw new ExpiredTokenError(err);
+
+        throw err;
+    }
+};
+
+/**
  * Encrypts text using a secret key.
  * @param {string} text - Text to encrypt
  * @param {string} [cryptoPassword=null] - Crypto key (if not provided takes default from config.js)
@@ -23,3 +41,29 @@ module.exports.encrypt = (text) => {
 
     return encrypted;
 };
+
+/**
+ * Custom error for expired JWT
+ * @param {*} err Original error
+ * @param {*} message Custom message (optional)
+ */
+function ExpiredTokenError(err, message) {
+    this.name = message || 'Expired token';
+    this.stack = err ? err.stack : (new Error()).stack;
+};
+ExpiredTokenError.prototype = Object.create(Error.prototype);
+ExpiredTokenError.prototype.constructor = ExpiredTokenError;
+module.exports.ExpiredTokenError = ExpiredTokenError;
+
+/**
+ * Custom error for invalid JWT
+ * @param {*} err Original error
+ * @param {*} message Custom message (optional)
+ */
+function InvalidTokenError(err, message) {
+    this.name = message || 'Invalid token';
+    this.stack = err ? err.stack : (new Error()).stack;
+};
+InvalidTokenError.prototype = Object.create(Error.prototype);
+InvalidTokenError.prototype.constructor = InvalidTokenError;
+module.exports.InvalidTokenError = InvalidTokenError;
