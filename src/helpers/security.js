@@ -21,9 +21,9 @@ module.exports.verifyJwt = (token) => {
         return jwt.verify(token, process.env.JWT_SIGNKEY);
     }
     catch (err) {
-        if (err.name == 'JsonWebTokenError')
+        if (err.name && err.name === 'JsonWebTokenError')
             throw new InvalidTokenError(err);
-        if (err.name == 'TokenExpiredError')
+        if (err.name && err.name === 'TokenExpiredError')
             throw new ExpiredTokenError(err);
 
         throw err;
@@ -47,7 +47,7 @@ module.exports.encrypt = (text) => {
  * @param {*} err Original error
  * @param {*} message Custom message (optional)
  */
-function ExpiredTokenError(err, message) {
+function ExpiredTokenError (err, message) {
     this.name = message || 'Expired token';
     this.stack = err ? err.stack : (new Error()).stack;
 };
@@ -60,7 +60,7 @@ module.exports.ExpiredTokenError = ExpiredTokenError;
  * @param {*} err Original error
  * @param {*} message Custom message (optional)
  */
-function InvalidTokenError(err, message) {
+function InvalidTokenError (err, message) {
     this.name = message || 'Invalid token';
     this.stack = err ? err.stack : (new Error()).stack;
 };
