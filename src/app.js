@@ -6,6 +6,6 @@ const serverInit = require('./server-init');
 
 serverInit.startServer()
     .then(app => {
-        app.listen(process.env.port);
+        app.listen(process.env.PORT);
     })
     .catch((err) => console.log(err));
