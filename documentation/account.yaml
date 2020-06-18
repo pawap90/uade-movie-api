@@ -1,3 +1,9 @@
+securityDefinitions:
+  APIKeyHeader:
+     type: apiKey
+     in: header
+     name: Authorization
+
 paths:
   /account/login:
     post:
@@ -20,3 +26,19 @@ paths:
           description: Unauthorized - Wrong credentials (or not provided at all)
         500:
           description: Unexpected error on login
+  /account/current-user:
+    get:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Account
+      summary: Get current user
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Retrives the current user
+        401:
+          description: Unauthorized - JWT is invalid or expired
+        500:
+          description: Unexpected error

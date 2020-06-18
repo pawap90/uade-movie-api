@@ -19,7 +19,7 @@ module.exports.login = async (credentials) => {
 
         credentials.email = credentials.email.toLowerCase();
 
-        const user = await this.getByEmail(credentials.email);
+        const user = await getByEmailFunc(credentials.email, true);
         if (!user)
             throw new error.Unauthorized('Incorrect credentials');
 
@@ -53,9 +53,22 @@ module.exports.login = async (credentials) => {
 */
 module.exports.getByEmail = async (email) => {
     try {
-        return await accountModel.findOne({ email: email });
+        return getByEmailFunc(email, false);
     }
     catch (err) {
         throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
     }
+};
+
+/**
+ * Retrieves a user by email.
+ * @param {String} email User email
+ * @param {bool} insecure If set to true, includes the user password in the result.
+ */
+const getByEmailFunc = async (email, insecure = false) => {
+    let select = { password: false };
+    if (insecure)
+        select = {};
+
+    return await accountModel.findOne({ email: email }, select);
 };
