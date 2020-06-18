@@ -1,0 +1,22 @@
+paths:
+  /account/login:
+    post:
+      tags:
+        - Account
+      summary: Login with any user account
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          example:
+            email: test@uade-movie-app.com.ar
+            password: uade2020
+      responses:
+        200:
+          description: User successfully logged in
+        401:
+          description: Unauthorized - Wrong credentials (or not provided at all)
+        500:
+          description: Unexpected error on login

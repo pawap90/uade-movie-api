@@ -18,7 +18,15 @@
     "url": "https://github.com/pawap90/uade-movie-api/issues"
   },
   "homepage": "https://github.com/pawap90/uade-movie-api#readme",
-  "dependencies": {},
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.19",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
+    "throw.js": "^3.0.1"
+  },
   "devDependencies": {
     "eslint": "^7.2.0",
     "eslint-config-standard": "^14.1.1",
