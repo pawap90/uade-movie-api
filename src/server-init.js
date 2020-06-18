@@ -14,7 +14,7 @@ module.exports.startServer = async () => {
 
     // Root endpoint.
     app.get('/', (req, res) => {
-        res.status(200).json('Hello world');
+        res.status(200).json('Welcome to UADE Movie App API.');
     });
 
     // Setup all the application routes here.
