@@ -12,7 +12,7 @@ paths:
           required: true
           example:
             email: test@uade-movie-app.com.ar
-            password: test123
+            password: uade2020
       responses:
         200:
           description: User successfully logged in
