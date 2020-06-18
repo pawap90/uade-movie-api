@@ -22,9 +22,8 @@ module.exports.startServer = async () => {
 
     // Error handling middleware.
     app.use((err, req, res, next) => {
-
         let status = 500;
-        let errRes = { message: 'Unexpected error' };
+        const errRes = { message: 'Unexpected error' };
 
         if (err.statusCode) {
             status = err.statusCode;

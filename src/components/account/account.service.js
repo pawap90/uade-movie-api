@@ -56,6 +56,6 @@ module.exports.getByEmail = async (email) => {
         return await accountModel.findOne({ email: email });
     }
     catch (err) {
-        throw errorHandler(new error.InternalServerError('Unexpected Mongoose error while retrieving user by email'), err);
+        throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
     }
 };
