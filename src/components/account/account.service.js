@@ -53,7 +53,7 @@ module.exports.login = async (credentials) => {
 */
 module.exports.getByEmail = async (email) => {
     try {
-        return getByEmailFunc(email, false);
+        return getByEmailFunc(email);
     }
     catch (err) {
         throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
