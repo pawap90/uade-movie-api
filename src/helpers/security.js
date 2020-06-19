@@ -15,6 +15,9 @@ module.exports.generateJwt = (payload) => {
 /**
  * Verify if the token is valid and not expired.
  * @param {String} token JWT
+ * @returns {String} Payload
+ * @throws {ExpiredTokenError} If the token is valid but expired
+ * @throws {InvalidTokenError} If the token is invalid
  */
 module.exports.verifyJwt = (token) => {
     try {
@@ -32,9 +35,8 @@ module.exports.verifyJwt = (token) => {
 
 /**
  * Encrypts text using a secret key.
- * @param {string} text - Text to encrypt
- * @param {string} [cryptoPassword=null] - Crypto key (if not provided takes default from config.js)
- * @returns {string} Encrypted text.
+ * @param {String} text - Text to encrypt
+ * @returns {String} Encrypted text.
  */
 module.exports.encrypt = (text) => {
     const encrypted = crypto.createHmac(process.env.CRYPTO_ALG, process.env.CRYPTO_KEY).update(text).digest('hex');
@@ -45,7 +47,7 @@ module.exports.encrypt = (text) => {
 /**
  * Custom error for expired JWT
  * @param {*} err Original error
- * @param {*} message Custom message (optional)
+ * @param {String} message Custom message (optional)
  */
 function ExpiredTokenError (err, message) {
     this.name = message || 'Expired token';
@@ -58,7 +60,7 @@ module.exports.ExpiredTokenError = ExpiredTokenError;
 /**
  * Custom error for invalid JWT
  * @param {*} err Original error
- * @param {*} message Custom message (optional)
+ * @param {String} message Custom message (optional)
  */
 function InvalidTokenError (err, message) {
     this.name = message || 'Invalid token';
