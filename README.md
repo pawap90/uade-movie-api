@@ -34,4 +34,5 @@ ERRORS_DETAILED=true
 JWT_EXPIRATION=<expiration-in-seconds>
 JWT_SIGNKEY=<jwt-sign-key>
 CRYPTO_KEY=<crypto-key>
+CRYPTO_ALG=<crypto-algoritm>
 ```
