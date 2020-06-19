@@ -37,7 +37,7 @@ paths:
         - application/json
       responses:
         200:
-          description: Retrives the current user
+          description: Retreives the current user
         401:
           description: Unauthorized - JWT is invalid or expired
         500:
