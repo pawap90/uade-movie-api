@@ -14,9 +14,14 @@ module.exports.postList = async (req, res, next) => {
     }
 };
 
-module.exports.getName = async (req, res, next) => {
+/**
+ * Get users lists
+ */
+module.exports.getUsersLists = async (req, res, next) => {
     try {
-        return res.json('Da name');
+        const lists = await listService.getUsersLists(req.userClaims.userId);
+
+        return res.json(lists);
     }
     catch (err) {
         return next(err);
