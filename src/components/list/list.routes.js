@@ -9,4 +9,6 @@ const listController = require('./list.controller');
  */
 router.post('/', listController.postList);
 
+router.get('/get-name', authorize, listController.getName);
+
 module.exports = router;

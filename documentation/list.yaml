@@ -1,0 +1,31 @@
+securityDefinitions:
+  APIKeyHeader:
+     type: apiKey
+     in: header
+     name: Authorization
+
+paths:
+  /list/:
+    post:
+      tags:
+        - List
+      summary: Posts a list
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          example:
+            isDefault: false
+            name: "List's name" 
+            isPublic: true
+            mediaItems: ["111", "222", "333"]
+            accountId: 123
+      responses:
+        200:
+          description: List was created succesfuly
+        401:
+          description: Unclear
+        500:
+          description: Unclear
