@@ -19,7 +19,6 @@ paths:
           name: body
           required: true
           example:
-            email: "test@uade-movie-app.com.ar"
             isDefault: false
             name: "List's name"
             isPublic: true

@@ -5,8 +5,10 @@ const listService = require('./list.service');
  */
 module.exports.postList = async (req, res, next) => {
     try {
-        const result = await listService.postList(req.body);
+        var list = req.body;
+        list.accountId = req.userClaims.userId;
 
+        const result = await listService.postList(list);
         return res.json(result);
     }
     catch (err) {
