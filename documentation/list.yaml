@@ -7,6 +7,8 @@ securityDefinitions:
 paths:
   /list/:
     post:
+      security:
+        - APIKeyHeader: []
       tags:
         - List
       summary: Posts a list
@@ -17,11 +19,11 @@ paths:
           name: body
           required: true
           example:
+            email: "test@uade-movie-app.com.ar"
             isDefault: false
-            name: "List's name" 
+            name: "List's name"
             isPublic: true
             mediaItems: ["111", "222", "333"]
-            accountId: 123
       responses:
         200:
           description: List was created succesfuly
