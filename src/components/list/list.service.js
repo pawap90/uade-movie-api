@@ -1,9 +1,7 @@
 'use strict';
 
 const listModel = require('./list.model');
-const accountService = require('../account/account.service');
 const mongoose = require('mongoose');
-
 
 /**
  * Post list
@@ -13,7 +11,7 @@ const mongoose = require('mongoose');
  */
 module.exports.postList = async (list) => {
     list.accountId = mongoose.Types.ObjectId(list.accountId);
-    
+
     listModel.create(list);
 };
 
@@ -25,6 +23,6 @@ module.exports.postList = async (list) => {
  */
 module.exports.getUsersLists = async (accountId) => {
     const accountObjetcId = mongoose.Types.ObjectId(accountId);
-    
-    return await listModel.find({ accountId: accountObjetcId });;
+
+    return await listModel.find({ accountId: accountObjetcId }); ;
 };
