@@ -23,7 +23,26 @@ paths:
             isDefault: false
             name: "List's name"
             isPublic: true
-            mediaItems: ["111", "222", "333"]
+            mediaItems: [
+              {
+                type: "movie",
+                id: 111,
+                title: "A night at the mauseleum",
+                description: "the remake of a night at the museum, but low budget",
+                imagePath: "thismyurl.com/image.png",
+                genres: ["thriller", "comedie", "low-budget"],
+                year: 2020
+              },
+              {
+                type: "movie",
+                id: 222,
+                title: "pink floyd",
+                description: "that movie i cant remember the name where the hammers walk",
+                imagePath: "willthisgetanimage.com/image.png",
+                genres: ["Drama", "Philossophy", "Psychedelich"],
+                year: 1998
+              }
+            ]
       responses:
         200:
           description: List was created succesfuly
