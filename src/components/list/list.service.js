@@ -25,7 +25,7 @@ module.exports.postList = async (list) => {
 module.exports.getUsersLists = async (accountId) => {
     const accountObjetcId = mongoose.Types.ObjectId(accountId);
 
-    return await listModel.find({ accountId: accountObjetcId });;
+    return await listModel.find({ accountId: accountObjetcId }); ;
 };
 
 /**
