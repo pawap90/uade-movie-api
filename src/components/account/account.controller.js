@@ -27,3 +27,17 @@ module.exports.getCurrentUser = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Change user's password.
+ */
+module.exports.changePassword = async (req, res, next) => {
+    try {
+        await accountService.changePassword(req.userClaims.userId, req.body);
+
+        return res.json({ message: 'Success!' });
+    }
+    catch (err) {
+        return next(err);
+    }
+};

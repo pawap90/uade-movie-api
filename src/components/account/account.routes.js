@@ -10,6 +10,11 @@ const accountController = require('./account.controller');
 router.post('/login', accountController.login);
 
 /**
+ * Change user's password.
+ */
+router.put('/change-password', authorize, accountController.changePassword);
+
+/**
  * Get current user.
  */
 router.get('/current-user', authorize, accountController.getCurrentUser);
