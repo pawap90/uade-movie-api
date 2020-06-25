@@ -61,6 +61,36 @@ module.exports.getByEmail = async (email) => {
 };
 
 /**
+ * Changes the user's password if the current password provided is valid
+ * @throws {Unauthorized} If the current password is invalid.
+ * @throws {BadRequest} If the required passwords are not provided.
+ * @param {String} userId User identifier
+ * @param {*} passwords Current and new password.
+ */
+module.exports.changePassword = async (userId, passwords) => {
+    try {
+        if (!passwords || !passwords.currentPassword || !passwords.newPassword)
+            throw new error.BadRequest('Must provide the current and new password');
+
+        const user = await accountModel.findById(userId);
+
+        const encryptedPassword = securityHelper.encrypt(passwords.currentPassword);
+
+        if (encryptedPassword !== user.password)
+            throw new error.Unauthorized('Incorrect password');
+
+        user.password = securityHelper.encrypt(passwords.newPassword);
+
+        await user.save();
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
+        else throw err;
+    }
+}
+
+/**
  * Retrieves a user by email.
  * @param {String} email User email
  * @param {bool} insecure If set to true, includes the user password in the result.
