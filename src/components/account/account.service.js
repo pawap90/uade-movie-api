@@ -62,10 +62,11 @@ module.exports.getByEmail = async (email) => {
 
 /**
  * Changes the user's password if the current password provided is valid
- * @throws {Unauthorized} If the current password is invalid.
- * @throws {BadRequest} If the required passwords are not provided.
  * @param {String} userId User identifier
  * @param {*} passwords Current and new password.
+ * @throws {Unauthorized} If the current password is invalid.
+ * @throws {BadRequest} If the required passwords are not provided.
+ * @throws {InternalServerError} In case of unexpected error.
  */
 module.exports.changePassword = async (userId, passwords) => {
     try {
