@@ -36,14 +36,17 @@ module.exports.getUsersLists = async (accountId) => {
  */
 module.exports.addItem = async (listId, accountId, mediaItem) => {
     try {
-        let query = { isDefault: true, accountId: accountId };
+        const accountObjetcId = mongoose.Types.ObjectId(accountId);
+        let query = { isDefault: true, accountId: accountObjetcId };
         if (listId)
-            query = { _id: listId, accountId: accountId };
+            query = { _id: listId, accountId: accountObjetcId };
 
         const result = await listModel.update(
             query,
             { $push: { mediaItems: mediaItem } }
         );
+
+        return result;
     }
     catch (err) {
         throw new error.InternalServerError('Unexpected Mongoose error adding media item to the list');
