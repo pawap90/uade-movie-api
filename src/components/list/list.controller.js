@@ -30,11 +30,14 @@ module.exports.getUsersLists = async (req, res, next) => {
     }
 };
 
+/**
+ * Add item to a user's list.
+ */
 module.exports.addItemToList = async (req, res, next) => {
     try {
         const lists = await listService.addItem(req.params.id, req.userClaims.userId, req.body);
 
-        return res.json(lists);
+        return res.json({ message: 'success' });
     }
     catch (err) {
         return next(err);
