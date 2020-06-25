@@ -46,9 +46,9 @@ paths:
         200:
           description: List was created succesfuly
         401:
-          description: Unclear
+          description: Authorization token was not provided
         500:
-          description: Unclear
+          description: There was an unexpected error creating the list
     get:
       security:
         - APIKeyHeader: []
@@ -61,6 +61,6 @@ paths:
         200:
           description: List were obtained succesfuly
         401:
-          description: Unclear
+          description: Authorization token not provided
         500:
-          description: Unclear
+          description: Unexpected error retrieving the user's lists
