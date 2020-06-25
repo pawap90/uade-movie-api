@@ -29,3 +29,14 @@ module.exports.getUsersLists = async (req, res, next) => {
         return next(err);
     }
 };
+
+module.exports.addItemToList = async (req, res, next) => {
+    try {
+        const lists = await listService.addItem(req.params.id, req.userClaims.userId, req.body);
+
+        return res.json(lists);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
