@@ -1,8 +1,8 @@
 securityDefinitions:
   APIKeyHeader:
-     type: apiKey
-     in: header
-     name: Authorization
+    type: apiKey
+    in: header
+    name: Authorization
 
 paths:
   /account/login:
@@ -42,3 +42,29 @@ paths:
           description: Unauthorized - JWT is invalid or expired
         500:
           description: Unexpected error
+  /account/change-password:
+    put:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Account
+      summary: Change current user's password
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          example:
+            currentPassword: uade2020
+            newPassword: uade2020!
+      responses:
+        200:
+          description: The password was correctly updated
+        401:
+          description: Unauthorized - JWT is invalid or expired
+        400:
+          description: The required passwords were not provided in the body
+        500:
+          description: Unexpected error
+          
