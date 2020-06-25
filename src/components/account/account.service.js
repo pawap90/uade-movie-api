@@ -88,7 +88,7 @@ module.exports.changePassword = async (userId, passwords) => {
             throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
         else throw err;
     }
-}
+};
 
 /**
  * Retrieves a user by email.
