@@ -21,6 +21,7 @@ module.exports.postList = async (list) => {
  * @param {Object} accountId accountId
  * @throws {Unauthorized} When credentials are wrong or not provided
  * @throws {InternalServerError} When there's an unhandled error.
+ * @throws {InternalServerError} When there's an unhandled error.
  */
 module.exports.getUsersLists = async (accountId) => {
     const accountObjetcId = mongoose.Types.ObjectId(accountId);
