@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+
+const authorize = require('../../middleware/authorization');
+const rateController = require('./rate.controller');
+
+/**
+ * Posts Rate of a media item
+ */
+router.post('/', authorize, rateController);
+
+module.exports = router;
