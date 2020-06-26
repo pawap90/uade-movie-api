@@ -10,6 +10,11 @@ const accountController = require('./account.controller');
 router.post('/login', accountController.login);
 
 /**
+ * Register user account.
+ */
+router.post('/register', accountController.register);
+
+/**
  * Change user's password.
  */
 router.put('/change-password', authorize, accountController.changePassword);

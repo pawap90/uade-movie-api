@@ -15,6 +15,20 @@ module.exports.login = async (req, res, next) => {
 };
 
 /**
+ * Register user account.
+ */
+module.exports.register = async (req, res, next) => {
+    try {
+        const registerResult = await accountService.register(req.body);
+
+        return res.json(registerResult);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Get current user data.
  */
 module.exports.getCurrentUser = async (req, res, next) => {
