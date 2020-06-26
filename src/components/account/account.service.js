@@ -10,7 +10,7 @@ const securityHelper = require('../../helpers/security');
  * @param {Object} credentials email & password
  * @returns {Object} User general data and jwt
  * @throws {Unauthorized} When credentials are wrong or not provided
- * @throws {InternalServerError} When there's an unhandled error.
+ * @throws {InternalServerError} When there's an unexpected error.
  */
 module.exports.login = async (credentials) => {
     try {
@@ -49,7 +49,8 @@ module.exports.login = async (credentials) => {
  * Registers a new user account
  * @param {Object} account Account data
  * @returns {Object} User general data and jwt
- * @throws
+ * @throws {BadRequest} When the account data is not provided or the email already exists in the db
+ * @throws {InternalServerError} When there's an unexpected error.
  */
 module.exports.register = async (account) => {
     try {
