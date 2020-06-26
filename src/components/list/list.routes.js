@@ -13,4 +13,6 @@ router.get('/', authorize, listController.getUsersLists);
 
 router.delete('/:listId', authorize, listController.deleteList);
 
+router.put('/:listId', authorize, listController.putList);
+
 module.exports = router;

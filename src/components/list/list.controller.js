@@ -31,13 +31,27 @@ module.exports.getUsersLists = async (req, res, next) => {
 };
 
 /**
- * Put list
+ * Delete list
  */
 module.exports.deleteList = async (req, res, next) => {
     try {
-        const result = await listService.deleteList(req.params.listId, req.userClaims.userId);
+        await listService.deleteList(req.params.listId, req.userClaims.userId);
 
-        return res.json(result);
+        return res.json('Success!');
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
+ * Put list
+ */
+module.exports.putList = async (req, res, next) => {
+    try {
+        await listService.putList(req.params.listId, req.userClaims.userId, req.body);
+
+        return res.json('Success!');
     }
     catch (err) {
         return next(err);

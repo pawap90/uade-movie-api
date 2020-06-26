@@ -31,16 +31,41 @@ module.exports.getUsersLists = async (accountId) => {
  * Delete list
  * @param {String} listId Optional list id. If not provided the default list is used instead.
  * @param {String} accountId Account identifier.
- * @throws {Unauthorized} When the user doesnt own the list.
- * @throws {InternalServerError} When there's an unhandled error.
+ * @throws {Unauthorized} List doesnt exist or the user doesnt have permissions over it
+ * @throws {InternalServerError} Unhandled error.
  */
 module.exports.deleteList = async (listId, accountId) => {
-    const list = await listModel.findById(listId);
+    try {
+        const list = await listModel.findById(listId);
 
-    if(!list || list.accountId != accountId)
-        throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
+        if (!list || list.accountId != accountId)
+            throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
 
-    await listModel.findByIdAndRemove(listId);
+        await listModel.findByIdAndRemove(listId);
+    } catch (error) {
+        throw new error.InternalServerError('Unexpected error updating the list');
+    }
+};
+
+/**
+ * Put list
+ * @param {String} listId Optional list id. If not provided the default list is used instead.
+ * @param {String} accountId Account identifier.
+ * @param {Object} attributesToUpdate Attributes that will be updated.
+ * @throws {Unauthorized} List doesnt exist or the user doesnt have permissions over it
+ * @throws {InternalServerError} Unhandled error.
+ */
+module.exports.putList = async (listId, accountId, attributesToUpdate) => {
+    try {
+        const list = await listModel.findById(listId);
+
+        if (!list || list.accountId != accountId)
+            throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
+
+        await listModel.findOneAndUpdate({_id: listId}, attributesToUpdate);
+    } catch (error) {
+        throw new error.InternalServerError('Unexpected error updating the list');
+    }
 };
 
 

@@ -87,3 +87,44 @@ paths:
           description: Resource doesnt exist or you dont have access to it
         500:
           description: Unexpected error retrieving the user's lists
+    put:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - List
+      summary: Put a list using its id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: listId
+          required: true
+          description: The list identifier
+          schema:
+            type: string
+        - in: body
+          name: body
+          required: true
+          example:
+            isDefault: false
+            name: "My name is new"
+            isPublic: true
+            mediaItems: [
+              {
+                type: "This was updated",
+                title: "New Title",
+                genres: ["This was updated", "comedie", "low-budget"],
+              },
+              {
+                type: "This was updated",
+                title: "New Title",
+                genres: ["This was updated", "Philossophy", "Psychedelich"],
+              }
+            ]
+      responses:
+        200:
+          description: List was updated succesfuly
+        401:
+          description: Resource doesnt exist or you dont have access to it
+        500:
+          description: Unexpected error retrieving the user's lists
