@@ -11,4 +11,6 @@ router.post('/', authorize, listController.postList);
 
 router.get('/', authorize, listController.getUsersLists);
 
+router.delete('/:listId', authorize, listController.deleteList);
+
 module.exports = router;

@@ -29,3 +29,17 @@ module.exports.getUsersLists = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Put list
+ */
+module.exports.deleteList = async (req, res, next) => {
+    try {
+        const result = await listService.deleteList(req.params.listId, req.userClaims.userId);
+
+        return res.json(result);
+    }
+    catch (err) {
+        return next(err);
+    }
+};

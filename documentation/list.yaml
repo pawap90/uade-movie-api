@@ -64,3 +64,26 @@ paths:
           description: Authorization token not provided
         500:
           description: Unexpected error retrieving the user's lists
+  /list/{listId}:
+    delete:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - List
+      summary: Delete a list using its id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: listId
+          required: true
+          description: The list identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: List was deleted succesfuly
+        401:
+          description: Resource doesnt exist or you dont have access to it
+        500:
+          description: Unexpected error retrieving the user's lists
