@@ -1,7 +1,9 @@
 'use strict';
 
-const listModel = require('./list.model');
+const error = require('throw.js');
 const mongoose = require('mongoose');
+
+const listModel = require('./list.model');
 
 /**
  * Post list
@@ -19,9 +21,35 @@ module.exports.postList = async (list) => {
  * @param {Object} accountId accountId
  * @throws {Unauthorized} When credentials are wrong or not provided
  * @throws {InternalServerError} When there's an unhandled error.
+ * @throws {InternalServerError} When there's an unhandled error.
  */
 module.exports.getUsersLists = async (accountId) => {
     const accountObjetcId = mongoose.Types.ObjectId(accountId);
 
     return await listModel.find({ accountId: accountObjetcId }); ;
+};
+
+/**
+ * Add a media item to the specified list.
+ * @param {String} listId Optional list id. If not provided the default list is used instead.
+ * @param {String} accountId Account identifier.
+ * @param {*} mediaItem Media item object
+ */
+module.exports.addItem = async (listId, accountId, mediaItem) => {
+    try {
+        const accountObjetcId = mongoose.Types.ObjectId(accountId);
+        let query = { isDefault: true, accountId: accountObjetcId };
+        if (listId)
+            query = { _id: listId, accountId: accountObjetcId };
+
+        const result = await listModel.update(
+            query,
+            { $push: { mediaItems: mediaItem } }
+        );
+
+        return result;
+    }
+    catch (err) {
+        throw new error.InternalServerError('Unexpected Mongoose error adding media item to the list');
+    }
 };
