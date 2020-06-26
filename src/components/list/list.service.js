@@ -38,7 +38,7 @@ module.exports.deleteList = async (listId, accountId) => {
     try {
         const list = await listModel.findById(listId);
 
-        if (!list || list.accountId.toString().valueOf() !== accountId)
+        if (!list || list.accountId.toString() !== accountId)
             throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
 
         await listModel.findByIdAndRemove(listId);
@@ -60,7 +60,7 @@ module.exports.putList = async (listId, accountId, attributesToUpdate) => {
     try {
         const list = await listModel.findById(listId);
 
-        if (!list || list.accountId.toString().valueOf() !== accountId)
+        if (!list || list.accountId.toString() !== accountId)
             throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
 
         await listModel.findOneAndUpdate({ _id: listId }, attributesToUpdate);
