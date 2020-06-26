@@ -1,6 +1,5 @@
 'use strict';
 
-const listModel = require('./list.model');
 const error = require('throw.js');
 const mongoose = require('mongoose');
 
@@ -12,9 +11,14 @@ const listModel = require('./list.model');
  * @throws {InternalServerError} When there's an unhandled error.
  */
 module.exports.postList = async (list) => {
-    list.accountId = mongoose.Types.ObjectId(list.accountId);
+    try {
+        list.accountId = mongoose.Types.ObjectId(list.accountId);
 
-    await listModel.create(list);
+        await listModel.create(list);
+    }
+    catch (error) {
+        throw new error.InternalServerError('Unexpected error creating the list');
+    }
 };
 
 /**
@@ -25,9 +29,14 @@ module.exports.postList = async (list) => {
  * @throws {InternalServerError} When there's an unhandled error.
  */
 module.exports.getUsersLists = async (accountId) => {
-    const accountObjetcId = mongoose.Types.ObjectId(accountId);
+    try {
+        const accountObjetcId = mongoose.Types.ObjectId(accountId);
 
-    return await listModel.find({ accountId: accountObjetcId });;
+        return await listModel.find({ accountId: accountObjetcId });;
+    }
+    catch (error) {
+        throw new error.InternalServerError('Unexpected error getting user lists');
+    }
 };
 
 /**
@@ -46,8 +55,11 @@ module.exports.deleteList = async (listId, accountId) => {
 
         await listModel.findByIdAndRemove(listId);
     }
-    catch (error) {
-        throw new error.InternalServerError('Unexpected error updating the list');
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error deleting the list');
+        else
+            throw err;
     }
 };
 
@@ -69,7 +81,10 @@ module.exports.putList = async (listId, accountId, attributesToUpdate) => {
         await listModel.findOneAndUpdate({ _id: listId }, attributesToUpdate);
     }
     catch (error) {
-        throw new error.InternalServerError('Unexpected error updating the list');
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error updating the list');
+        else
+            throw err;
     }
 };
 
