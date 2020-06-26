@@ -54,6 +54,20 @@ module.exports.putList = async (req, res, next) => {
         return res.json('Success!');
     }
     catch (err) {
+        next(err);
+    }
+};
+
+/**
+ * Add item to a user's list.
+ */
+module.exports.addItemToList = async (req, res, next) => {
+    try {
+        await listService.addItem(req.params.id, req.userClaims.userId, req.body);
+
+        return res.json({ message: 'success' });
+    }
+    catch (err) {
         return next(err);
     }
 };
