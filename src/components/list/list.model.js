@@ -14,7 +14,7 @@ const mediaTitemSchema = new mongoose.Schema({
  * List model schema.
  */
 const listSchema = new mongoose.Schema({
-    isDefault: { type: Boolean, required: true },
+    isDefault: { type: Boolean, required: true, default: false },
     name: { type: String, required: true },
     accountId: { type: Object, required: true },
     isPublic: { type: Boolean, required: true },
