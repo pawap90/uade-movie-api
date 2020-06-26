@@ -24,7 +24,7 @@ module.exports.postList = async (list) => {
 module.exports.getUsersLists = async (accountId) => {
     const accountObjetcId = mongoose.Types.ObjectId(accountId);
 
-    return await listModel.find({ accountId: accountObjetcId });;
+    return await listModel.find({ accountId: accountObjetcId }); ;
 };
 
 /**
@@ -38,11 +38,12 @@ module.exports.deleteList = async (listId, accountId) => {
     try {
         const list = await listModel.findById(listId);
 
-        if (!list || list.accountId != accountId)
+        if (!list || list.accountId.toString().valueOf() !== accountId)
             throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
 
         await listModel.findByIdAndRemove(listId);
-    } catch (error) {
+    }
+    catch (error) {
         throw new error.InternalServerError('Unexpected error updating the list');
     }
 };
@@ -59,14 +60,12 @@ module.exports.putList = async (listId, accountId, attributesToUpdate) => {
     try {
         const list = await listModel.findById(listId);
 
-        if (!list || list.accountId != accountId)
+        if (!list || list.accountId.toString().valueOf() !== accountId)
             throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
 
-        await listModel.findOneAndUpdate({_id: listId}, attributesToUpdate);
-    } catch (error) {
+        await listModel.findOneAndUpdate({ _id: listId }, attributesToUpdate);
+    }
+    catch (error) {
         throw new error.InternalServerError('Unexpected error updating the list');
     }
 };
-
-
-
