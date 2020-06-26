@@ -65,43 +65,35 @@ paths:
           description: Authorization token not provided
         500:
           description: Unexpected error retrieving the user's lists
-  /list/item:
-    post:
+  /list/{listId}:
+    delete:
       security:
         - APIKeyHeader: []
       tags:
         - List
-      summary: Adds item to the default list
+      summary: Delete a list using its id
       produces:
         - application/json
       parameters:
-        - in: body
-          name: body
+        - in: path
+          name: listId
           required: true
-          example:
-            {
-              type: "movie",
-              id: 111,
-              title: "A night at the mauseleum",
-              description: "the remake of a night at the museum, but low budget",
-              imagePath: "thismyurl.com/image.png",
-              genres: ["thriller", "comedie", "low-budget"],
-              year: 2020,
-            }
+          description: The list identifier
+          schema:
+            type: string
       responses:
         200:
-          description: Item was added succesfuly
+          description: List was deleted succesfuly
         401:
-          description: Authorization token was not provided
+          description: Resource doesnt exist or you dont have access to it
         500:
-          description: There was an unexpected error adding item to the default list
-  /list/{listId}/item:
-    post:
+          description: Unexpected error retrieving the user's lists
+    put:
       security:
         - APIKeyHeader: []
       tags:
         - List
-      summary: Adds item to the specified list
+      summary: Put a list using its id
       produces:
         - application/json
       parameters:
@@ -115,19 +107,61 @@ paths:
           name: body
           required: true
           example:
-            {
-              type: "movie",
-              id: 111,
-              title: "A night at the mauseleum",
-              description: "the remake of a night at the museum, but low budget",
-              imagePath: "thismyurl.com/image.png",
-              genres: ["thriller", "comedie", "low-budget"],
-              year: 2020,
-            }
+            isDefault: false
+            name: "My name is new"
+            isPublic: true
+            mediaItems: [
+              {
+                type: "This was updated",
+                title: "New Title",
+                genres: ["This was updated", "comedie", "low-budget"],
+              },
+              {
+                type: "This was updated",
+                title: "New Title",
+                genres: ["This was updated", "Philossophy", "Psychedelich"],
+              }
+            ]
       responses:
         200:
-          description: Item was added succesfuly
+          description: List was updated succesfuly
         401:
-          description: Authorization token was not provided
+          description: Resource doesnt exist or you dont have access to it
         500:
-          description: There was an unexpected error adding item to the default list
+          description: Unexpected error retrieving the user's lists
+  /list/{listId}/item:
+  post:
+    security:
+      - APIKeyHeader: []
+    tags:
+      - List
+    summary: Adds item to the specified list
+    produces:
+      - application/json
+    parameters:
+      - in: path
+        name: listId
+        required: true
+        description: The list identifier
+        schema:
+          type: string
+      - in: body
+        name: body
+        required: true
+        example:
+          {
+            type: "movie",
+            id: 111,
+            title: "A night at the mauseleum",
+            description: "the remake of a night at the museum, but low budget",
+            imagePath: "thismyurl.com/image.png",
+            genres: ["thriller", "comedie", "low-budget"],
+            year: 2020,
+          }
+    responses:
+      200:
+        description: Item was added succesfuly
+      401:
+        description: Authorization token was not provided
+      500:
+        description: There was an unexpected error adding item to the default list
