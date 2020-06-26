@@ -16,7 +16,7 @@ module.exports.postList = async (list) => {
 
         await listModel.create(list);
     }
-    catch (error) {
+    catch (err) {
         throw new error.InternalServerError('Unexpected error creating the list');
     }
 };
@@ -32,9 +32,9 @@ module.exports.getUsersLists = async (accountId) => {
     try {
         const accountObjetcId = mongoose.Types.ObjectId(accountId);
 
-        return await listModel.find({ accountId: accountObjetcId });;
+        return await listModel.find({ accountId: accountObjetcId }); ;
     }
-    catch (error) {
+    catch (err) {
         throw new error.InternalServerError('Unexpected error getting user lists');
     }
 };
@@ -80,7 +80,7 @@ module.exports.putList = async (listId, accountId, attributesToUpdate) => {
 
         await listModel.findOneAndUpdate({ _id: listId }, attributesToUpdate);
     }
-    catch (error) {
+    catch (err) {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error updating the list');
         else
@@ -88,7 +88,7 @@ module.exports.putList = async (listId, accountId, attributesToUpdate) => {
     }
 };
 
-/** 
+/**
 * Add a media item to the specified list.
 * @param {String} listId Optional list id. If not provided the default list is used instead.
 * @param {String} accountId Account identifier.
