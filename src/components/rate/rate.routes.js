@@ -12,6 +12,6 @@ router.post('/', authorize, rateController.postRate);
 /**
  * Gets Rates of a media item
  */
-router.get('/', authorize, rateController.postRate);
+router.get('/:mediaType/:mediaId', authorize, rateController.getAllRates);
 
 module.exports = router;
