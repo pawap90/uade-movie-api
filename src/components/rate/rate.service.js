@@ -35,9 +35,9 @@ module.exports.getAllRates = async (mediaType, mediaId, accountId) => {
 module.exports.postRate = async (accountId, rate) => {
     try {
         var rateItem = rate;
-        rateItem.accountId = accountId;
+        rateItem.accountId = mongoose.Types.ObjectId(accountId);
 
-        await listModel.create(rateItem);
+        await rateModel.create(rateItem);
     }
     catch (error) {
         throw new error.InternalServerError('Unexpected error updating the list');

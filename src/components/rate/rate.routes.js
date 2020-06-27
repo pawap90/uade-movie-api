@@ -7,6 +7,11 @@ const rateController = require('./rate.controller');
 /**
  * Posts Rate of a media item
  */
-router.post('/', authorize, rateController);
+router.post('/', authorize, rateController.postRate);
+
+/**
+ * Gets Rates of a media item
+ */
+router.get('/', authorize, rateController.postRate);
 
 module.exports = router;

@@ -19,7 +19,7 @@ module.exports.getAllRates = async (req, res, next) => {
  */
 module.exports.postRate = async (req, res, next) => {
     try {
-        const result = await rateService.postRate(req.userClaims.userId, req.body);
+        await rateService.postRate(req.userClaims.userId, req.body);
         
         return res.json('Success!');
     }

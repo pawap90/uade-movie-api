@@ -11,4 +11,4 @@ const rateSchema = new mongoose.Schema({
     comment: { type: String, required: false }
 });
 
-module.exports = mongoose.model('list', rateSchema);
+module.exports = mongoose.model('rate', rateSchema);
