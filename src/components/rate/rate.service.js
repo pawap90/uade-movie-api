@@ -13,12 +13,9 @@ const mongoose = require('mongoose');
  */
 module.exports.getAllRates = async (mediaType, mediaId, accountId) => {
     try {
-        const rates = await rateModel.find({ mediaType, mediaId });
-
-        // if (!list || list.accountId.toString().valueOf() !== accountId)
-        //     throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
-
-        // await listModel.findOneAndUpdate({ _id: listId }, attributesToUpdate);
+        const rates = await rateModel.find({ mediaType: mediaType }).find({ mediaId: mediaId });
+        // TODO: see requirements on issue
+        return rates;
     }
     catch (error) {
         throw new error.InternalServerError('Unexpected error updating the list');

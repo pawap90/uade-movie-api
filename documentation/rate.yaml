@@ -19,8 +19,8 @@ paths:
           name: body
           required: true
           example:
-            MediaType: "movie"
-            mediaID: "4141"
+            mediaType: "movie"
+            mediaId: "4141"
             rating: "9"
             comment: "its lovebly"
       responses:
@@ -36,8 +36,8 @@ paths:
       security:
         - APIKeyHeader: []
       tags:
-        - List
-      summary: Gets users lists
+        - Rate
+      summary: Gets rates of a mediaId
       produces:
         - application/json
       parameters:

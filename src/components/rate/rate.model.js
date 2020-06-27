@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
  */
 const rateSchema = new mongoose.Schema({
     accountId: { type: Object, required: true },
-    MediaType: { type: String, required: true },
-    mediaID: { type: Number, required: true },
+    mediaType: { type: String, required: true },
+    mediaId: { type: Number, required: true },
     rating: { type: Number, required: true },
     comment: { type: String, required: false }
 });
