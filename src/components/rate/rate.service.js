@@ -14,7 +14,11 @@ const mongoose = require('mongoose');
 module.exports.getAllRates = async (mediaType, mediaId, accountId) => {
     try {
         const rates = await rateModel.find({ mediaType: mediaType }).find({ mediaId: mediaId });
-        // TODO: see requirements on issue
+
+        // adds ratedByMe=true if the rate was made by the logged user. else, adds ratedByMe=false
+        // const processedRates = rates.map(r => ({ ...r, ratedByMe: (r.accountId.toString() === accountId) }));
+
+        // console.log(processedRates);
         return rates;
     }
     catch (error) {
