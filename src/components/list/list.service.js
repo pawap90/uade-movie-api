@@ -32,7 +32,7 @@ module.exports.getUsersLists = async (accountId) => {
     try {
         const accountObjetcId = mongoose.Types.ObjectId(accountId);
 
-        return await listModel.find({ accountId: accountObjetcId });;
+        return await listModel.find({ accountId: accountObjetcId });
     }
     catch (err) {
         throw new error.InternalServerError('Unexpected error getting user lists');
