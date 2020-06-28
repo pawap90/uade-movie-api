@@ -71,3 +71,19 @@ module.exports.addItemToList = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Delete item from user's list.
+ *
+ * Return the list with the deleted mediaitem
+ */
+module.exports.deleteItemFromList = async (req, res, next) => {
+    try {
+        const newListAfterDeletingMediaItem = await listService.deleteItemFromList(req.params.listId, req.params.mediaType, req.params.mediaId, req.userClaims.userId);
+
+        return res.json(newListAfterDeletingMediaItem);
+    }
+    catch (err) {
+        return next(err);
+    }
+};

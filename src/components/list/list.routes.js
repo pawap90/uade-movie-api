@@ -25,4 +25,6 @@ router.post('/:id/item', authorize, listController.addItemToList);
  */
 router.post('/item', authorize, listController.addItemToList);
 
+router.delete('/:listId/item/:mediaType/:mediaId', authorize, listController.deleteItemFromList);
+
 module.exports = router;
