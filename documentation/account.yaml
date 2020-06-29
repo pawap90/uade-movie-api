@@ -26,6 +26,32 @@ paths:
           description: Unauthorized - Wrong credentials (or not provided at all)
         500:
           description: Unexpected error on login
+  /account/register:
+    post:
+      tags:
+        - Account
+      summary: Register a new user account
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          example:
+            name: john
+            lastName: doe
+            email: test@uade-movie-app.com.ar
+            password: uade2020
+            genres:
+              - Action
+              - Drama
+      responses:
+        200:
+          description: User account successfully created
+        400:
+          description: Validation error
+        500:
+          description: Unexpected error on login
   /account/current-user:
     get:
       security:
@@ -67,4 +93,3 @@ paths:
           description: The required passwords were not provided in the body
         500:
           description: Unexpected error
-          

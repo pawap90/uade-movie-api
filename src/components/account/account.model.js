@@ -8,7 +8,8 @@ const accountSchema = new mongoose.Schema({
     password: { type: String, required: true },
     name: { type: String, required: true },
     lastName: { type: String, required: true },
-    emailConfirmed: { type: Boolean, default: false }
+    emailConfirmed: { type: Boolean, default: false },
+    genres: { type: [{ type: String }], required: true }
 });
 
 module.exports = mongoose.model('account', accountSchema);
