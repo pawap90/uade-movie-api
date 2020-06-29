@@ -142,3 +142,26 @@ const getByEmailFunc = async (email, insecure = false) => {
 
     return await accountModel.findOne({ email: email }, select);
 };
+
+/**
+ * Updates account data.
+ * @param {String} accountId User identifier
+ * @param {Object} newAttributes New account data. name, lastName, genres
+ * @throws {Unauthorized} If the current password is invalid.
+ * @throws {InternalServerError} In case of unexpected error.
+ */
+module.exports.updateAccount = async (accountId, newAttributes) => {
+    try {
+        var account = await accountModel.findOne({ _id: accountId });
+
+        if (!account || account._id.toString() !== accountId)
+            throw new error.Unauthorized('The specified user doesnt exist or you dont have permissions over it');
+
+        account.overwrite({ ...account._doc, ...newAttributes })
+        await account.save();
+    } catch (error) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
+        else throw err;
+    }
+};
