@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
  * @returns {string} - The generated and encrypted JWT.
  */
 module.exports.generateJwt = (payload) => {
-    const token = jwt.sign(payload, process.env.JWT_SIGNKEY, { expiresIn: process.env.JWT_EXPIRATION });
+    const token = jwt.sign(payload, process.env.JWT_SIGNKEY);
 
     return token;
 };
