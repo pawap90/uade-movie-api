@@ -13,10 +13,18 @@ const mongoose = require('mongoose');
  */
 module.exports.getAllRates = async (mediaType, mediaId, accountId) => {
     try {
-        const rates = await rateModel.find({ mediaType: mediaType }).find({ mediaId: mediaId });
+        const rates = await rateModel.find({ mediaType: mediaType, mediaId: mediaId })
+            .populate('accountId');
 
         // adds ratedByMe=true if the rate was made by the logged user. else, adds ratedByMe=false
-        const processedRates = rates.map(r => ({ ...r._doc, ratedByMe: (r.accountId.toString() === accountId) }));
+        const processedRates = rates.map(r => ({
+            ratedBy: `${r.accountId.name} ${r.accountId.lastName}`,
+            mediaType: r.mediaType,
+            mediaId: r.mediaId,
+            rating: r.rating,
+            comment: r.comment,
+            ratedByMe: (r.accountId._id.toString() === accountId)
+        }));
 
         return processedRates;
     }
