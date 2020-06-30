@@ -168,9 +168,8 @@ module.exports.updateAccount = async (accountId, newAttributes) => {
                 genres: newAttributes.genres
             }
         });
-    } catch (error) {
-        if (!err.statusCode)
-            throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
-        else throw err;
+    }
+    catch (error) {
+        throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
     }
 };
