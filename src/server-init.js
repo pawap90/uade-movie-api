@@ -43,6 +43,9 @@ module.exports.startServer = async () => {
         if (process.env.ERRORS_DETAILED)
             errRes.error = err;
 
+        // Log errors as console logs (for now).
+        console.log(errRes);
+
         res.status(status).json(errRes);
     });
 
