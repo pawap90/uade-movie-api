@@ -79,11 +79,14 @@ module.exports.deleteItemFromList = async (listId, mediaType, mediaId, accountId
         if (!list || list.accountId.toString() !== accountId)
             throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
 
-        list.mediaItems = DeleteItemFromMediaItems(list.mediaItems, mediaType, mediaId);
-
-        await listModel.findOneAndUpdate({ _id: listId }, list);
-
-        return list;
+        await listModel.findByIdAndUpdate(listId,
+            {
+                $pull: {
+                    mediaItems: {
+                        id: parseInt(mediaId), type: mediaType
+                    }
+                }
+            });
     }
     catch (err) {
         if (!err.statusCode)
@@ -91,15 +94,6 @@ module.exports.deleteItemFromList = async (listId, mediaType, mediaId, accountId
         else
             throw err;
     }
-};
-
-const DeleteItemFromMediaItems = (mediaItems, mediaType, mediaId) => {
-    const itemIndex = mediaItems.findIndex((item) => {
-        return (item.mediaType === mediaType && item.id === mediaId);
-    });
-
-    var newMediaItems = mediaItems.splice(itemIndex, 1);
-    return newMediaItems;
 };
 
 /**
