@@ -170,6 +170,6 @@ module.exports.updateAccount = async (accountId, newAttributes) => {
         });
     }
     catch (error) {
-        throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
+        throw new error.InternalServerError('Unexpected server error');
     }
 };
