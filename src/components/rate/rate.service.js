@@ -26,7 +26,7 @@ module.exports.getAllRates = async (mediaType, mediaId, accountId) => {
 };
 
 /**
- * Get all rates for a mediaItem and mediaType
+ * Put a rate for a certain mediaId and mediaType
  * @param {String} accountId accountId
  * @param {Object} rate rate body
  * @throws {Unauthorized} When credentials are wrong or not provided
