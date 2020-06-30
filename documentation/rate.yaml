@@ -37,7 +37,7 @@ paths:
         - APIKeyHeader: []
       tags:
         - Rate
-      summary: Gets rates of a mediaId
+      summary: Gets all rates of a certain mediaId and mediaItem
       produces:
         - application/json
       parameters:

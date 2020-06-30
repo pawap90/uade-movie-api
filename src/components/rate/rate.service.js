@@ -4,7 +4,7 @@ const rateModel = require('./rate.model');
 const mongoose = require('mongoose');
 
 /**
- * Get all rates for a mediaItem and mediaType
+ * Gets all rates of a certain mediaId and mediaItem
  * @param {String} mediaType 'movie' or 'series'
  * @param {number} mediaId mediaId
  * @param {String} accountId accountId
@@ -16,13 +16,12 @@ module.exports.getAllRates = async (mediaType, mediaId, accountId) => {
         const rates = await rateModel.find({ mediaType: mediaType }).find({ mediaId: mediaId });
 
         // adds ratedByMe=true if the rate was made by the logged user. else, adds ratedByMe=false
-        // const processedRates = rates.map(r => ({ ...r, ratedByMe: (r.accountId.toString() === accountId) }));
+        const processedRates = rates.map(r => ({ ...r._doc, ratedByMe: (r.accountId.toString() === accountId) }));
 
-        // console.log(processedRates);
-        return rates;
+        return processedRates;
     }
     catch (error) {
-        throw new error.InternalServerError('Unexpected error updating the list');
+        throw new error.InternalServerError('Unexpected server error');
     }
 };
 
@@ -41,6 +40,6 @@ module.exports.postRate = async (accountId, rate) => {
         await rateModel.create(rateItem);
     }
     catch (error) {
-        throw new error.InternalServerError('Unexpected error updating the list');
+        throw new error.InternalServerError('Unexpected server error');
     }
 };
