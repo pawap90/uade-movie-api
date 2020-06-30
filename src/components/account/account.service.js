@@ -5,6 +5,8 @@ const error = require('throw.js');
 const accountModel = require('./account.model');
 const securityHelper = require('../../helpers/security');
 
+const listService = require('../list/list.service');
+
 /**
  * Login user
  * @param {Object} credentials email & password
@@ -63,6 +65,15 @@ module.exports.register = async (account) => {
         account.password = securityHelper.encrypt(account.password);
 
         const createdAccount = await accountModel.create(account);
+
+        // creates default list
+        await listService.postList({
+            accountId: createdAccount._id,
+            isDefault: true,
+            name: 'General',
+            isPublic: false,
+            mediaItems: []
+        });
 
         const tokenPayload = {
             userId: createdAccount._id,
