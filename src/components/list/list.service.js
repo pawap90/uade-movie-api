@@ -64,6 +64,45 @@ module.exports.deleteList = async (listId, accountId) => {
 };
 
 /**
+ * Delete Item from List
+ * @param {String} listId list id
+ * @param {String} mediaType mediaItem type, movie or series
+ * @param {String} mediaId mediaItem id, mediaId
+ * @param {String} accountId Account identifier.
+ * @throws {Unauthorized} List doesnt exist or the user doesnt have permissions over it
+ * @throws {InternalServerError} Unhandled error.
+ */
+module.exports.deleteItemFromList = async (listId, mediaType, mediaId, accountId) => {
+    try {
+        var list = await listModel.findById(listId);
+
+        if (!list || list.accountId.toString() !== accountId)
+            throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
+
+        list.mediaItems = DeleteItemFromMediaItems(list.mediaItems, mediaType, mediaId);
+
+        await listModel.findOneAndUpdate({ _id: listId }, list);
+
+        return list;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error deleting the list');
+        else
+            throw err;
+    }
+};
+
+const DeleteItemFromMediaItems = (mediaItems, mediaType, mediaId) => {
+    const itemIndex = mediaItems.findIndex((item) => {
+        return (item.mediaType === mediaType && item.id === mediaId);
+    });
+
+    var newMediaItems = mediaItems.splice(itemIndex, 1);
+    return newMediaItems;
+};
+
+/**
  * Put list
  * @param {String} listId Optional list id. If not provided the default list is used instead.
  * @param {String} accountId Account identifier.
