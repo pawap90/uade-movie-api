@@ -11,7 +11,7 @@ paths:
         - APIKeyHeader: []
       tags:
         - Account
-      summary: Update current logged user accounts data. Field options are name, lastName or genres
+      summary: Update current logged user accounts data. Obligatory fields are name, lastName and genres
       produces:
         - application/json
       parameters:

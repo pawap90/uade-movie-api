@@ -157,8 +157,13 @@ module.exports.updateAccount = async (accountId, newAttributes) => {
         if (!account || account._id.toString() !== accountId)
             throw new error.Unauthorized('The specified user doesnt exist or you dont have permissions over it');
 
-        account.overwrite({ ...account._doc, ...newAttributes })
-        await account.save();
+        await accountModel.findByIdAndUpdate(accountId, {
+            $set: {
+                name: newAttributes.name,
+                lastName: newAttributes.lastName,
+                genres: newAttributes.genres
+            }
+        });
     } catch (error) {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected Mongoose error while retrieving user by email');
