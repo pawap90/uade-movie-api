@@ -24,4 +24,9 @@ router.put('/change-password', authorize, accountController.changePassword);
  */
 router.get('/current-user', authorize, accountController.getCurrentUser);
 
+/**
+ * Update account data.
+ */
+router.put('/', authorize, accountController.updateAccount);
+
 module.exports = router;

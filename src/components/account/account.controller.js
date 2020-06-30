@@ -55,3 +55,17 @@ module.exports.changePassword = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * update current accounts data
+ */
+module.exports.updateAccount = async (req, res, next) => {
+    try {
+        await accountService.updateAccount(req.userClaims.userId, req.body);
+
+        return res.json('Success!');
+    }
+    catch (err) {
+        next(err);
+    }
+};

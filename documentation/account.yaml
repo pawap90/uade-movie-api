@@ -5,6 +5,30 @@ securityDefinitions:
     name: Authorization
 
 paths:
+  /account/:
+    put:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Account
+      summary: Update current logged user accounts data. Obligatory fields are name, lastName and genres
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          example:
+            name: I am Jeff
+            lastName: Jeffard
+            genres: ['Sci Fi', 'Horror']
+      responses:
+        200:
+          description: User successfully updated
+        401:
+          description: Unauthorized
+        500:
+          description: Unexpected server error
   /account/login:
     post:
       tags:

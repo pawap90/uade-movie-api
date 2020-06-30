@@ -146,3 +146,30 @@ const getByEmailFunc = async (email, insecure = false) => {
 
     return await accountModel.findOne({ email: email }, select);
 };
+
+/**
+ * Updates account data.
+ * @param {String} accountId User identifier
+ * @param {Object} newAttributes New account data. name, lastName, genres
+ * @throws {Unauthorized} If the current password is invalid.
+ * @throws {InternalServerError} In case of unexpected error.
+ */
+module.exports.updateAccount = async (accountId, newAttributes) => {
+    try {
+        var account = await accountModel.findOne({ _id: accountId });
+
+        if (!account || account._id.toString() !== accountId)
+            throw new error.Unauthorized('The specified user doesnt exist or you dont have permissions over it');
+
+        await accountModel.findByIdAndUpdate(accountId, {
+            $set: {
+                name: newAttributes.name,
+                lastName: newAttributes.lastName,
+                genres: newAttributes.genres
+            }
+        });
+    }
+    catch (error) {
+        throw new error.InternalServerError('Unexpected server error');
+    }
+};
