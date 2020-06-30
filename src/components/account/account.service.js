@@ -161,13 +161,20 @@ module.exports.updateAccount = async (accountId, newAttributes) => {
         if (!account || account._id.toString() !== accountId)
             throw new error.Unauthorized('The specified user doesnt exist or you dont have permissions over it');
 
-        await accountModel.findByIdAndUpdate(accountId, {
-            $set: {
-                name: newAttributes.name,
-                lastName: newAttributes.lastName,
-                genres: newAttributes.genres
-            }
-        });
+        const fieldsToUpdate = {
+            $set: {}
+        };
+
+        if (newAttributes.name)
+            fieldsToUpdate.$set.name = newAttributes.name;
+
+        if (newAttributes.lastName)
+            fieldsToUpdate.$set.lastName = newAttributes.lastName;
+
+        if (newAttributes.genres)
+            fieldsToUpdate.$set.genres = newAttributes.genres;
+
+        await accountModel.findByIdAndUpdate(accountId, fieldsToUpdate);
     }
     catch (error) {
         throw new error.InternalServerError('Unexpected server error');
