@@ -65,7 +65,29 @@ paths:
           description: Authorization token not provided
         500:
           description: Unexpected error retrieving the user's lists
-  /list/{listId}:
+  /list/{id}:
+    get:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - List
+      summary: Get a list by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The list identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: List retrieved
+        401:
+          description: Authorization error
+        500:
+          description: Unexpected error retrieving the list
     delete:
       security:
         - APIKeyHeader: []

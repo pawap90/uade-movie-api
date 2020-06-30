@@ -26,16 +26,33 @@ module.exports.postList = async (list) => {
  * @param {Object} accountId accountId
  * @throws {Unauthorized} When credentials are wrong or not provided
  * @throws {InternalServerError} When there's an unhandled error.
- * @throws {InternalServerError} When there's an unhandled error.
  */
 module.exports.getUsersLists = async (accountId) => {
     try {
         const accountObjetcId = mongoose.Types.ObjectId(accountId);
 
-        return await listModel.find({ accountId: accountObjetcId }); ;
+        return await listModel.find({ accountId: accountObjetcId });;
     }
     catch (err) {
         throw new error.InternalServerError('Unexpected error getting user lists');
+    }
+};
+
+/**
+ * Get a single list by id
+ * @param {String} accountId account identifier
+ * @param {String} listId list identifier
+ * @throws {InternalServerError} When there's an unhandled error.
+ */
+module.exports.getById = async (listId, accountId) => {
+    try {
+        const accountObjetcId = mongoose.Types.ObjectId(accountId);
+        const listObjectId = mongoose.Types.ObjectId(listId);
+
+        return await listModel.findOne({ _id: listObjectId, accountId: accountObjetcId });
+    }
+    catch (err) {
+        throw new error.InternalServerError('Unexpected error getting list by id');
     }
 };
 

@@ -31,6 +31,20 @@ module.exports.getUsersLists = async (req, res, next) => {
 };
 
 /**
+ * Get list by id
+ */
+module.exports.getById = async (req, res, next) => {
+    try {
+        const list = await listService.getById(req.params.id, req.userClaims.userId);
+
+        return res.json(list);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Delete list
  */
 module.exports.deleteList = async (req, res, next) => {

@@ -11,6 +11,8 @@ router.post('/', authorize, listController.postList);
 
 router.get('/', authorize, listController.getUsersLists);
 
+router.get('/:id', authorize, listController.getById);
+
 router.delete('/:listId', authorize, listController.deleteList);
 
 router.put('/:listId', authorize, listController.putList);
