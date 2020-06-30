@@ -49,7 +49,8 @@ module.exports.login = async (credentials) => {
  * Registers a new user account
  * @param {Object} account Account data
  * @returns {Object} User general data and jwt
- * @throws {BadRequest} When the account data is not provided or the email already exists in the db
+ * @throws {BadRequest} When the account data is not provided
+ * @throws {Conflict} When the email already exists in the db
  * @throws {InternalServerError} When there's an unexpected error.
  */
 module.exports.register = async (account) => {
@@ -75,7 +76,10 @@ module.exports.register = async (account) => {
     }
     catch (err) {
         if (err.name === 'MongoError' && err.code === 11000)
-            throw new error.BadRequest('Email already registered.');
+            throw new error.Conflict('Email already registered.');
+
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid account data.');
 
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error on login');

@@ -50,6 +50,8 @@ paths:
           description: User account successfully created
         400:
           description: Validation error
+        409:
+          description: Duplicated email
         500:
           description: Unexpected error on login
   /account/current-user:
