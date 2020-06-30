@@ -160,5 +160,6 @@ module.exports.addItem = async (listId, accountId, mediaItem) => {
     }
     catch (err) {
         throw new error.InternalServerError('Unexpected Mongoose error adding media item to the list');
+        console.log(err);
     }
 };
