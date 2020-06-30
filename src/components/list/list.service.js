@@ -14,6 +14,7 @@ module.exports.postList = async (list) => {
     try {
         list.accountId = mongoose.Types.ObjectId(list.accountId);
 
+        list.mediaItems = [];
         await listModel.create(list);
     }
     catch (err) {
