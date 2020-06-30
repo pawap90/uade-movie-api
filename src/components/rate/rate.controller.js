@@ -5,7 +5,8 @@ const rateService = require('./rate.service');
  */
 module.exports.getAllRates = async (req, res, next) => {
     try {
-        const result = await rateService.getAllRates(req.params.mediaType, req.params.mediaId, req.userClaims.userId);
+        const userId = req.userClaims ? req.userClaims.userId : null;
+        const result = await rateService.getAllRates(req.params.mediaType, req.params.mediaId, userId);
         return res.json(result);
     }
     catch (err) {
