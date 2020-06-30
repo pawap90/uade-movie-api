@@ -10,7 +10,7 @@ const securityHelper = require('../../helpers/security');
  * @param {Object} credentials email & password
  * @returns {Object} User general data and jwt
  * @throws {Unauthorized} When credentials are wrong or not provided
- * @throws {InternalServerError} When there's an unhandled error.
+ * @throws {InternalServerError} When there's an unexpected error.
  */
 module.exports.login = async (credentials) => {
     try {
@@ -41,6 +41,49 @@ module.exports.login = async (credentials) => {
     catch (err) {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error on login');
+        else throw err;
+    }
+};
+
+/**
+ * Registers a new user account
+ * @param {Object} account Account data
+ * @returns {Object} User general data and jwt
+ * @throws {BadRequest} When the account data is not provided
+ * @throws {Conflict} When the email already exists in the db
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.register = async (account) => {
+    try {
+        if (!account)
+            throw new error.BadRequest('Account data not provided');
+
+        account.email = account.email.toLowerCase();
+
+        account.password = securityHelper.encrypt(account.password);
+
+        const createdAccount = await accountModel.create(account);
+
+        const tokenPayload = {
+            userId: createdAccount._id,
+            email: createdAccount.email,
+            timestamp: Date.now()
+        };
+
+        const jwt = securityHelper.generateJwt(tokenPayload);
+
+        return { access: jwt };
+    }
+    catch (err) {
+        if (err.name === 'MongoError' && err.code === 11000)
+            throw new error.Conflict('Email already registered.');
+
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid account data.');
+
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error on login');
+
         else throw err;
     }
 };
