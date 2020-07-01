@@ -129,7 +129,6 @@ paths:
           name: body
           required: true
           example:
-            isDefault: false
             name: "My name is new"
             isPublic: true
             mediaItems: [

@@ -129,7 +129,7 @@ module.exports.putList = async (listId, accountId, attributesToUpdate) => {
         if (!list || list.accountId.toString() !== accountId)
             throw new error.Unauthorized('The specified list doesnt exist or you dont have permissions over it');
 
-        await listModel.findOneAndUpdate({ _id: listId }, attributesToUpdate);
+        await listModel.findOneAndUpdate({ _id: listId }, attributesToUpdate, updateDefaultList(listId, attributesToUpdate.isDefault));
     }
     catch (err) {
         if (!err.statusCode)
@@ -137,6 +137,13 @@ module.exports.putList = async (listId, accountId, attributesToUpdate) => {
         else
             throw err;
     }
+};
+
+// if needToUpdate is true, then any list that is not the newDefaultList will be set as not default if its default.
+const updateDefaultList = async (newDefaultListId, needToUpdate) => {
+    if (!needToUpdate) // if attribute does not exist or is not default
+        return;
+    await listModel.updateMany({ _id: { $ne: newDefaultListId }, isDefault: true }, { isDefault: false });
 };
 
 /**
