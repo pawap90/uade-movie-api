@@ -1,11 +1,9 @@
-![Continous Integration](https://github.com/pawap90/uade-movie-api/workflows/Continous%20Integration/badge.svg)
-
 # uade-movie-api
-UADE | 2020 | Distribuidas | Movie backend API
+UADE | 2020 | Aplicaciones Interactivas | Grupo 7 | Gym backend API
 
-**Site**: [uade-movieapp-g5-api-dev.herokuapp.com](https://uade-movieapp-g5-api-dev.herokuapp.com/swagger)
+**Site**: [uade-gym-api-g7-dev.herokuapp.com](https://uade-gym-api-g7-dev.herokuapp.com/swagger)
 
-API powering the best UADE Movie Mobile app ever.
+REST API powering the best UADE Gym app ever.
 
 # Main scripts
 
@@ -31,7 +29,6 @@ Add a .env file on the root folder with the following content:
 DB_CONNECTIONSTRING=<mongodb-connection-string>
 PORT=<port>
 ERRORS_DETAILED=true
-JWT_EXPIRATION=<expiration-in-seconds>
 JWT_SIGNKEY=<jwt-sign-key>
 CRYPTO_KEY=<crypto-key>
 CRYPTO_ALG=<crypto-algoritm>
