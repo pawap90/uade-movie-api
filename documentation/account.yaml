@@ -5,13 +5,13 @@ securityDefinitions:
     name: Authorization
 
 paths:
-  /account/:
+  /account:
     put:
       security:
         - APIKeyHeader: []
       tags:
         - Account
-      summary: Update current logged user accounts data. Obligatory fields are name, lastName and genres
+      summary: Update current logged user accounts data. Obligatory fields are name and lastName
       produces:
         - application/json
       parameters:
@@ -21,7 +21,6 @@ paths:
           example:
             name: I am Jeff
             lastName: Jeffard
-            genres: ['Sci Fi', 'Horror']
       responses:
         200:
           description: User successfully updated
@@ -66,9 +65,6 @@ paths:
             lastName: doe
             email: test@uade-movie-app.com.ar
             password: uade2020
-            genres:
-              - Action
-              - Drama
       responses:
         200:
           description: User account successfully created

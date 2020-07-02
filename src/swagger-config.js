@@ -5,9 +5,9 @@ const swaggerJSDoc = require('swagger-jsdoc');
 // Swagger definition
 const swaggerDefinition = {
     info: {
-        title: 'UADE Movie App REST API', // Title of the documentation
+        title: 'UADE Gym App REST API', // Title of the documentation
         version: '1.0.0', // Version of the app
-        description: 'REST API documentation for UADE Movie App' // short description of the app
+        description: 'REST API documentation for UADE Gym App' // short description of the app
     },
     basePath: '/api' // the basepath of your endpoint
 };

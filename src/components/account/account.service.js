@@ -150,7 +150,7 @@ const getByEmailFunc = async (email, insecure = false) => {
 /**
  * Updates account data.
  * @param {String} accountId User identifier
- * @param {Object} newAttributes New account data. name, lastName, genres
+ * @param {Object} newAttributes New account data. name, lastName
  * @throws {Unauthorized} If the current password is invalid.
  * @throws {InternalServerError} In case of unexpected error.
  */
@@ -170,9 +170,6 @@ module.exports.updateAccount = async (accountId, newAttributes) => {
 
         if (newAttributes.lastName)
             fieldsToUpdate.$set.lastName = newAttributes.lastName;
-
-        if (newAttributes.genres)
-            fieldsToUpdate.$set.genres = newAttributes.genres;
 
         await accountModel.findByIdAndUpdate(accountId, fieldsToUpdate);
     }
