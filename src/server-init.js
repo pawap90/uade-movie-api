@@ -22,7 +22,7 @@ module.exports.startServer = async () => {
 
     // Root endpoint.
     app.get('/', (req, res) => {
-        res.status(200).json('Welcome to UADE Movie App API.');
+        res.status(200).json('Welcome to UADE Gym App - REST API.');
     });
 
     // Setup all the application routes here.
