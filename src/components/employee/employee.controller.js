@@ -3,6 +3,20 @@
 const employeeService = require('./employee.service');
 
 /**
+ * Get employee by id.
+ */
+module.exports.getById = async (req, res, next) => {
+    try {
+        const employee = await employeeService.getById(req.params.id);
+
+        return res.json(employee);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Create employee.
  */
 module.exports.create = async (req, res, next) => {

@@ -37,6 +37,28 @@ paths:
         500:
           description: Unexpected error
   /employee/{id}:
+    get:
+      tags:
+        - Employee
+      summary: Get an existent employee by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The employee identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Employee successfully retrieved
+        400:
+          description: Id not provided
+        404:
+          description: Employee not found
+        500:
+          description: Unexpected error
     put:
       tags:
         - Employee
