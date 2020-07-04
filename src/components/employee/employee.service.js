@@ -48,6 +48,47 @@ module.exports.create = async (employee) => {
 };
 
 /**
+ * Update employee by id.
+ * @param {String} id Employee identifier
+ * @param {Object} employee Employee data
+ * @throws {BadRequest} When the employee data is invalid or not provided
+ * @throws {Conflict} When the email already exists in the db
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.update = async (id, employee) => {
+    try {
+        if (!employee)
+            throw new error.BadRequest('employee data not provided');
+
+        employee.email = employee.email ? employee.email.toLowerCase() : null;
+
+        await EmployeeModel.findByIdAndUpdate(id, {
+            $set: {
+                phoneNumber: employee.phoneNumber,
+                cuit: employee.cuit,
+                jobTitle: employee.jobTitle,
+                grossSalary: employee.grossSalary,
+                entryDate: employee.entryDate,
+                persona: {
+                    name: employee.name,
+                    lastName: employee.lastName,
+                    email: employee.email,
+                    address: employee.address,
+                    dateOfBirth: employee.dateOfBirth
+                }
+            }
+        }, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'MongoError' && err.code === 11000)
+            throw new error.Conflict('Employee with the specified email already registered.');
+        else if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid employee data.');
+        else throw err;
+    }
+};
+
+/**
  * Generate a secuential number for a new employee based on the previously generated number.
  * E.g: E-0001
  */

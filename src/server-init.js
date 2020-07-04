@@ -52,7 +52,7 @@ module.exports.startServer = async () => {
     app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
     // Database connection.
-    await mongoose.connect(process.env.DB_CONNECTIONSTRING, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(process.env.DB_CONNECTIONSTRING, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
     mongoose.connection.on('error', function (e) {
         throw e;
     });
