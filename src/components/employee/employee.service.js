@@ -32,7 +32,6 @@ module.exports.getById = async (id) => {
     try {
         if (!id)
             throw new error.BadRequest('id not provided');
-        id;
         const employee = await EmployeeModel.findById(id);
 
         if (!employee)
