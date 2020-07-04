@@ -106,3 +106,23 @@ paths:
           description: Another employee already exists with the same email
         500:
           description: Unexpected error
+    delete:
+      tags:
+        - Employee
+      summary: Delete a single employee by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The employee identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Employee successfully deleted
+        400:
+          description: Id not provided
+        500:
+          description: Unexpected error
