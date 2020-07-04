@@ -32,7 +32,7 @@ module.exports.getById = async (id) => {
     try {
         if (!id)
             throw new error.BadRequest('id not provided');
-        id;
+
         const employee = await EmployeeModel.findById(id);
 
         if (!employee)
@@ -124,6 +124,25 @@ module.exports.update = async (id, employee) => {
             throw new error.Conflict('Employee with the specified email already registered.');
         else if (err.name === 'ValidationError')
             throw new error.BadRequest('Invalid employee data.');
+        else throw err;
+    }
+};
+
+/**
+ * Delete a single employee by id.
+ * @param {String} id Employee identifier
+ * @throws {BadRequest} When the employee id is not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.delete = async (id) => {
+    try {
+        if (!id)
+            throw new error.BadRequest('id not provided');
+        await EmployeeModel.findByIdAndDelete(id);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error deleting the employee');
         else throw err;
     }
 };
