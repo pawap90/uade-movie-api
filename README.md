@@ -1,4 +1,6 @@
-# uade-movie-api
+![Continous Integration](https://github.com/mauro-codes/uade-gym-api/workflows/Continous%20Integration/badge.svg)
+
+# uade-gym-api
 UADE | 2020 | Aplicaciones Interactivas | Grupo 7 | Gym backend API
 
 **Site**: [uade-gym-api-g7-dev.herokuapp.com](https://uade-gym-api-g7-dev.herokuapp.com/swagger)
