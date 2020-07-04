@@ -10,5 +10,4 @@ const employeeController = require('./employee.controller');
  */
 router.post('/', employeeController.create);
 
-
 module.exports = router;
