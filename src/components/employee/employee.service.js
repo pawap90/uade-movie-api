@@ -2,7 +2,7 @@
 
 const error = require('throw.js');
 
-const employeeModel = require('./employee.model');
+const EmployeeModel = require('./employee.model');
 
 /**
  * Creates a new employee
@@ -18,8 +18,8 @@ module.exports.create = async (employee) => {
 
         employee.email = employee.email ? employee.email.toLowerCase() : null;
 
-        // Create an employeeModel instance to allow mongoose to validate the model.
-        let newEmployee = new employeeModel();
+        // Create an EmployeeModel instance to allow mongoose to validate the model.
+        let newEmployee = new EmployeeModel();
         newEmployee = {
             employeeNumber: await generateEmployeeNumber(),
             phoneNumber: employee.phoneNumber,
@@ -36,7 +36,7 @@ module.exports.create = async (employee) => {
             dateOfBirth: employee.dateOfBirth
         };
 
-        await employeeModel.create(newEmployee);
+        await EmployeeModel.create(newEmployee);
     }
     catch (err) {
         if (err.name === 'MongoError' && err.code === 11000)
@@ -53,7 +53,7 @@ module.exports.create = async (employee) => {
  */
 const generateEmployeeNumber = async () => {
     let number = 0;
-    const lastEmployee = await employeeModel.findOne().sort({ createDate: -1 });
+    const lastEmployee = await EmployeeModel.findOne().sort({ createDate: -1 });
 
     if (lastEmployee) {
         const lastNumber = parseInt(lastEmployee.employeeNumber.split('-')[1].replace('0'));
