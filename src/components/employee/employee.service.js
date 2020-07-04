@@ -5,6 +5,24 @@ const error = require('throw.js');
 const EmployeeModel = require('./employee.model');
 
 /**
+ * Get all employees.
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getAll = async () => {
+    try {
+        const employees = await EmployeeModel.find().select('employeeNumber persona.name persona.lastName persona.email')
+
+        return employees;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting all employees');
+        else throw err;
+    }
+};
+
+
+/**
  * Get employee by id.
  * @param {String} id Employee identifier
  * @throws {BadRequest} When the employee id is not provided
@@ -15,7 +33,7 @@ module.exports.getById = async (id) => {
     try {
         if (!id)
             throw new error.BadRequest('id not provided');
-
+id
         const employee = await EmployeeModel.findById(id);
 
         if (!employee)
