@@ -52,16 +52,16 @@ module.exports.create = async (employee) => {
  * E.g: E-0001
  */
 const generateEmployeeNumber = async () => {
-    let number = 0;
+    let number = 1;
     const lastEmployee = await EmployeeModel.findOne().sort({ createDate: -1 });
 
     if (lastEmployee) {
-        const lastNumber = parseInt(lastEmployee.employeeNumber.split('-')[1].replace('0'));
+        const lastNumber = parseInt(lastEmployee.employeeNumber.split('-')[1].replace('0', ''));
         number = lastNumber + 1;
     }
 
     const numberString = number.toString();
-    const employeeNumber = 'E-' + numberString.padStart(4 - numberString.length, '0');
+    const employeeNumber = 'E-' + numberString.padStart(5 - numberString.length, '0');
 
     return employeeNumber;
 };
