@@ -1,0 +1,38 @@
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: Authorization
+
+paths:
+  /employee:
+    post:
+      tags:
+        - Employee
+      summary: Create a new employee
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          example:
+            name: Jane
+            lastName: Doe
+            email: janedoe@uade-gym-app-g7.com.ar
+            address: False street 123
+            dateOfBirth: 1990-01-01
+            phoneNumber: '11-1223-2312'
+            cuit: '20-12123123-2'
+            jobTitle: 'Yoga teacher'
+            grossSalary: 10000
+            entryDate: 2020-07-03
+      responses:
+        200:
+          description: Employee successfully created
+        400:
+          description: Validation error. Verify the request's body.
+        409:
+          description: Another employee already exists with the same email
+        500:
+          description: Unexpected error
