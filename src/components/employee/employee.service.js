@@ -51,6 +51,9 @@ module.exports.create = async (employee) => {
  * Update employee by id.
  * @param {String} id Employee identifier
  * @param {Object} employee Employee data
+ * @throws {BadRequest} When the employee data is invalid or not provided
+ * @throws {Conflict} When the email already exists in the db
+ * @throws {InternalServerError} When there's an unexpected error.
  */
 module.exports.update = async (id, employee) => {
     try {
