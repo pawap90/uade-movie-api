@@ -6,6 +6,11 @@ const router = express.Router();
 const employeeController = require('./employee.controller');
 
 /**
+ * Get all employees.
+ */
+router.get('/', employeeController.getAll);
+
+/**
  * Get employee by id.
  */
 router.get('/:id', employeeController.getById);
