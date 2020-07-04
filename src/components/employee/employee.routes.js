@@ -6,6 +6,11 @@ const router = express.Router();
 const employeeController = require('./employee.controller');
 
 /**
+ * Get employee by id.
+ */
+router.get('/:id', employeeController.getById);
+
+/**
  * Create employee.
  */
 router.post('/', employeeController.create);
