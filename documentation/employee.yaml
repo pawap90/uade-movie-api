@@ -6,6 +6,17 @@ securityDefinitions:
 
 paths:
   /employee:
+    get:
+      tags:
+        - Employee
+      summary: Get a complete list of employees
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Employees successfully retrieved
+        500:
+          description: Unexpected error
     post:
       tags:
         - Employee
