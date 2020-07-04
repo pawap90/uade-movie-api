@@ -3,6 +3,20 @@
 const employeeService = require('./employee.service');
 
 /**
+ * Get all employees
+ */
+module.exports.getAll = async (req, res, next) => {
+    try {
+        const employees = await employeeService.getAll();
+
+        return res.json(employees);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Get employee by id.
  */
 module.exports.getById = async (req, res, next) => {
