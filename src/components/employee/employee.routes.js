@@ -10,4 +10,9 @@ const employeeController = require('./employee.controller');
  */
 router.post('/', employeeController.create);
 
+/**
+ * Update employee.
+ */
+router.put('/:id', employeeController.update);
+
 module.exports = router;
