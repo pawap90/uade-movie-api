@@ -57,3 +57,17 @@ module.exports.update = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Delete employee
+ */
+module.exports.delete = async (req, res, next) => {
+    try {
+        await employeeService.delete(req.params.id);
+
+        return res.json({ message: 'success' });
+    }
+    catch (err) {
+        return next(err);
+    }
+};
