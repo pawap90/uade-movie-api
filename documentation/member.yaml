@@ -1,0 +1,36 @@
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: Authorization
+
+paths:
+  /member:
+    post:
+      tags:
+        - Member
+      summary: Create a new member
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          example:
+            name: Ronnie
+            lastName: Coleman
+            email: RC@proteins.com.ar
+            address: False street 123
+            dateOfBirth: 1990-01-01
+            entryDate: 2020-07-03
+            dni: "20808102"
+            emergencyPhoneNumber: "11-1223-2312"
+      responses:
+        200:
+          description: Member successfully created
+        400:
+          description: Validation error. Verify the request's body.
+        409:
+          description: Another member already exists with the same email
+        500:
+          description: Unexpected error

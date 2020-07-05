@@ -28,6 +28,7 @@ module.exports.startServer = async () => {
     // Setup all the application routes here.
     app.use('/api/account', require('./components/account/account.routes'));
     app.use('/api/employee', require('./components/employee/employee.routes'));
+    app.use('/api/member', require('./components/member/member.routes'));
 
     // Error handling middleware.
     app.use((err, req, res, next) => {
