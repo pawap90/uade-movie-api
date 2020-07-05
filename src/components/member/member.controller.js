@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const memberService = require('./member.service');
 
