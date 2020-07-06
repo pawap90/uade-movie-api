@@ -45,7 +45,7 @@ paths:
           description: Another member already exists with the same email
         500:
           description: Unexpected error
-  member/{id}/medical-information:
+  /member/{id}/medical-information:
     put:
       tags:
         - Member
