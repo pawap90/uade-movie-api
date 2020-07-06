@@ -29,3 +29,17 @@ module.exports.create = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Update medical information of a member by id.
+ */
+module.exports.updateMedicalInfo = async (req, res, next) => {
+    try {
+        await memberService.updateMedicalInfo(req.params.id, req.body);
+
+        return res.json({ message: 'success' });
+    }
+    catch (err) {
+        return next(err);
+    }
+};
