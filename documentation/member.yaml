@@ -6,6 +6,17 @@ securityDefinitions:
 
 paths:
   /member:
+    get:
+      tags:
+        - Member
+      summary: Get all existent members
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Members successfully retrieved
+        500:
+          description: Unexpected error
     post:
       tags:
         - Member
