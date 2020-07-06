@@ -30,7 +30,7 @@ module.exports.getById = async (memberId) => {
     }
     catch (err) {
         if (!err.statusCode)
-            throw new error.InternalServerError('Unexpected error getting all members');
+            throw new error.InternalServerError('Unexpected error getting member');
         else throw err;
     }
 };
