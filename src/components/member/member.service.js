@@ -21,6 +21,21 @@ module.exports.getAll = async () => {
 };
 
 /**
+ * Get member by Id
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getById = async (memberId) => {
+    try {
+        return await MemberModel.findById(memberId);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting all members');
+        else throw err;
+    }
+};
+
+/**
  * Creates a new member
  * @param {Object} member Member data
  * @throws {BadRequest} When the member data is invalid or not provided

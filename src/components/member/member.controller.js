@@ -17,6 +17,20 @@ module.exports.getAll = async (req, res, next) => {
 };
 
 /**
+ * Get member by id
+ */
+module.exports.getById = async (req, res, next) => {
+    try {
+        const member = await memberService.getById(req.params.id);
+
+        return res.json(member);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Create member.
  */
 module.exports.create = async (req, res, next) => {

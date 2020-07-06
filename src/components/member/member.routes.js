@@ -11,6 +11,11 @@ const memberController = require('./member.controller');
 router.get('/', memberController.getAll);
 
 /**
+ * Get member by id
+ */
+router.get('/:id', memberController.getById);
+
+/**
  * Create member
  */
 router.post('/', memberController.create);
