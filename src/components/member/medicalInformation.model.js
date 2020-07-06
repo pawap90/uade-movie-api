@@ -9,7 +9,7 @@ const medicalInformationSchema = new mongoose.Schema({
     certificateIssuedDate: { type: Date, required: false },
     certificateIssuerMedicalLicense: { type: String, required: true },
     observations: { type: String, required: true },
-    hasHealthProblems: { type: Boolean, required: true },
+    hasHeartProblems: { type: Boolean, required: true },
     hasAsthma: { type: Boolean, required: true },
     hasDiabetes: { type: Boolean, required: true },
     smokes: { type: Boolean, required: true }

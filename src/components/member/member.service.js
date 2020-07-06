@@ -77,6 +77,38 @@ module.exports.create = async (member) => {
 };
 
 /**
+ * Find a member by their id and update their medical information.
+ * Creates the medical information object if needed.
+ * @param {String} id Member identifier
+ * @param {Object} medicalInfo Member's updated medical information
+ */
+module.exports.updateMedicalInfo = async (id, medicalInfo) => {
+    try {
+        if (!medicalInfo)
+            throw new error.BadRequest('Medical information not provided');
+
+        await MemberModel.findByIdAndUpdate(id, {
+            $set: {
+                medicalInformation: {
+                    certificateIssuedDate: medicalInfo.certificateIssuedDate,
+                    certificateIssuerMedicalLicense: medicalInfo.certificateIssuerMedicalLicense,
+                    observations: medicalInfo.observations,
+                    hasHeartProblems: medicalInfo.hasHeartProblems,
+                    hasAsthma: medicalInfo.hasAsthma,
+                    hasDiabetes: medicalInfo.hasDiabetes,
+                    smokes: medicalInfo.smokes
+                }
+            }
+        }, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid medical information.');
+        else throw err;
+    }
+};
+
+/**
  * Generate a secuential number for a new member based on the previously generated number.
  * E.g: M-000001
  */

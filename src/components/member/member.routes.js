@@ -20,4 +20,9 @@ router.get('/:id', memberController.getById);
  */
 router.post('/', memberController.create);
 
+/**
+ * Add medical information to a member
+ */
+router.put('/:id/medical-information', memberController.updateMedicalInfo);
+
 module.exports = router;
