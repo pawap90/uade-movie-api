@@ -45,3 +45,35 @@ paths:
           description: Another member already exists with the same email
         500:
           description: Unexpected error
+  member/{id}/medical-information:
+    put:
+      tags:
+        - Member
+      summary: Update a member's medical information
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+        - in: body
+          name: body
+          required: true
+          example:
+            certificateIssuedDate: 2020-03-10
+            certificateIssuerMedicalLicense: "123ABC"
+            observations: "Healthy as a horse"
+            hasHeartProblems: false
+            hasAsthma: false
+            hasDiabetes: false
+            smokes: false
+      responses:
+        200:
+          description: Medical information successfully updated
+        400:
+          description: Validation error. Verify the request's body.
+        500:
+          description: Unexpected error
