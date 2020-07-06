@@ -18,7 +18,7 @@ module.exports.getAll = async () => {
             throw new error.InternalServerError('Unexpected error getting all members');
         else throw err;
     }
-}
+};
 
 /**
  * Creates a new member

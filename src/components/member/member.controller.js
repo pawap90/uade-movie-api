@@ -16,7 +16,6 @@ module.exports.getAll = async (req, res, next) => {
     }
 };
 
-
 /**
  * Create member.
  */
