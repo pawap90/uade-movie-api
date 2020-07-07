@@ -4,6 +4,38 @@ const error = require('throw.js');
 const MemberModel = require('./member.model');
 
 /**
+ * Get all members
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getAll = async () => {
+    try {
+        const members = await MemberModel.find().select('memberNumber dni persona.name persona.lastName emergencyPhoneNumber');
+
+        return members;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting all members');
+        else throw err;
+    }
+};
+
+/**
+ * Get member by Id
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getById = async (memberId) => {
+    try {
+        return await MemberModel.findById(memberId);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting member');
+        else throw err;
+    }
+};
+
+/**
  * Creates a new member
  * @param {Object} member Member data
  * @throws {BadRequest} When the member data is invalid or not provided
@@ -40,6 +72,38 @@ module.exports.create = async (member) => {
             throw new error.Conflict('Member with the specified email already registered.');
         else if (err.name === 'ValidationError')
             throw new error.BadRequest('Invalid member data.');
+        else throw err;
+    }
+};
+
+/**
+ * Find a member by their id and update their medical information.
+ * Creates the medical information object if needed.
+ * @param {String} id Member identifier
+ * @param {Object} medicalInfo Member's updated medical information
+ */
+module.exports.updateMedicalInfo = async (id, medicalInfo) => {
+    try {
+        if (!medicalInfo)
+            throw new error.BadRequest('Medical information not provided');
+
+        await MemberModel.findByIdAndUpdate(id, {
+            $set: {
+                medicalInformation: {
+                    certificateIssuedDate: medicalInfo.certificateIssuedDate,
+                    certificateIssuerMedicalLicense: medicalInfo.certificateIssuerMedicalLicense,
+                    observations: medicalInfo.observations,
+                    hasHeartProblems: medicalInfo.hasHeartProblems,
+                    hasAsthma: medicalInfo.hasAsthma,
+                    hasDiabetes: medicalInfo.hasDiabetes,
+                    smokes: medicalInfo.smokes
+                }
+            }
+        }, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid medical information.');
         else throw err;
     }
 };
