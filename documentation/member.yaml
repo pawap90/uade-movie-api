@@ -64,6 +64,39 @@ paths:
           description: Member successfully retrieved
         500:
           description: Unexpected error
+    put:
+      tags:
+        - Member
+      summary: Update member by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+        - in: body
+          name: body
+          required: true
+          example:
+            name: Cristiano
+            lastName: Ronaldo
+            email: CR@creatine.com.ar
+            address: my own street 415
+            dateOfBirth: 1990-01-01
+            dni: "25808909"
+            emergencyPhoneNumber: "11-2345-5432"
+      responses:
+        200:
+          description: Member successfully updated
+        400:
+          description: Validation error. Verify the request's body.
+        409:
+          description: Another member already exists with the same email
+        500:
+          description: Unexpected error
   /member/{id}/medical-information:
     put:
       tags:

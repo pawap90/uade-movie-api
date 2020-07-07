@@ -57,3 +57,17 @@ module.exports.updateMedicalInfo = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Update member by id.
+ */
+module.exports.updateById = async (req, res, next) => {
+    try {
+        await memberService.updateById(req.params.id, req.body);
+
+        return res.json({ message: 'success' });
+    }
+    catch (err) {
+        return next(err);
+    }
+};
