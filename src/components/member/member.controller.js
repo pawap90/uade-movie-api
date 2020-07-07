@@ -63,7 +63,7 @@ module.exports.updateMedicalInfo = async (req, res, next) => {
  */
 module.exports.deleteById = async (req, res, next) => {
     try {
-        await memberService.deleteById(req.params.id)
+        await memberService.deleteById(req.params.id);
 
         return res.json('Success!');
     }
