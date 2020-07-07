@@ -21,6 +21,7 @@ paths:
             description: "Yoga is a group of physical, mental, and spiritual practices or disciplines which originated in ancient India."
             availability: "Monday & Wednesday - 4:30 pm - 18:30 am"
             employee: "12456asda12"
+            active: false
       responses:
         200:
           description: Activity successfully created
