@@ -126,3 +126,18 @@ const generateMemberNumber = async () => {
 
     return memberNumber;
 };
+
+/**
+ * Delete member by Id
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.deleteById = async (memberId) => {
+    try {
+        return await MemberModel.findByIdAndDelete(memberId);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error deleting member');
+        else throw err;
+    }
+};

@@ -25,4 +25,9 @@ router.post('/', memberController.create);
  */
 router.put('/:id/medical-information', memberController.updateMedicalInfo);
 
+/**
+ * Delete member by id
+ */
+router.delete('/:id', memberController.deleteById);
+
 module.exports = router;
