@@ -57,3 +57,17 @@ module.exports.updateMedicalInfo = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Delete member by id
+ */
+module.exports.deleteById = async (req, res, next) => {
+    try {
+        await memberService.deleteById(req.params.id)
+
+        return res.json('Success!');
+    }
+    catch (err) {
+        return next(err);
+    }
+};
