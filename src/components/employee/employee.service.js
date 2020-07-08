@@ -10,7 +10,7 @@ const EmployeeModel = require('./employee.model');
  */
 module.exports.getAll = async () => {
     try {
-        const employees = await EmployeeModel.find().select('employeeNumber persona.name persona.lastName persona.email');
+        const employees = await EmployeeModel.find().select('employeeNumber persona.name persona.lastName phoneNumber persona.email');
 
         return employees;
     }
