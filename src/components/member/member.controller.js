@@ -59,8 +59,22 @@ module.exports.updateMedicalInfo = async (req, res, next) => {
 };
 
 /**
- * Delete member by id
+ * Update member by id.
  */
+module.exports.updateById = async (req, res, next) => {
+    try {
+        await memberService.updateById(req.params.id, req.body);
+
+        return res.json({ message: 'Success!' });
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/*
+* Delete member by id
+*/
 module.exports.deleteById = async (req, res, next) => {
     try {
         await memberService.deleteById(req.params.id);

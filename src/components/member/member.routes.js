@@ -26,6 +26,11 @@ router.post('/', memberController.create);
 router.put('/:id/medical-information', memberController.updateMedicalInfo);
 
 /**
+ * Update member information by id
+ */
+router.put('/:id', memberController.updateById);
+
+/**
  * Delete member by id
  */
 router.delete('/:id', memberController.deleteById);
