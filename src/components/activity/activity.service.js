@@ -1,6 +1,7 @@
 'use strict';
 
 const error = require('throw.js');
+const mongoose = require('mongoose');
 
 const ActivityModel = require('./activity.model');
 
@@ -11,7 +12,6 @@ const ActivityModel = require('./activity.model');
  * @throws {InternalServerError} When there's an unexpected error.
  */
 module.exports.create = async (activity) => {
-    activity.active = typeof activity.active !== 'undefined' ? activity.active : true; // in case active value isnt set
     try {
         if (!activity)
             throw new error.BadRequest('activity data not provided');
@@ -22,11 +22,11 @@ module.exports.create = async (activity) => {
             name: activity.name,
             description: activity.description,
             availability: activity.availability,
-            employee: activity.employee,
-            active: activity.active
+            employee: new mongoose.mongo.ObjectId(activity.employee),
         };
+        newActivity = await ActivityModel.create(newActivity);
 
-        await ActivityModel.create(newActivity);
+        newActivity = await newActivity.populate('employee').execPopulate();
     }
     catch (err) {
         if (err.name === 'ValidationError')
