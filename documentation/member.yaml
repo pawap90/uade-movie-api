@@ -97,6 +97,24 @@ paths:
           description: Another member already exists with the same email
         500:
           description: Unexpected error
+    delete:
+      tags:
+        - Member
+      summary: Delete member by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Member successfully deleted
+        500:
+          description: Unexpected error
   /member/{id}/medical-information:
     put:
       tags:

@@ -161,6 +161,24 @@ module.exports.updateById = async (id, member) => {
             throw new error.Conflict('Member with the specified email already registered.');
         else if (err.name === 'ValidationError')
             throw new error.BadRequest('Invalid member data.');
+        else if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error updating member');
+        else throw err;
+    }
+};
+
+
+/**
+* Delete member by Id
+* @throws {InternalServerError} When there's an unexpected error.
+*/
+module.exports.deleteById = async (memberId) => {
+    try {
+        return await MemberModel.findByIdAndDelete(memberId);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error deleting member');
         else throw err;
     }
 };
