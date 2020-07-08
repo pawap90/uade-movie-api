@@ -22,11 +22,11 @@ module.exports.create = async (activity) => {
             name: activity.name,
             description: activity.description,
             availability: activity.availability,
-            employee: new mongoose.mongo.ObjectId(activity.employee),
+            employee: new mongoose.mongo.ObjectId(activity.employee)
         };
         newActivity = await ActivityModel.create(newActivity);
 
-        newActivity = await newActivity.populate('employee').execPopulate();
+        await newActivity.populate('employee').execPopulate();
     }
     catch (err) {
         if (err.name === 'ValidationError')
