@@ -50,9 +50,10 @@ module.exports.getById = async (activityId) => {
 
         let activity = await ActivityModel.findById(activityId);
         activity = activity.populate('employee', 'employeeNumber phoneNumber persona.name persona.lastName persona.email').execPopulate();
-        
+
         return activity;
-    } catch (err) {
+    }
+    catch (err) {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error');
         else throw err;
