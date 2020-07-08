@@ -31,6 +31,29 @@ module.exports.create = async (activity) => {
     catch (err) {
         if (err.name === 'ValidationError')
             throw new error.BadRequest('Invalid activity data.');
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        else throw err;
+    }
+};
+
+/**
+ * Returns, by id, an activity with its inner documents populateds
+ * @param {String} activityId Activity identifier
+ * @throws {BadRequest} When the activity identifier is not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getById = async (activityId) => {
+    try {
+        if (!activityId)
+            throw new error.BadRequest('activity data not provided');
+
+        let activity = await ActivityModel.findById(activityId);
+        // return await activity.populate('employee.employeeNumber', 'employee.phoneNumber', 'employee.persona.name', 'employee.persona.lastName', 'employee.persona.email').execPopulate();
+        return activity;
+    } catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
         else throw err;
     }
 };

@@ -15,3 +15,17 @@ module.exports.create = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Get populated Activity by id.
+ */
+module.exports.getById = async (req, res, next) => {
+    try {
+        var activity = await activityService.getById(req.params.id);
+
+        return res.json(activity);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
