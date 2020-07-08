@@ -49,7 +49,8 @@ module.exports.getById = async (activityId) => {
             throw new error.BadRequest('activity data not provided');
 
         let activity = await ActivityModel.findById(activityId);
-        // return await activity.populate('employee.employeeNumber', 'employee.phoneNumber', 'employee.persona.name', 'employee.persona.lastName', 'employee.persona.email').execPopulate();
+        activity = activity.populate('employee', 'employeeNumber phoneNumber persona.name persona.lastName persona.email').execPopulate();
+        
         return activity;
     } catch (err) {
         if (!err.statusCode)
