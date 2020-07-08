@@ -167,7 +167,6 @@ module.exports.updateById = async (id, member) => {
     }
 };
 
-
 /**
 * Delete member by Id
 * @throws {InternalServerError} When there's an unexpected error.

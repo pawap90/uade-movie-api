@@ -72,7 +72,6 @@ module.exports.updateById = async (req, res, next) => {
     }
 };
 
-
 /*
 * Delete member by id
 */
