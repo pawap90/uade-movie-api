@@ -7,7 +7,7 @@ const activitySchema = new mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     availability: { type: String, required: true },
-    employee: { type: mongoose.Schema.ObjectId, ref: 'employee' },
+    employee: { type: mongoose.Schema.ObjectId, ref: 'employee', required: false },
     active: { type: Boolean, requires: true, default: true }
 });
 
