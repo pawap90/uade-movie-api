@@ -9,7 +9,7 @@ const MemberModel = require('./member.model');
  */
 module.exports.getAll = async () => {
     try {
-        const members = await MemberModel.find().select('memberNumber dni persona.name persona.lastName emergencyPhoneNumber');
+        const members = await MemberModel.find().select('memberNumber dni persona.name persona.lastName persona.email emergencyPhoneNumber');
 
         return members;
     }
