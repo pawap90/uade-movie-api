@@ -31,3 +31,20 @@ module.exports.create = async (activity) => {
         else throw err;
     }
 };
+
+/**
+ * Returns all activities
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getAllActivities = async () => {
+    try {
+        let activities = await ActivityModel.find().select('name availability employee');
+        // activities = activities.populate('employee').execPopulate();
+        return activities;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        else throw err;
+    }
+}; 

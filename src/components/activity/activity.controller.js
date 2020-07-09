@@ -15,3 +15,16 @@ module.exports.create = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Get all activities
+ */
+module.exports.getAllActivities = async (req, res, next) => {
+    try {
+        var activities = activityService.getAllActivities();
+
+        return res.json(activities);
+    } catch (err) {
+        return next(err);
+    }
+};

@@ -28,3 +28,14 @@ paths:
           description: Validation error. Verify the request's body.
         500:
           description: Unexpected error
+    get:
+      tags:
+        - Activity
+      summary: Get all activities
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Activities successfully retrieved
+        500:
+          description: Unexpected error
