@@ -9,7 +9,7 @@ const MemberModel = require('./member.model');
  */
 module.exports.getAll = async () => {
     try {
-        const members = await MemberModel.find().select('memberNumber dni persona.name persona.lastName emergencyPhoneNumber');
+        const members = await MemberModel.find().select('memberNumber dni persona.name persona.lastName persona.email emergencyPhoneNumber');
 
         return members;
     }
@@ -125,4 +125,59 @@ const generateMemberNumber = async () => {
     const memberNumber = 'M-' + numberString.padStart(7 - numberString.length, '0');
 
     return memberNumber;
+};
+
+/**
+ * Update member by id.
+ * @param {String} id Member identifier
+ * @param {Object} member Member data
+ * @throws {BadRequest} When the member data is invalid or not provided
+ * @throws {Conflict} When the email already exists in the db
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.updateById = async (id, member) => {
+    try {
+        if (!member)
+            throw new error.BadRequest('member data not provided');
+
+        member.email = member.email ? member.email.toLowerCase() : null;
+
+        await MemberModel.findByIdAndUpdate(id, {
+            $set: {
+                emergencyPhoneNumber: member.emergencyPhoneNumber,
+                dni: member.dni,
+                persona: {
+                    name: member.name,
+                    lastName: member.lastName,
+                    email: member.email,
+                    address: member.address,
+                    dateOfBirth: member.dateOfBirth
+                }
+            }
+        }, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'MongoError' && err.code === 11000)
+            throw new error.Conflict('Member with the specified email already registered.');
+        else if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid member data.');
+        else if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error updating member');
+        else throw err;
+    }
+};
+
+/**
+* Delete member by Id
+* @throws {InternalServerError} When there's an unexpected error.
+*/
+module.exports.deleteById = async (memberId) => {
+    try {
+        return await MemberModel.findByIdAndDelete(memberId);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error deleting member');
+        else throw err;
+    }
 };
