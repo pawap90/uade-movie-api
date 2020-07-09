@@ -45,8 +45,8 @@ module.exports.getById = async (activityId) => {
         if (!activityId)
             throw new error.BadRequest('activity data not provided');
 
-        let activity = await ActivityModel.findById(activityId);
-        activity = activity.populate('employee', 'employeeNumber phoneNumber persona.name persona.lastName persona.email').execPopulate();
+        const activity = await ActivityModel.findById(activityId)
+            .populate('employee', 'employeeNumber phoneNumber persona.name persona.lastName persona.email');
 
         return activity;
     }
