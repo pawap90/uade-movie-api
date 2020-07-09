@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 
+const personaModel = require('../commons/persona/persona.model');
+
 /**
  * Account model schema.
  */
 const accountSchema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    name: { type: String, required: true },
-    lastName: { type: String, required: true },
-    emailConfirmed: { type: Boolean, default: false }
+    persona: { type: personaModel, required: false },
+    password: { type: String, required: true }
 });
 
 module.exports = mongoose.model('account', accountSchema);
