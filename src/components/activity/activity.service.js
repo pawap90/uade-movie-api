@@ -1,7 +1,6 @@
 'use strict';
 
 const error = require('throw.js');
-const mongoose = require('mongoose');
 
 const ActivityModel = require('./activity.model');
 
@@ -22,11 +21,9 @@ module.exports.create = async (activity) => {
             name: activity.name,
             description: activity.description,
             availability: activity.availability,
-            employee: new mongoose.mongo.ObjectId(activity.employee)
+            employee: activity.employee
         };
-        newActivity = await ActivityModel.create(newActivity);
-
-        await newActivity.populate('employee').execPopulate();
+        await ActivityModel.create(newActivity);
     }
     catch (err) {
         if (err.name === 'ValidationError')
