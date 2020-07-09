@@ -146,7 +146,7 @@ module.exports.changePassword = async (userId, passwords) => {
 /**
  * Updates account data.
  * @param {String} accountId User identifier
- * @param {Object} account New account data. name, lastName
+ * @param {Object} updatedAccount New account data. name, lastName
  * @throws {Unauthorized} If the current password is invalid.
  * @throws {InternalServerError} In case of unexpected error.
  */
