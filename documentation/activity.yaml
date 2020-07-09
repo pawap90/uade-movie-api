@@ -1,0 +1,30 @@
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: Authorization
+
+paths:
+  /activity:
+    post:
+      tags:
+        - Activity
+      summary: Create a new activity
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          example:
+            name: Yoga
+            description: "Yoga is a group of physical, mental, and spiritual practices or disciplines which originated in ancient India."
+            availability: "Monday & Wednesday - 4:30 pm - 18:30 am"
+            employee: "12456asda12"
+      responses:
+        200:
+          description: Activity successfully created
+        400:
+          description: Validation error. Verify the request's body.
+        500:
+          description: Unexpected error
