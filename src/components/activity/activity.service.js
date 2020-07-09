@@ -1,7 +1,6 @@
 'use strict';
 
 const error = require('throw.js');
-const mongoose = require('mongoose');
 
 const ActivityModel = require('./activity.model');
 
@@ -15,7 +14,7 @@ module.exports.create = async (activity) => {
     try {
         if (!activity)
             throw new error.BadRequest('activity data not provided');
-        
+
         // Create an ActivityModel instance to allow mongoose to validate the model.
         let newActivity = new ActivityModel();
         newActivity = {
