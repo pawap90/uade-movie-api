@@ -11,7 +11,7 @@ paths:
         - APIKeyHeader: []
       tags:
         - Account
-      summary: Update current logged user accounts data. Obligatory fields are name and lastName
+      summary: Update current user's account data. 
       produces:
         - application/json
       parameters:
@@ -19,15 +19,17 @@ paths:
           name: body
           required: true
           example:
-            name: I am Jeff
-            lastName: Jeffard
+            name: John
+            lastName: Doe
+            address: False street 123
+            dateOfBirth: 1991-06-07
       responses:
         200:
-          description: User successfully updated
+          description: Account successfully updated
         401:
-          description: Unauthorized
+          description: Token invalid or not provided.
         500:
-          description: Unexpected server error
+          description: Unexpected server error updating account
   /account/login:
     post:
       tags:
@@ -40,7 +42,7 @@ paths:
           name: body
           required: true
           example:
-            email: test@uade-movie-app.com.ar
+            email: johndoe@uade-gym-app-g7.com.ar
             password: uade2020
       responses:
         200:
@@ -61,15 +63,17 @@ paths:
           name: body
           required: true
           example:
-            name: john
-            lastName: doe
-            email: test@uade-movie-app.com.ar
+            name: John
+            lastName: Doe
+            email: johndoe@uade-gym-app-g7.com.ar
+            address: False street 123
+            dateOfBirth: 1991-06-07
             password: uade2020
       responses:
         200:
           description: User account successfully created
         400:
-          description: Validation error
+          description: Validation error. Verify the request's body.
         409:
           description: Duplicated email
         500:
@@ -80,16 +84,16 @@ paths:
         - APIKeyHeader: []
       tags:
         - Account
-      summary: Get current user
+      summary: Get current user according to the provided access token
       produces:
         - application/json
       responses:
         200:
-          description: Retreives the current user
+          description: Retrieves the current user account
         401:
-          description: Unauthorized - JWT is invalid or expired
+          description: Unauthorized - Token is invalid or not provided
         500:
-          description: Unexpected error
+          description: Unexpected error getting the current user
   /account/change-password:
     put:
       security:
@@ -110,7 +114,7 @@ paths:
         200:
           description: The password was correctly updated
         401:
-          description: Unauthorized - JWT is invalid or expired
+          description: Unauthorized - Token may be invalid or the current password is incorrect.
         400:
           description: The required passwords were not provided in the body
         500:
