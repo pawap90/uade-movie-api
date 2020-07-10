@@ -17,6 +17,20 @@ module.exports.create = async (req, res, next) => {
 };
 
 /**
+ * Get all activities
+ */
+module.exports.getAllActivities = async (req, res, next) => {
+    try {
+        const activities = await activityService.getAllActivities();
+
+        return res.json(activities);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Get populated Activity by id.
  */
 module.exports.getById = async (req, res, next) => {
