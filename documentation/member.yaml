@@ -147,3 +147,29 @@ paths:
           description: Validation error. Verify the request's body.
         500:
           description: Unexpected error
+  /member/{id}/plan:
+    put:
+      tags:
+        - Member
+      summary: Update a member's plan
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+        - in: body
+          name: body
+          required: true
+          example:
+            planId: 123asd123
+      responses:
+        200:
+          description: Member's plan successfully updated
+        400:
+          description: Validation error. Verify the request's body.
+        500:
+          description: Unexpected error
