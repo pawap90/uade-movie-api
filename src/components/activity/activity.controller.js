@@ -21,10 +21,11 @@ module.exports.create = async (req, res, next) => {
  */
 module.exports.getAllActivities = async (req, res, next) => {
     try {
-        var activities = activityService.getAllActivities();
+        const activities = await activityService.getAllActivities();
 
         return res.json(activities);
-    } catch (err) {
+    }
+    catch (err) {
         return next(err);
     }
 };

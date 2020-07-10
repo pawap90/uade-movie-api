@@ -38,8 +38,8 @@ module.exports.create = async (activity) => {
  */
 module.exports.getAllActivities = async () => {
     try {
-        let activities = await ActivityModel.find().select('name availability employee');
-        // activities = activities.populate('employee').execPopulate();
+        const activities = await ActivityModel.find().select('name availability employee').populate('employee', 'persona.name persona.lastName');
+
         return activities;
     }
     catch (err) {
@@ -47,4 +47,4 @@ module.exports.getAllActivities = async () => {
             throw new error.InternalServerError('Unexpected error');
         else throw err;
     }
-}; 
+};
