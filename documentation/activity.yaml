@@ -28,7 +28,6 @@ paths:
           description: Validation error. Verify the request's body.
         500:
           description: Unexpected error
-<<<<<<< HEAD
     get:
       tags:
         - Activity
@@ -40,7 +39,6 @@ paths:
           description: Activities successfully retrieved
         500:
           description: Unexpected error
-=======
   /activity/{id}:
     get:
       tags:
@@ -62,4 +60,3 @@ paths:
           description: Activity identifier is missing or its not correct.
         500:
           description: Unexpected error
->>>>>>> fca52df8f2408db767654ba5557cbf69ef90c7f2
