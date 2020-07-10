@@ -30,13 +30,13 @@ module.exports.login = async (credentials) => {
 
         const tokenPayload = {
             userId: user._id,
-            email: user.email,
+            email: user.persona.email,
             timestamp: Date.now()
         };
 
         const jwt = securityHelper.generateJwt(tokenPayload);
 
-        return { access: jwt, name: user.name, lastName: user.lastName, email: user.email };
+        return { access: jwt, name: user.persona.name, lastName: user.persona.lastName, email: user.persona.email };
     }
     catch (err) {
         if (!err.statusCode)
@@ -62,11 +62,20 @@ module.exports.register = async (account) => {
 
         account.password = securityHelper.encrypt(account.password);
 
-        const createdAccount = await accountModel.create(account);
+        const createdAccount = await accountModel.create({
+            password: account.password,
+            persona: {
+                name: account.name,
+                lastName: account.lastName,
+                email: account.email,
+                address: account.address,
+                dateOfBirth: account.dateOfBirth
+            }
+        });
 
         const tokenPayload = {
             userId: createdAccount._id,
-            email: createdAccount.email,
+            email: createdAccount.persona.email,
             timestamp: Date.now()
         };
 
@@ -135,6 +144,42 @@ module.exports.changePassword = async (userId, passwords) => {
 };
 
 /**
+ * Updates account data.
+ * @param {String} accountId User identifier
+ * @param {Object} updatedAccount New account data. name, lastName
+ * @throws {Unauthorized} If the current password is invalid.
+ * @throws {InternalServerError} In case of unexpected error.
+ */
+module.exports.updateAccount = async (accountId, updatedAccount) => {
+    try {
+        var account = await accountModel.findOne({ _id: accountId });
+
+        if (!account || account._id.toString() !== accountId)
+            throw new error.Unauthorized('The specified user doesnt exist or you dont have permissions over it');
+
+        const fieldsToUpdate = {
+            $set: {
+                'persona.name': updatedAccount.name,
+                'persona.lastName': updatedAccount.lastName,
+                'persona.address': updatedAccount.address,
+                'persona.dateOfBirth': updatedAccount.dateOfBirth
+            }
+        };
+
+        await accountModel.findByIdAndUpdate(accountId, fieldsToUpdate, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid account data.');
+
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error on update');
+
+        throw err;
+    }
+};
+
+/**
  * Retrieves a user by email.
  * @param {String} email User email
  * @param {bool} insecure If set to true, includes the user password in the result.
@@ -144,36 +189,5 @@ const getByEmailFunc = async (email, insecure = false) => {
     if (insecure)
         select = {};
 
-    return await accountModel.findOne({ email: email }, select);
-};
-
-/**
- * Updates account data.
- * @param {String} accountId User identifier
- * @param {Object} newAttributes New account data. name, lastName
- * @throws {Unauthorized} If the current password is invalid.
- * @throws {InternalServerError} In case of unexpected error.
- */
-module.exports.updateAccount = async (accountId, newAttributes) => {
-    try {
-        var account = await accountModel.findOne({ _id: accountId });
-
-        if (!account || account._id.toString() !== accountId)
-            throw new error.Unauthorized('The specified user doesnt exist or you dont have permissions over it');
-
-        const fieldsToUpdate = {
-            $set: {}
-        };
-
-        if (newAttributes.name)
-            fieldsToUpdate.$set.name = newAttributes.name;
-
-        if (newAttributes.lastName)
-            fieldsToUpdate.$set.lastName = newAttributes.lastName;
-
-        await accountModel.findByIdAndUpdate(accountId, fieldsToUpdate);
-    }
-    catch (error) {
-        throw new error.InternalServerError('Unexpected server error');
-    }
+    return await accountModel.findOne({ 'persona.email': email }, select);
 };
