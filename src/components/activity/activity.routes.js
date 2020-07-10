@@ -7,6 +7,8 @@ const activityController = require('./activity.controller');
 
 router.post('/', activityController.create);
 
+router.get('/', activityController.getAllActivities);
+
 router.get('/:id', activityController.getById);
 
 module.exports = router;

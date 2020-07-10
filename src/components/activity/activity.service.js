@@ -56,3 +56,20 @@ module.exports.getById = async (activityId) => {
         else throw err;
     }
 };
+
+/**
+ * Returns all activities
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getAllActivities = async () => {
+    try {
+        const activities = await ActivityModel.find().select('name availability employee').populate('employee', 'persona.name persona.lastName');
+
+        return activities;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        else throw err;
+    }
+};
