@@ -1,0 +1,29 @@
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: Authorization
+
+paths:
+  /plan:
+    post:
+      tags:
+        - Plan
+      summary: Create a new plan
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          example:
+            name: Pay for 6 months!
+            frecuency: biannual
+            price: 199
+      responses:
+        200:
+          description: Plan successfully created
+        400:
+          description: Validation error. Verify the request's body.
+        500:
+          description: Unexpected error
