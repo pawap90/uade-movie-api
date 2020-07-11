@@ -73,3 +73,23 @@ module.exports.getAllActivities = async () => {
         else throw err;
     }
 };
+
+/**
+ * Delete an activity by id
+ * @param {String} activityId Activity identifier
+ * @throws {BadRequest} When the activity identifier is not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.deleteById = async (activityId) => {
+    try {
+        if (!activityId)
+            throw new error.BadRequest('activity data not provided');
+
+        await ActivityModel.findByIdAndDelete(activityId);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        else throw err;
+    }
+};

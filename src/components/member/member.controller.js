@@ -85,3 +85,17 @@ module.exports.deleteById = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Update member's plan.
+ */
+module.exports.updatePlan = async (req, res, next) => {
+    try {
+        await memberService.updatePlan(req.params.id, req.body);
+
+        return res.json('Success!');
+    }
+    catch (err) {
+        return next(err);
+    }
+};
