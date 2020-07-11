@@ -45,6 +45,20 @@ module.exports.getById = async (req, res, next) => {
 };
 
 /**
+ * Update Activity by id.
+ */
+module.exports.updateById = async (req, res, next) => {
+    try {
+        await activityService.updateById(req.params.id, req.body);
+
+        return res.json('Success!');
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Delete an Activity by id.
  */
 module.exports.deleteById = async (req, res, next) => {
