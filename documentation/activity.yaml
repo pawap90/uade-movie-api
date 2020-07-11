@@ -60,3 +60,23 @@ paths:
           description: Activity identifier is missing or its not correct.
         500:
           description: Unexpected error
+    delete:
+      tags:
+        - Activity
+      summary: Delete an activity by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The activity identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Activity successfully deleted
+        400:
+          description: Activity identifier is missing or its not correct.
+        500:
+          description: Unexpected error
