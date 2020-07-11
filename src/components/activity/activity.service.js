@@ -78,7 +78,7 @@ module.exports.getAllActivities = async () => {
  * Updates an activity by id
  * @param {String} activityId Activity identifier
  * @param {Object} activity Activity data
- * @throws {BadRequest} When the activity identifier is not provided
+ * @throws {BadRequest} When the activity identifier is not provided or the activity data is invalid
  * @throws {InternalServerError} When there's an unexpected error.
  */
 module.exports.updateById = async (activityId, activity) => {
