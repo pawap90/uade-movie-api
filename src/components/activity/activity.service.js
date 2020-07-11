@@ -73,3 +73,55 @@ module.exports.getAllActivities = async () => {
         else throw err;
     }
 };
+
+/**
+ * Updates an activity by id
+ * @param {String} activityId Activity identifier
+ * @param {Object} activity Activity data
+ * @throws {BadRequest} When the activity identifier is not provided or the activity data is invalid
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.updateById = async (activityId, activity) => {
+    try {
+        if (!activityId || !activity)
+            throw new error.BadRequest('activity data not provided');
+
+        const fieldsToUpdate = {
+            $set: {
+                name: activity.name,
+                description: activity.description,
+                availability: activity.availability,
+                employee: activity.employee
+            }
+        };
+
+        await ActivityModel.findByIdAndUpdate(activityId, fieldsToUpdate, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid activity data.');
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        throw err;
+    }
+};
+
+/**
+ * Delete an activity by id
+ * @param {String} activityId Activity identifier
+ * @throws {BadRequest} When the activity identifier is not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.deleteById = async (activityId) => {
+    try {
+        if (!activityId)
+            throw new error.BadRequest('activity id not provided');
+
+        await ActivityModel.findByIdAndDelete(activityId);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        throw err;
+    }
+};
