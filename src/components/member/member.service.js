@@ -1,6 +1,5 @@
 'use strict';
 
-const mongoose = require('mongoose');
 const error = require('throw.js');
 
 const MemberModel = require('./member.model');
