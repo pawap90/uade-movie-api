@@ -30,4 +30,9 @@ router.put('/:id', employeeController.update);
  */
 router.delete('/:id', employeeController.delete);
 
+/**
+ * Creates a remuneration by an employee id.
+ */
+router.post('/:id/remuneration', employeeController.createRemunerationById);
+
 module.exports = router;

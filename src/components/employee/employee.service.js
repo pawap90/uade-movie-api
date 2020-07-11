@@ -3,6 +3,8 @@
 const error = require('throw.js');
 
 const EmployeeModel = require('./employee.model');
+const RenumerationModel = require('./remuneration.model');
+const remunerationModel = require('./remuneration.model');
 
 /**
  * Get all employees.
@@ -167,4 +169,37 @@ const generateEmployeeNumber = async () => {
     const employeeNumber = 'E-' + numberString.padStart(5 - numberString.length, '0');
 
     return employeeNumber;
+};
+
+/**
+ * Creates a new remuneration by an employee id
+ * @param {Object} remuneration remuneration data
+ * @throws {BadRequest} When the remuneration data is invalid or not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.createRemunerationById = async (remuneration) => {
+    try {
+        if (!remuneration)
+            throw new error.BadRequest('remuneration data not provided');
+
+        let newRemuneration = new remunerationModel();
+        newRemuneration = {
+            employeeId: remuneration.employeeId,
+            date: remuneration.date,
+            details: remuneration.details,
+            total: 50
+        };
+
+        console.log(newRemuneration);
+
+
+        await remunerationModel.create(newRemuneration);
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid remuneration data.');
+        else if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        else throw err;
+    }
 };
