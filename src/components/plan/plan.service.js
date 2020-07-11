@@ -45,9 +45,7 @@ module.exports.deleteById = async (planId) => {
         await PlanModel.findByIdAndDelete(planId);
     }
     catch (err) {
-        if (err.name === 'ValidationError')
-            throw new error.BadRequest('Invalid plan data.');
-        else if (!err.statusCode)
+        if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error');
         throw err;
     }

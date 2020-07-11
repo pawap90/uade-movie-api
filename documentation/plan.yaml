@@ -38,7 +38,7 @@ paths:
         - in: path
           name: id
           required: true
-          description: The member identifier
+          description: The plan identifier
           schema:
             type: string
       responses:
