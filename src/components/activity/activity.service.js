@@ -73,3 +73,36 @@ module.exports.getAllActivities = async () => {
         else throw err;
     }
 };
+
+/**
+ * Updates an activity by id
+ * @param {String} activityId Activity identifier
+ * @param {Object} activity Activity data
+ * @throws {BadRequest} When the activity identifier is not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.updateById = async (activityId, activity) => {
+    try {
+        if (!activityId)
+            throw new error.BadRequest('activity data not provided');
+
+        const fieldsToUpdate = {
+            $set: {
+                'name': activity.name,
+                'description': activity.description,
+                'availability': activity.availability,
+                'employee': activity.employee
+            }
+        };
+
+        await ActivityModel.findByIdAndUpdate(activityId, fieldsToUpdate, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid account data.');
+
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        else throw err;
+    }
+};

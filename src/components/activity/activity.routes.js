@@ -11,4 +11,6 @@ router.get('/', activityController.getAllActivities);
 
 router.get('/:id', activityController.getById);
 
+router.put('/:id', activityController.updateById);
+
 module.exports = router;
