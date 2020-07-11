@@ -10,4 +10,9 @@ const planController = require('./plan.controller');
  */
 router.post('/', planController.create);
 
+/**
+ * Get all plans
+ */
+router.get('/', planController.getAllPlans);
+
 module.exports = router;

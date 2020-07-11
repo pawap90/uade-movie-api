@@ -30,3 +30,20 @@ module.exports.create = async (plan) => {
         throw err;
     }
 };
+
+/**
+ * Get all plans
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getAllPlans = async () => {
+    try {
+        const plans = await PlanModel.find();
+
+        return plans;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        else throw err;
+    }
+};
