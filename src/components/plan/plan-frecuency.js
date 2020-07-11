@@ -5,7 +5,7 @@ const frecuencyDictionary = {
     monthly: 'monthly',
     biannual: 'biannual', // Twice a year (every 6 months)
     yearly: 'yearly'
-}
+};
 
 /**
  * Constant options for plan frecuency.
@@ -28,28 +28,28 @@ module.exports.calculateExpiration = (frecuency, date) => {
     if (!frecuencyDictionary[frecuency])
         throw new Error('Invalid frecuency');
 
-    let expirationDate = new Date(date.getTime());
+    const expirationDate = new Date(date.getTime());
 
     switch (frecuency) {
-        case frecuencyDictionary.daily:
-            expirationDate.setDate(date.getDate() + 1);
-            break;
-        case frecuencyDictionary.weekly:
-            expirationDate.setDate(date.getDate() + 7);
-            break;
-        case frecuencyDictionary.biweekly:
-            expirationDate.setDate(date.getDate() + 14);
-            break;
-        case frecuencyDictionary.monthly:
-            expirationDate.setMonth(date.getMonth() + 1);
-            break;
-        case frecuencyDictionary.biannual:
-            expirationDate.setMonth(date.getMonth() + 6);
-            break;
-        case frecuencyDictionary.yearly:
-            expirationDate.setFullYear(date.getFullYear() + 1);
-            break;
+    case frecuencyDictionary.daily:
+        expirationDate.setDate(date.getDate() + 1);
+        break;
+    case frecuencyDictionary.weekly:
+        expirationDate.setDate(date.getDate() + 7);
+        break;
+    case frecuencyDictionary.biweekly:
+        expirationDate.setDate(date.getDate() + 14);
+        break;
+    case frecuencyDictionary.monthly:
+        expirationDate.setMonth(date.getMonth() + 1);
+        break;
+    case frecuencyDictionary.biannual:
+        expirationDate.setMonth(date.getMonth() + 6);
+        break;
+    case frecuencyDictionary.yearly:
+        expirationDate.setFullYear(date.getFullYear() + 1);
+        break;
     }
 
     return expirationDate;
-}
+};
