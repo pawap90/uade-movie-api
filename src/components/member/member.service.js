@@ -1,6 +1,5 @@
 'use strict';
 
-const mongoose = require('mongoose');
 const error = require('throw.js');
 
 const MemberModel = require('./member.model');
@@ -28,7 +27,8 @@ module.exports.getAll = async () => {
  */
 module.exports.getById = async (memberId) => {
     try {
-        return await MemberModel.findById(memberId);
+        return await MemberModel.findById(memberId)
+            .populate('plan');
     }
     catch (err) {
         if (!err.statusCode)
@@ -197,10 +197,7 @@ module.exports.updatePlan = async (id, plan) => {
 
         await MemberModel.findByIdAndUpdate(id, {
             $set: {
-                plan: {
-                    planId: mongoose.Types.ObjectId(plan.planId),
-                    date: new Date()
-                }
+                plan: plan.planId
             }
         }, { runValidators: true });
     }

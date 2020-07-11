@@ -17,13 +17,7 @@ const memberSchema = new mongoose.Schema({
     entryDate: { type: Date, required: true },
     createDate: { type: Date, required: true, default: Date.now() },
     medicalInformation: { type: { medicalInformationModel } },
-    plan: {
-        type: {
-            planId: { type: mongoose.Schema.ObjectId, ref: 'plan', required: true },
-            date: { type: Date, required: true, default: Date.now() }
-        },
-        required: false
-    }
+    plan: { type: mongoose.Schema.ObjectId, ref: 'plan', required: true }
 });
 
 module.exports = mongoose.model('member', memberSchema);
