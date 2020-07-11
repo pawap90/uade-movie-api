@@ -88,10 +88,10 @@ module.exports.updateById = async (activityId, activity) => {
 
         const fieldsToUpdate = {
             $set: {
-                'name': activity.name,
-                'description': activity.description,
-                'availability': activity.availability,
-                'employee': activity.employee
+                name: activity.name,
+                description: activity.description,
+                availability: activity.availability,
+                employee: activity.employee
             }
         };
 
