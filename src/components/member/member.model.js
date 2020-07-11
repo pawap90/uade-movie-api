@@ -16,7 +16,8 @@ const memberSchema = new mongoose.Schema({
     emergencyPhoneNumber: { type: String, required: true },
     entryDate: { type: Date, required: true },
     createDate: { type: Date, required: true, default: Date.now() },
-    medicalInformation: { type: { medicalInformationModel } }
+    medicalInformation: { type: { medicalInformationModel } },
+    plan: { type: mongoose.Schema.ObjectId, ref: 'plan', required: true }
 });
 
 module.exports = mongoose.model('member', memberSchema);

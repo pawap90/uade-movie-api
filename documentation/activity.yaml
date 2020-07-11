@@ -60,3 +60,52 @@ paths:
           description: Activity identifier is missing or its not correct.
         500:
           description: Unexpected error
+    put:
+      tags:
+        - Activity
+      summary: Update an activity by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The activity identifier
+          schema:
+            type: string
+        - in: body
+          name: body
+          required: true
+          example:
+            name: Spinning
+            description: "Spinning uses a fixed bycicle with different techniques. Its run by a former iron man winner"
+            availability: "Monday & Wednesday - 4:30 pm - 18:30 am"
+            employee: "12456asda12"
+      responses:
+        200:
+          description: Activity successfully updated
+        400:
+          description: Activity identifier is missing or the body its not correct.
+        500:
+          description: Unexpected error
+    delete:
+      tags:
+        - Activity
+      summary: Delete an activity by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The activity identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Activity successfully deleted
+        400:
+          description: Activity identifier is missing or its not correct.
+        500:
+          description: Unexpected error
+

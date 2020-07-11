@@ -15,4 +15,9 @@ router.post('/', planController.create);
  */
 router.put('/:id', planController.updateById);
 
+/**
+ * Get all plans
+ */
+router.get('/', planController.getAllPlans);
+
 module.exports = router;
