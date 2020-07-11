@@ -43,3 +43,17 @@ module.exports.getById = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Delete an Activity by id.
+ */
+module.exports.deleteById = async (req, res, next) => {
+    try {
+        await activityService.deleteById(req.params.id);
+
+        return res.json('Success!');
+    }
+    catch (err) {
+        return next(err);
+    }
+};
