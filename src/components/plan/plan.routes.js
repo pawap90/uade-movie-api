@@ -10,4 +10,9 @@ const planController = require('./plan.controller');
  */
 router.post('/', planController.create);
 
+/**
+ * Update a plan by id
+ */
+router.put('/:id', planController.updateById);
+
 module.exports = router;
