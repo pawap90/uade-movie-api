@@ -10,4 +10,9 @@ const planController = require('./plan.controller');
  */
 router.post('/', planController.create);
 
+/**
+ * Delete a plan by id
+ */
+router.delete('/:id', planController.deleteById);
+
 module.exports = router;
