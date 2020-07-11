@@ -40,4 +40,9 @@ router.delete('/:id', memberController.deleteById);
  */
 router.put('/:id/plan', memberController.updatePlan);
 
+/**
+ * Add a new payment from a member.
+ */
+router.post('/:id/payment', memberController.addPayment);
+
 module.exports = router;
