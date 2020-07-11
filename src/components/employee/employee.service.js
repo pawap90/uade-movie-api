@@ -179,19 +179,20 @@ const generateEmployeeNumber = async () => {
  */
 module.exports.createRemunerationById = async (remuneration) => {
     try {
-        if (!remuneration)
+        if (!remuneration || !remuneration.details)
             throw new error.BadRequest('remuneration data not provided');
+
+        const total = remuneration.details.reduce( (acc, det) => {
+            return det.value + acc;
+        }, 0);
 
         let newRemuneration = new remunerationModel();
         newRemuneration = {
             employeeId: remuneration.employeeId,
             date: remuneration.date,
             details: remuneration.details,
-            total: 50
+            total: total
         };
-
-        console.log(newRemuneration);
-
 
         await remunerationModel.create(newRemuneration);
     }
