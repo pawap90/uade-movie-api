@@ -83,7 +83,7 @@ module.exports.getAllActivities = async () => {
  */
 module.exports.updateById = async (activityId, activity) => {
     try {
-        if (!activityId)
+        if (!activityId || !activity)
             throw new error.BadRequest('activity data not provided');
 
         const fieldsToUpdate = {
@@ -99,10 +99,29 @@ module.exports.updateById = async (activityId, activity) => {
     }
     catch (err) {
         if (err.name === 'ValidationError')
-            throw new error.BadRequest('Invalid account data.');
-
+            throw new error.BadRequest('Invalid activity data.');
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error');
-        else throw err;
+        throw err;
+    }
+};
+
+/**
+ * Delete an activity by id
+ * @param {String} activityId Activity identifier
+ * @throws {BadRequest} When the activity identifier is not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.deleteById = async (activityId) => {
+    try {
+        if (!activityId)
+            throw new error.BadRequest('activity id not provided');
+
+        await ActivityModel.findByIdAndDelete(activityId);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        throw err;
     }
 };

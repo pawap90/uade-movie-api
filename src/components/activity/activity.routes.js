@@ -13,4 +13,6 @@ router.get('/:id', activityController.getById);
 
 router.put('/:id', activityController.updateById);
 
+router.delete('/:id', activityController.deleteById);
+
 module.exports = router;
