@@ -77,7 +77,7 @@ module.exports.delete = async (req, res, next) => {
  */
 module.exports.createRemunerationById = async (req, res, next) => {
     try {
-        await employeeService.createRemunerationById(req.body);
+        await employeeService.createRemunerationById(req.params.employeeId, req.body);
 
         return res.json({ message: 'success' });
     }

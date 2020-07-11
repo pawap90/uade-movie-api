@@ -172,14 +172,15 @@ const generateEmployeeNumber = async () => {
 
 /**
  * Creates a new remuneration by an employee id
+ * @param {String} employeeId employee identifier
  * @param {Object} remuneration remuneration data
  * @throws {BadRequest} When the remuneration data is invalid or not provided
  * @throws {InternalServerError} When there's an unexpected error.
  */
-module.exports.createRemunerationById = async (remuneration) => {
+module.exports.createRemunerationById = async (employeeId, remuneration) => {
     try {
-        if (!remuneration || !remuneration.details)
-            throw new error.BadRequest('remuneration data not provided');
+        if (!employeeId || !remuneration || !remuneration.details)
+            throw new error.BadRequest('employeeId or remuneration data not provided');
 
         const total = remuneration.details.reduce((acc, det) => {
             return det.value + acc;
@@ -187,7 +188,7 @@ module.exports.createRemunerationById = async (remuneration) => {
 
         let newRemuneration = new RemunerationModel();
         newRemuneration = {
-            employeeId: remuneration.employeeId,
+            employeeId: employeeId,
             date: remuneration.date,
             details: remuneration.details,
             total: total
@@ -197,7 +198,7 @@ module.exports.createRemunerationById = async (remuneration) => {
     }
     catch (err) {
         if (err.name === 'ValidationError')
-            throw new error.BadRequest('Invalid remuneration data.');
+            throw new error.BadRequest('Invalid remuneration data or employeeId.');
         else if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error');
         else throw err;
