@@ -21,7 +21,7 @@ module.exports.create = async (req, res, next) => {
  */
 module.exports.getAllPlans = async (req, res, next) => {
     try {
-        const plans = await planService.getAllPlans(req.body);
+        const plans = await planService.getAllPlans();
 
         return res.json(plans);
     }
