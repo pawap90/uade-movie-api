@@ -1,6 +1,8 @@
 'use strict';
 
+const mongoose = require('mongoose');
 const error = require('throw.js');
+
 const MemberModel = require('./member.model');
 
 /**
@@ -179,5 +181,32 @@ module.exports.deleteById = async (memberId) => {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error deleting member');
         else throw err;
+    }
+};
+
+/**
+ * Find a member by their id and update their assigned plan.
+ * Creates the plan object if needed.
+ * @param {String} id Member identifier
+ * @param {Object} plan Member's new plan
+ */
+module.exports.updatePlan = async (id, plan) => {
+    try {
+        if (!plan)
+            throw new error.BadRequest('Plan not provided');
+
+        await MemberModel.findByIdAndUpdate(id, {
+            $set: {
+                plan: {
+                    planId: mongoose.Types.ObjectId(plan.planId),
+                    date: new Date()
+                }
+            }
+        }, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid plan.');
+        throw err;
     }
 };
