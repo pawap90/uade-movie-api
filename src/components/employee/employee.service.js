@@ -3,8 +3,7 @@
 const error = require('throw.js');
 
 const EmployeeModel = require('./employee.model');
-const RenumerationModel = require('./remuneration.model');
-const remunerationModel = require('./remuneration.model');
+const RemunerationModel = require('./remuneration.model');
 
 /**
  * Get all employees.
@@ -182,11 +181,11 @@ module.exports.createRemunerationById = async (remuneration) => {
         if (!remuneration || !remuneration.details)
             throw new error.BadRequest('remuneration data not provided');
 
-        const total = remuneration.details.reduce( (acc, det) => {
+        const total = remuneration.details.reduce((acc, det) => {
             return det.value + acc;
         }, 0);
 
-        let newRemuneration = new remunerationModel();
+        let newRemuneration = new RemunerationModel();
         newRemuneration = {
             employeeId: remuneration.employeeId,
             date: remuneration.date,
@@ -194,7 +193,7 @@ module.exports.createRemunerationById = async (remuneration) => {
             total: total
         };
 
-        await remunerationModel.create(newRemuneration);
+        await RemunerationModel.create(newRemuneration);
     }
     catch (err) {
         if (err.name === 'ValidationError')
