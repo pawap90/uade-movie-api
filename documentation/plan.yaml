@@ -14,7 +14,7 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: body. Options are 'daily', 'weekly', 'biweekly', 'monthly', 'biannual', 'yearly'
+          name: body. frecuency values are 'daily', 'weekly', 'biweekly', 'monthly', 'biannual' or 'yearly'
           required: true
           example:
             name: Pay for 6 months!
@@ -42,7 +42,7 @@ paths:
           schema:
             type: string
         - in: body
-          name: body. Options are 'daily', 'weekly', 'biweekly', 'monthly', 'biannual', 'yearly'
+          name: body. Frequency values are 'daily', 'weekly', 'biweekly', 'monthly', 'biannual' or 'yearly'
           required: true
           example:
             name: Pay for 6 months!
