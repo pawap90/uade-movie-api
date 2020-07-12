@@ -85,3 +85,17 @@ module.exports.createRemunerationById = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Get all remunerations
+ */
+module.exports.getAllRemunerations = async (req, res, next) => {
+    try {
+        const remunerations = await employeeService.getAllRemunerations();
+
+        return res.json(remunerations);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
