@@ -5,6 +5,18 @@ securityDefinitions:
     name: Authorization
 
 paths:
+  /member/payment:
+    get:
+      tags:
+        - Member Payments
+      summary: Get all payments
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Payments successfully retrieved
+        500:
+          description: Unexpected error
   /member/{id}/payment:
     post:
       tags:

@@ -37,3 +37,19 @@ module.exports.addPayment = async (memberId) => {
         throw err;
     }
 };
+
+/**
+ * Get all payments populated and sorted
+ * @throws {InternalServerError} Unexpected error.
+ */
+module.exports.getAllPayments = async () => {
+    try {
+        const payments = await PaymentModel.find().sort({ date: -1 }).populate('member', 'memberNumber persona.name persona.lastName').populate('plan', 'name');
+        
+        return payments;
+    } catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting all payments');
+        throw err;
+    }
+};
