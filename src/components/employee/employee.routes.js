@@ -11,6 +11,11 @@ const employeeController = require('./employee.controller');
 router.get('/', employeeController.getAll);
 
 /**
+ * Get all remunerations.
+ */
+router.get('/remuneration', employeeController.getAllRemunerations);
+
+/**
  * Get employee by id.
  */
 router.get('/:id', employeeController.getById);
