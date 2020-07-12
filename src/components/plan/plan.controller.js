@@ -17,6 +17,20 @@ module.exports.create = async (req, res, next) => {
 };
 
 /**
+ * Delete a plan by id.
+ */
+module.exports.deleteById = async (req, res, next) => {
+    try {
+        await planService.deleteById(req.params.id);
+
+        return res.json({ message: 'success' });
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Update plan by id.
  */
 module.exports.updateById = async (req, res, next) => {

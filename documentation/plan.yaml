@@ -39,6 +39,26 @@ paths:
         500:
           description: Unexpected error
   /plan/{id}:
+    delete:
+      tags:
+        - Plan
+      summary: Delete a plan by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The plan identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Plan successfully deleted
+        400:
+          description: Validation error. Verify the plan's identifier
+        500:
+          description: Unexpected error
     put:
       tags:
         - Plan
@@ -66,4 +86,3 @@ paths:
           description: Validation error. Verify the request's body and identifier.
         500:
           description: Unexpected error
-    
