@@ -32,6 +32,26 @@ module.exports.create = async (plan) => {
 };
 
 /**
+ * Delete a plan by id
+ * @param {String} planId Plan identifier
+ * @throws {BadRequest} When the plan identifier is invalid or not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.deleteById = async (planId) => {
+    try {
+        if (!planId)
+            throw new error.BadRequest('plan identifier not provided');
+
+        await PlanModel.findByIdAndDelete(planId);
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        throw err;
+    }
+};
+
+/**
  * Updates a plan by id
  * @param {String} planId Plan identifier
  * @param {Object} plan Plan data
