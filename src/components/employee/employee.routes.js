@@ -40,4 +40,10 @@ router.delete('/:id', employeeController.delete);
  */
 router.post('/:employeeId/remuneration', employeeController.createRemunerationById);
 
+/**
+ * Gets remunerations by an employee id.
+ */
+router.get('/:employeeId/remuneration', employeeController.getRemunerationsByEmployeeId);
+
+
 module.exports = router;

@@ -99,3 +99,17 @@ module.exports.getAllRemunerations = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Get all remunerations by an employee id
+ */
+module.exports.getRemunerationsByEmployeeId = async (req, res, next) => {
+    try {
+        const remunerations = await employeeService.getRemunerationsByEmployeeId(req.params.employeeId);
+
+        return res.json(remunerations);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
