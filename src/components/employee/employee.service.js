@@ -211,9 +211,8 @@ module.exports.createRemunerationById = async (employeeId, remuneration) => {
  */
 module.exports.getAllRemunerations = async () => {
     try {
-        const remunerations = await RemunerationModel.find().select('date total employeeId').populate('employeeId');
+        const remunerations = await RemunerationModel.find().select('date total employeeId').populate('employeeId', 'employeeNumber persona.name persona.lastName');
 
-        console.log(remunerations);
         return remunerations;
     }
     catch (err) {
