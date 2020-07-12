@@ -71,3 +71,17 @@ module.exports.delete = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Create remuneration by an employee id.
+ */
+module.exports.createRemunerationById = async (req, res, next) => {
+    try {
+        await employeeService.createRemunerationById(req.params.employeeId, req.body);
+
+        return res.json({ message: 'success' });
+    }
+    catch (err) {
+        return next(err);
+    }
+};

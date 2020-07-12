@@ -35,4 +35,9 @@ router.put('/:id', memberController.updateById);
  */
 router.delete('/:id', memberController.deleteById);
 
+/**
+ * Update member plan by id
+ */
+router.put('/:id/plan', memberController.updatePlan);
+
 module.exports = router;

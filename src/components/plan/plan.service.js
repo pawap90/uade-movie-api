@@ -50,3 +50,51 @@ module.exports.deleteById = async (planId) => {
         throw err;
     }
 };
+
+/**
+ * Updates a plan by id
+ * @param {String} planId Plan identifier
+ * @param {Object} plan Plan data
+ * @throws {BadRequest} When the plan data or identifier is invalid or not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.updateById = async (planId, plan) => {
+    try {
+        if (!plan || !planId)
+            throw new error.BadRequest('plan data or identifier not provided');
+
+        const fieldsToUpdate = {
+            $set: {
+                name: plan.name,
+                frecuency: plan.frecuency,
+                price: plan.price
+            }
+        };
+
+        await PlanModel.findByIdAndUpdate(planId, fieldsToUpdate, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid data. Verify request body and identifier');
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        throw err;
+    }
+};
+
+/**
+ * Get all plans
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getAllPlans = async () => {
+    try {
+        const plans = await PlanModel.find();
+
+        return plans;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        else throw err;
+    }
+};

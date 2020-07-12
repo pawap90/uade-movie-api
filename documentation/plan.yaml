@@ -14,7 +14,7 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: body
+          name: body. frecuency values are 'daily', 'weekly', 'biweekly', 'monthly', 'biannual' or 'yearly'
           required: true
           example:
             name: Pay for 6 months!
@@ -25,6 +25,17 @@ paths:
           description: Plan successfully created
         400:
           description: Validation error. Verify the request's body.
+        500:
+          description: Unexpected error
+    get:
+      tags:
+        - Plan
+      summary: Get all plans
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Plans successfully retrieved
         500:
           description: Unexpected error
   /plan/{id}:
@@ -46,5 +57,32 @@ paths:
           description: Plan successfully deleted
         400:
           description: Validation error. Verify the plan's identifier
+        500:
+          description: Unexpected error
+    put:
+      tags:
+        - Plan
+      summary: Update a plan by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The plan identifier
+          schema:
+            type: string
+        - in: body
+          name: body. Frequency values are 'daily', 'weekly', 'biweekly', 'monthly', 'biannual' or 'yearly'
+          required: true
+          example:
+            name: Pay for 6 months!
+            frecuency: biannual
+            price: 199
+      responses:
+        200:
+          description: Plan successfully updated
+        400:
+          description: Validation error. Verify the request's body and identifier.
         500:
           description: Unexpected error
