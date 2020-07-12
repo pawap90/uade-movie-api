@@ -221,3 +221,25 @@ module.exports.getAllRemunerations = async () => {
         else throw err;
     }
 };
+
+/**
+ * Get a remuneration by an employee id and a remuneration id.
+ * @param {String} employeeId employee identifier
+ * @param {String} remunerationId remuneration identifier
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (employeeId, remunerationId) => {
+    try {
+        if (!employeeId || !remunerationId)
+            throw new error.BadRequest('employeeId or remunerationId not provided');
+
+        const remuneration = await RemunerationModel.find({ employeeId: employeeId, _id: remunerationId }).populate('employeeId');
+
+        return remuneration;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting the remuneration');
+        else throw err;
+    }
+};
