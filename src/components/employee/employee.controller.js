@@ -100,7 +100,6 @@ module.exports.getAllRemunerations = async (req, res, next) => {
     }
 };
 
-
 /**
  * Get a remuneration by an employee id and a remuneration id
  */

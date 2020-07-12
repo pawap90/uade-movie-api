@@ -43,6 +43,6 @@ router.post('/:employeeId/remuneration', employeeController.createRemunerationBy
 /**
  * Get a remuneration by an employee id and a remuneration id
  */
-router.post('/:employeeId/remuneration/:remunerationiId', employeeController.getRemunerationByEmployeeIdAndRemunerationId);
+router.get('/:employeeId/remuneration/:remunerationId', employeeController.getRemunerationByEmployeeIdAndRemunerationId);
 
 module.exports = router;
