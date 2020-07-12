@@ -26,7 +26,7 @@ paths:
         - application/json
       parameters:
         - in: path
-          name: id
+          name: employeeId
           required: true
           description: The employee identifier
           schema:
