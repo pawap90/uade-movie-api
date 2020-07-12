@@ -5,6 +5,18 @@ securityDefinitions:
     name: Authorization
 
 paths:
+  /employee/remuneration:
+    get:
+      tags:
+        - Employee remunerations
+      summary: Get all remunerations
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Remunerations successfully retrieved
+        500:
+          description: Unexpected error
   /employee/{employeeId}/remuneration:
     post:
       tags:

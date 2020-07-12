@@ -204,3 +204,21 @@ module.exports.createRemunerationById = async (employeeId, remuneration) => {
         else throw err;
     }
 };
+
+/**
+ * Get all remunerations.
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getAllRemunerations = async () => {
+    try {
+        const remunerations = await RemunerationModel.find().select('date total employeeId').populate('employee', 'employeeNumber persona.name persona.lastName');
+
+        console.log(remunerations);
+        return remunerations;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting all remunerations');
+        else throw err;
+    }
+};
