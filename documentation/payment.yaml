@@ -1,0 +1,28 @@
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: Authorization
+
+paths:
+  /member/{id}/payment:
+    post:
+      tags:
+        - Member Payments
+      summary: Register a new payment from a member.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Member's payment successfully registered
+        400:
+          description: Validation error.
+        500:
+          description: Unexpected error
