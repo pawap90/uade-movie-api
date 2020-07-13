@@ -64,7 +64,7 @@ paths:
     get:
       tags:
         - Employee remunerations
-      summary: Get all remunerations for a specified employe by its employee id
+      summary: Get all remunerations for a specified employee by its employee id
       produces:
         - application/json
       parameters:
