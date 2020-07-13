@@ -61,6 +61,24 @@ paths:
           description: Validation error. Verify the request's body.
         500:
           description: Unexpected error
+    get:
+      tags:
+        - Employee remunerations
+      summary: Get all remunerations for a specified employee by its employee id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          description: The employee identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Remunerations successfully retrieved
+        500:
+          description: Unexpected error
   /employee/{employeeId}/remuneration/{remunerationId}:
     get:
       tags:

@@ -244,3 +244,25 @@ module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (employeeId,
         else throw err;
     }
 };
+
+/**
+ * Get all remunerations by an employee by id.
+ * @param {String} employeeId Employee identifier
+ * @throws {BadRequest} When the employee id is not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getRemunerationsByEmployeeId = async (employeeId) => {
+    try {
+        if (!employeeId)
+            throw new error.BadRequest('employee id not provided');
+
+        const remunerations = await RemunerationModel.find({ employeeId: employeeId }).select('date total employeeId').sort({ date: -1 }).populate('employeeId', 'employeeNumber persona.name persona.lastName');
+
+        return remunerations;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting remunerations for an employee');
+        else throw err;
+    }
+};

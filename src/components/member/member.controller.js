@@ -18,6 +18,20 @@ module.exports.getAll = async (req, res, next) => {
 };
 
 /**
+ * Get all payments
+ */
+module.exports.getAllPayments = async (req, res, next) => {
+    try {
+        const payments = await paymentService.getAllPayments();
+
+        return res.json(payments);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Get member by id
  */
 module.exports.getById = async (req, res, next) => {
