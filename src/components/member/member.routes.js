@@ -6,6 +6,11 @@ const router = express.Router();
 const memberController = require('./member.controller');
 
 /**
+ * Get all payments
+ */
+router.get('/payment', memberController.getAllPayments);
+
+/**
  * Get all members
  */
 router.get('/', memberController.getAll);
