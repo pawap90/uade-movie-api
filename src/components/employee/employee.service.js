@@ -188,7 +188,7 @@ module.exports.createRemunerationById = async (employeeId, remuneration) => {
 
         let newRemuneration = new RemunerationModel();
         newRemuneration = {
-            employeeId: employeeId,
+            employee: employeeId,
             date: remuneration.date,
             details: remuneration.details,
             total: total
@@ -211,13 +211,41 @@ module.exports.createRemunerationById = async (employeeId, remuneration) => {
  */
 module.exports.getAllRemunerations = async () => {
     try {
-        const remunerations = await RemunerationModel.find().select('date total employeeId').sort({ date: -1 }).populate('employeeId', 'employeeNumber persona.name persona.lastName');
+        const remunerations = await RemunerationModel.find()
+            .select('date total employee')
+            .sort({ date: -1 })
+            .populate('employee', 'employeeNumber persona.name persona.lastName');
 
         return remunerations;
     }
     catch (err) {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error getting all remunerations');
+        else throw err;
+    }
+};
+
+/**
+ * Get all remunerations by an employee by id.
+ * @param {String} employeeId Employee identifier.
+ * @throws {BadRequest} When the employee id is not provided
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getRemunerationsByEmployeeId = async (employeeId) => {
+    try {
+        if (!employeeId)
+            throw new error.BadRequest('employee id not provided');
+
+        const remunerations = await RemunerationModel.find({ employee: employeeId })
+            .select('date total employee')
+            .sort({ date: -1 })
+            .populate('employee', 'employeeNumber persona.name persona.lastName');
+
+        return remunerations;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting remunerations for an employee');
         else throw err;
     }
 };
@@ -234,35 +262,14 @@ module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (employeeId,
         if (!employeeId || !remunerationId)
             throw new error.BadRequest('employeeId or remunerationId were not provided');
 
-        const remuneration = await RemunerationModel.find({ employeeId: employeeId, _id: remunerationId }).populate('employeeId');
+        const remuneration = await RemunerationModel.find({ employee: employeeId, _id: remunerationId })
+            .populate('employee');
 
         return remuneration;
     }
     catch (err) {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error getting the remuneration');
-        else throw err;
-    }
-};
-
-/**
- * Get all remunerations by an employee by id.
- * @param {String} employeeId Employee identifier
- * @throws {BadRequest} When the employee id is not provided
- * @throws {InternalServerError} When there's an unexpected error.
- */
-module.exports.getRemunerationsByEmployeeId = async (employeeId) => {
-    try {
-        if (!employeeId)
-            throw new error.BadRequest('employee id not provided');
-
-        const remunerations = await RemunerationModel.find({ employeeId: employeeId }).select('date total employeeId').sort({ date: -1 }).populate('employeeId', 'employeeNumber persona.name persona.lastName');
-
-        return remunerations;
-    }
-    catch (err) {
-        if (!err.statusCode)
-            throw new error.InternalServerError('Unexpected error getting remunerations for an employee');
         else throw err;
     }
 };

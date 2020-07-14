@@ -14,7 +14,7 @@ const DetailSchema = new mongoose.Schema({
  * Remuneration model schema.
  */
 const remunerationSchema = new mongoose.Schema({
-    employeeId: { type: mongoose.Schema.ObjectId, ref: 'employee', required: true },
+    employee: { type: mongoose.Schema.ObjectId, ref: 'employee', required: true },
     date: { type: Date, required: true },
     details: { type: [DetailSchema], required: true },
     total: { type: Number, required: true }
