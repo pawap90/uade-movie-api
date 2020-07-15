@@ -3,51 +3,52 @@
 const express = require('express');
 const router = express.Router();
 
+const authorize = require('../../middleware/authorization');
 const memberController = require('./member.controller');
 
 /**
  * Get all payments
  */
-router.get('/payment', memberController.getAllPayments);
+router.get('/payment', authorize, memberController.getAllPayments);
 
 /**
  * Get all members
  */
-router.get('/', memberController.getAll);
+router.get('/', authorize, memberController.getAll);
 
 /**
  * Get member by id
  */
-router.get('/:id', memberController.getById);
+router.get('/:id', authorize, memberController.getById);
 
 /**
  * Create member
  */
-router.post('/', memberController.create);
+router.post('/', authorize, memberController.create);
 
 /**
  * Add medical information to a member
  */
-router.put('/:id/medical-information', memberController.updateMedicalInfo);
+router.put('/:id/medical-information', authorize, memberController.updateMedicalInfo);
 
 /**
  * Update member information by id
  */
-router.put('/:id', memberController.updateById);
+router.put('/:id', authorize, memberController.updateById);
 
 /**
  * Delete member by id
  */
-router.delete('/:id', memberController.deleteById);
+router.delete('/:id', authorize, memberController.deleteById);
 
 /**
  * Update member plan by id
  */
-router.put('/:id/plan', memberController.updatePlan);
+router.put('/:id/plan', authorize, memberController.updatePlan);
 
 /**
  * Add a new payment from a member.
  */
-router.post('/:id/payment', memberController.addPayment);
+router.post('/:id/payment', authorize, memberController.addPayment);
 
 module.exports = router;
