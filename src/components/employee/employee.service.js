@@ -213,7 +213,7 @@ module.exports.createRemunerationById = async (employeeId, remuneration) => {
  */
 module.exports.getAllRemunerations = async (dateStart, dateEnd) => {
     try {
-        if (dateStart && (!dateEnd || dateEnd.length === 0) || dateEnd && (!dateStart || dateStart.length === 0))
+        if ((dateStart && !dateEnd) || (dateEnd && !dateStart))
             throw new error.BadRequest('When using the date filter please provide both dates');
 
         let filter = {};
