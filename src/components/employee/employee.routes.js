@@ -9,7 +9,7 @@ const employeeController = require('./employee.controller');
 /**
  * Get all employees.
  */
-router.get('/', employeeController.getAll);
+router.get('/', authorize, employeeController.getAll);
 
 /**
  * Get all remunerations.

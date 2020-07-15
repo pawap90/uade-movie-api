@@ -207,11 +207,32 @@ module.exports.createRemunerationById = async (employeeId, remuneration) => {
 
 /**
  * Get all remunerations.
+ * @param {String} dateStart Retrieve remunerations created before this date. String date format yyyy/MM/dd
+ * @param {String} dateEnd Retrieve remunerations created after this date. String date format yyyy/MM/dd
  * @throws {InternalServerError} When there's an unexpected error.
  */
-module.exports.getAllRemunerations = async () => {
+module.exports.getAllRemunerations = async (dateStart, dateEnd) => {
     try {
-        const remunerations = await RemunerationModel.find()
+        if ((dateStart && !dateEnd) || (dateEnd && !dateStart))
+            throw new error.BadRequest('When using the date filter please provide both dates');
+
+        let filter = {};
+
+        if (dateStart && dateEnd) {
+            // Parse strings to Date.
+            const auxDateStart = new Date(dateStart);
+            const auxDateEnd = new Date(dateEnd);
+
+            // Set time include the whole day.
+            auxDateStart.setHours(0, 0, 0, 0);
+            auxDateEnd.setHours(23, 59, 59, 999);
+
+            // Date range filter.
+            filter = { date: { $gte: auxDateStart, $lte: auxDateEnd } };
+        }
+
+        // Execute query.
+        const remunerations = await RemunerationModel.find(filter)
             .select('date total employee')
             .sort({ date: -1 })
             .populate('employee', 'employeeNumber persona.name persona.lastName');

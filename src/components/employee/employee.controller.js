@@ -91,7 +91,9 @@ module.exports.createRemunerationById = async (req, res, next) => {
  */
 module.exports.getAllRemunerations = async (req, res, next) => {
     try {
-        const remunerations = await employeeService.getAllRemunerations();
+        const { dateStart, dateEnd } = req.query;
+
+        const remunerations = await employeeService.getAllRemunerations(dateStart, dateEnd);
 
         return res.json(remunerations);
     }
