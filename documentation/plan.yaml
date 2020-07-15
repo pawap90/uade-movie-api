@@ -7,6 +7,8 @@ securityDefinitions:
 paths:
   /plan:
     post:
+      security:
+        - APIKeyHeader: []
       tags:
         - Plan
       summary: Create a new plan
@@ -28,6 +30,8 @@ paths:
         500:
           description: Unexpected error
     get:
+      security:
+        - APIKeyHeader: []
       tags:
         - Plan
       summary: Get all plans
@@ -40,6 +44,8 @@ paths:
           description: Unexpected error
   /plan/{id}:
     delete:
+      security:
+        - APIKeyHeader: []
       tags:
         - Plan
       summary: Delete a plan by id
@@ -60,6 +66,8 @@ paths:
         500:
           description: Unexpected error
     put:
+      security:
+        - APIKeyHeader: []
       tags:
         - Plan
       summary: Update a plan by id

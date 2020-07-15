@@ -3,16 +3,17 @@
 const express = require('express');
 const router = express.Router();
 
+const authorize = require('../../middleware/authorization');
 const activityController = require('./activity.controller');
 
-router.post('/', activityController.create);
+router.post('/', authorize, activityController.create);
 
-router.get('/', activityController.getAllActivities);
+router.get('/', authorize, activityController.getAllActivities);
 
-router.get('/:id', activityController.getById);
+router.get('/:id', authorize, activityController.getById);
 
-router.put('/:id', activityController.updateById);
+router.put('/:id', authorize, activityController.updateById);
 
-router.delete('/:id', activityController.deleteById);
+router.delete('/:id', authorize, activityController.deleteById);
 
 module.exports = router;

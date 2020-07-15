@@ -7,6 +7,8 @@ securityDefinitions:
 paths:
   /employee/remuneration:
     get:
+      security:
+        - APIKeyHeader: []
       tags:
         - Employee remunerations
       summary: Get all remunerations
@@ -19,6 +21,8 @@ paths:
           description: Unexpected error
   /employee/{employeeId}/remuneration:
     post:
+      security:
+        - APIKeyHeader: []
       tags:
         - Employee remunerations
       summary: Creates a new remuneration by an employee id
@@ -62,6 +66,8 @@ paths:
         500:
           description: Unexpected error
     get:
+      security:
+        - APIKeyHeader: []
       tags:
         - Employee remunerations
       summary: Get all remunerations for a specified employee by its employee id
@@ -81,6 +87,8 @@ paths:
           description: Unexpected error
   /employee/{employeeId}/remuneration/{remunerationId}:
     get:
+      security:
+        - APIKeyHeader: []
       tags:
         - Employee remunerations
       summary: Get a remuneration by an employee id and a remuneration id.
