@@ -7,6 +7,8 @@ securityDefinitions:
 paths:
   /activity:
     post:
+      security:
+        - APIKeyHeader: []
       tags:
         - Activity
       summary: Create a new activity
@@ -29,6 +31,8 @@ paths:
         500:
           description: Unexpected error
     get:
+      security:
+        - APIKeyHeader: []
       tags:
         - Activity
       summary: Get all activities
@@ -41,6 +45,8 @@ paths:
           description: Unexpected error
   /activity/{id}:
     get:
+      security:
+        - APIKeyHeader: []
       tags:
         - Activity
       summary: Get an activity by id
@@ -61,6 +67,8 @@ paths:
         500:
           description: Unexpected error
     put:
+      security:
+        - APIKeyHeader: []
       tags:
         - Activity
       summary: Update an activity by id
@@ -89,6 +97,8 @@ paths:
         500:
           description: Unexpected error
     delete:
+      security:
+        - APIKeyHeader: []
       tags:
         - Activity
       summary: Delete an activity by id

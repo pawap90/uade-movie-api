@@ -7,6 +7,8 @@ securityDefinitions:
 paths:
   /member/payment:
     get:
+      security:
+        - APIKeyHeader: []
       tags:
         - Member Payments
       summary: Get all payments
@@ -19,6 +21,8 @@ paths:
           description: Unexpected error
   /member/{id}/payment:
     post:
+      security:
+        - APIKeyHeader: []
       tags:
         - Member Payments
       summary: Register a new payment from a member.

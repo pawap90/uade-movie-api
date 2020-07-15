@@ -7,6 +7,8 @@ securityDefinitions:
 paths:
   /employee:
     get:
+      security:
+        - APIKeyHeader: []
       tags:
         - Employee
       summary: Get a complete list of employees
@@ -18,6 +20,8 @@ paths:
         500:
           description: Unexpected error
     post:
+      security:
+        - APIKeyHeader: []
       tags:
         - Employee
       summary: Create a new employee
@@ -49,6 +53,8 @@ paths:
           description: Unexpected error
   /employee/{id}:
     get:
+      security:
+        - APIKeyHeader: []
       tags:
         - Employee
       summary: Get an existent employee by id
@@ -71,6 +77,8 @@ paths:
         500:
           description: Unexpected error
     put:
+      security:
+        - APIKeyHeader: []
       tags:
         - Employee
       summary: Update an existent employee by id
@@ -107,6 +115,8 @@ paths:
         500:
           description: Unexpected error
     delete:
+      security:
+        - APIKeyHeader: []
       tags:
         - Employee
       summary: Delete a single employee by id
