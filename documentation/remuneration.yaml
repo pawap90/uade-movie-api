@@ -21,7 +21,7 @@ paths:
           description: | 
             Return the remunerations created **after** this date. 
             Must be used together with `dateEnd`.
-            Format: `yyyy/MM/yy`
+            Format: `yyyy/MM/dd`
             Example: `2020/07/14`
           schema:
             type: string 
@@ -32,7 +32,7 @@ paths:
           description: | 
             Return the remunerations created **before** this date. 
             Must be used together with `dateStart`. 
-            Format: `yyyy/MM/yy`
+            Format: `yyyy/MM/dd`
             Example: `2020/07/21`
           schema:
             type: string
