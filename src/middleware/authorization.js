@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
     const token = req.headers.authorization;
 
     if (!token)
-        throw new error.Unauthorized('Must provide credentials');
+        throw new error.Unauthorized('Must provide a token');
 
     try {
         const userClaims = securityHelper.verifyJwt(token);
