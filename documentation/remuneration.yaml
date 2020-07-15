@@ -14,6 +14,29 @@ paths:
       summary: Get all remunerations
       produces:
         - application/json
+      parameters:
+        - in: query
+          name: dateStart
+          required: false
+          description: | 
+            Return the remunerations created **after** this date. 
+            Must be used together with `dateEnd`.
+            Format: `yyyy/MM/yy`
+            Example: `2020/07/14`
+          schema:
+            type: string 
+            format: date 
+        - in: query
+          name: dateEnd
+          required: false
+          description: | 
+            Return the remunerations created **before** this date. 
+            Must be used together with `dateStart`. 
+            Format: `yyyy/MM/yy`
+            Example: `2020/07/21`
+          schema:
+            type: string
+            format: date 
       responses:
         200:
           description: Remunerations successfully retrieved
