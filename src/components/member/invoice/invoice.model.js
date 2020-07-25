@@ -39,7 +39,7 @@ const invoiceItemSchema = new mongoose.Schema({
  * Invoice model schema.
  */
 const invoiceSchema = new mongoose.Schema({
-    invoiceCode: { type: String, required: true },
+    invoiceNumber: { type: String, required: true },
     startDate: { type: Date, required: true, default: Date.now() },
     endDate: { type: Date, required: true },
     expirationDate: { type: Date, required: true },
