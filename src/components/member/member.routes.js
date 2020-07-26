@@ -51,4 +51,9 @@ router.put('/:id/plan', authorize, memberController.updatePlan);
  */
 router.post('/:id/payment', authorize, memberController.addPayment);
 
+/**
+ * Add a new invoice for a member.
+ */
+router.post('/:id/invoice', authorize, memberController.addInvoice);
+
 module.exports = router;
