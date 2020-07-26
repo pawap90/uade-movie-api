@@ -18,22 +18,23 @@ module.exports.create = async (memberId, invoice) => {
         if (!invoice || !memberId)
             throw new error.BadRequest('Invoice data or Current member id not provided');
 
-        currentMember = MemberService.getById(memberId);
+        const currentMember = await MemberService.getById(memberId);
 
         // Create an MemberModel instance to allow mongoose to validate the model.
         let newInvoice = new InvoiceModel();
         newInvoice = {
             invoiceNumber: await generateInvoiceNumber(),
-            endDate: PlanFrecuency(currentMember.plan.frecuency, Date.now()),
+            endDate: PlanFrecuency.calculateExpiration(currentMember.plan.frecuency, new Date()),
             invoiceType: invoice.invoiceType,
             expirationDate: invoice.expirationDate,
+            total: currentMember.plan.price,
             paymentDate: null
         };
         newInvoice.sender = {
             cuit: 'check legalData',
             sellingAddressCode: 'check legalData',
             grossIncome: 'check legalData',
-            activityStartDate: 'check legalData',
+            activityStartDate: Date.now(),
             legalName: 'check legalData',
             legalAddress: 'check legalData',
             vatCondition: 'check legalData'
@@ -44,14 +45,21 @@ module.exports.create = async (memberId, invoice) => {
             cuit: 'hardcoded cuit',
             address: currentMember.persona.address
         };
+        newInvoice.details = [
+            {
+                name: `${currentMember.plan.frecuency} - ${currentMember.plan.name}`,
+                unitPrice: currentMember.plan.price,
+                subtotal: currentMember.plan.price
+            }
+        ];
 
         await InvoiceModel.create(newInvoice);
     }
     catch (err) {
-        if (err.name === 'ValidationError')
-            throw new error.BadRequest('Invalid Invoice data.');
-        if (!err.statusCode)
-            throw new error.InternalServerError('Unexpected error');
+        // if (err.name === 'ValidationError')
+        //     throw new error.BadRequest('Invalid Invoice data.');
+        // if (!err.statusCode)
+        //     throw new error.InternalServerError('Unexpected error');
         throw err;
     }
 };
