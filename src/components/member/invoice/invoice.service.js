@@ -5,49 +5,53 @@ const error = require('throw.js');
 const InvoiceModel = require('./invoice.model');
 
 const MemberService = require('../member.service');
+const PlanFrecuency = require('../../plan/plan-frecuency');
 
 /**
  * Creates a new invoice
- * @param {String} currentMemberId Member identificator
+ * @param {String} memberId Member identificator
  * @param {String} invoice Invoice data
  * @throws {InternalServerError} When there's an unexpected error.
  */
-module.exports.create = async (currentMemberId, invoice) => {
+module.exports.create = async (memberId, invoice) => {
     try {
-        if (!invoice || !currentMemberId)
+        if (!invoice || !memberId)
             throw new error.BadRequest('Invoice data or Current member id not provided');
 
-        currentMember = MemberService.getById(currentMemberId);
+        currentMember = MemberService.getById(memberId);
 
         // Create an MemberModel instance to allow mongoose to validate the model.
         let newInvoice = new InvoiceModel();
         newInvoice = {
             invoiceNumber: await generateInvoiceNumber(),
-            endDate: invoice.endDate,
-            expirationDate: invoice.expirationDate,
+            endDate: PlanFrecuency(currentMember.plan.frecuency, Date.now()),
             invoiceType: invoice.invoiceType,
-            paymentDate: null,
+            expirationDate: invoice.expirationDate,
+            paymentDate: null
         };
         newInvoice.sender = {
-            cuit: '12-12345678-9',
-            sellingAddressCode: '00001',
-            grossIncome: '12-12345678-9',
-            activityStartDate: '07-01-2020',
-            legalName: 'Gimnasio A',
-            legalAddress: 'Calle A 1234 - Ciudad de buenos aires',
-            vatCondition: 'Responsable Inscripto'
+            cuit: 'check legalData',
+            sellingAddressCode: 'check legalData',
+            grossIncome: 'check legalData',
+            activityStartDate: 'check legalData',
+            legalName: 'check legalData',
+            legalAddress: 'check legalData',
+            vatCondition: 'check legalData'
         };
         newInvoice.receiver = {
-            name: 'Jane',
-            lastName: 'Monkeys',
-            cuit: '12-12345678-9',
-            address: 'Always Alive Av. 456'
+            name: currentMember.persona.name,
+            lastName: currentMember.persona.lastName,
+            cuit: 'hardcoded cuit',
+            address: currentMember.persona.address
         };
 
-
-        await MemberModel.create(newMember);
+        await InvoiceModel.create(newInvoice);
     }
     catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid Invoice data.');
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
         throw err;
     }
 };
