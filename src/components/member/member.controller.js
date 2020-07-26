@@ -135,7 +135,7 @@ module.exports.addPayment = async (req, res, next) => {
  */
 module.exports.addInvoice = async (req, res, next) => {
     try {
-        await invoiceService.create(req.params.id, req.body)
+        await invoiceService.create(req.params.id, req.body);
 
         return res.json('Success!');
     }
