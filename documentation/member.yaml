@@ -39,6 +39,7 @@ paths:
             dateOfBirth: 1990-01-01
             entryDate: 2020-07-03
             dni: "20808102"
+            cuit: "20-12123123-2"
             emergencyPhoneNumber: "11-1223-2312"
       responses:
         200:
@@ -95,6 +96,7 @@ paths:
             address: my own street 415
             dateOfBirth: 1990-01-01
             dni: "25808909"
+            cuit: "20-12123123-2"
             emergencyPhoneNumber: "11-2345-5432"
       responses:
         200:
