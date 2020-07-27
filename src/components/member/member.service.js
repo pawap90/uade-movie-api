@@ -57,7 +57,8 @@ module.exports.create = async (member) => {
             memberNumber: await generateMemberNumber(),
             dni: member.dni,
             emergencyPhoneNumber: member.emergencyPhoneNumber,
-            entryDate: member.entryDate
+            entryDate: member.entryDate,
+            cuit: member.cuit
         };
         newMember.persona = {
             name: member.name,
@@ -148,6 +149,7 @@ module.exports.updateById = async (id, member) => {
             $set: {
                 emergencyPhoneNumber: member.emergencyPhoneNumber,
                 dni: member.dni,
+                cuit: member.cuit,
                 persona: {
                     name: member.name,
                     lastName: member.lastName,

@@ -13,6 +13,7 @@ const memberSchema = new mongoose.Schema({
     persona: { type: personaModel, required: false },
     memberNumber: { type: String, required: true }, // User friendly, 6 digit number - E.g: 000001
     dni: { type: String, required: true },
+    cuit: { type: String, required: true },
     emergencyPhoneNumber: { type: String, required: true },
     entryDate: { type: Date, required: true },
     createDate: { type: Date, required: true, default: Date.now() },
