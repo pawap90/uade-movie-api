@@ -51,10 +51,10 @@ module.exports.create = async (memberId, invoice) => {
         await InvoiceModel.create(newInvoice);
     }
     catch (err) {
-        // if (err.name === 'ValidationError')
-        //     throw new error.BadRequest('Invalid Invoice data.');
-        // if (!err.statusCode)
-        //     throw new error.InternalServerError('Unexpected error');
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid Invoice data.');
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
         throw err;
     }
 };
