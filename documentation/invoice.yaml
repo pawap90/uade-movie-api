@@ -1,0 +1,36 @@
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: Authorization
+
+paths:
+  /member/{id}/invoice:
+    post:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Member Invoice
+      summary: Register a new invoice for a member.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+        - in: body
+          name: body
+          required: true
+          example:
+            expirationDate: 2020-09-03
+            invoiceType: "Factura A"
+      responses:
+        200:
+          description: Member's invoice successfully registered
+        400:
+          description: Validation error.
+        500:
+          description: Unexpected error

@@ -2,6 +2,7 @@
 
 const memberService = require('./member.service');
 const paymentService = require('./payment/payment.service');
+const invoiceService = require('./invoice/invoice.service');
 
 /**
  * Get all members
@@ -121,6 +122,20 @@ module.exports.updatePlan = async (req, res, next) => {
 module.exports.addPayment = async (req, res, next) => {
     try {
         await paymentService.addPayment(req.params.id);
+
+        return res.json('Success!');
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
+ * Add a new invoice for a member.
+ */
+module.exports.addInvoice = async (req, res, next) => {
+    try {
+        await invoiceService.create(req.params.id, req.body);
 
         return res.json('Success!');
     }
