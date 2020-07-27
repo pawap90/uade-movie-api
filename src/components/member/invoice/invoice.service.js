@@ -6,6 +6,7 @@ const InvoiceModel = require('./invoice.model');
 
 const MemberService = require('../member.service');
 const PlanFrecuency = require('../../plan/plan-frecuency');
+const LegalData = require('../../../gym-legal-data');
 
 /**
  * Creates a new invoice
@@ -30,19 +31,10 @@ module.exports.create = async (memberId, invoice) => {
             total: currentMember.plan.price,
             paymentDate: null
         };
-        newInvoice.sender = {
-            cuit: 'check legalData',
-            sellingAddressCode: 'check legalData',
-            grossIncome: 'check legalData',
-            activityStartDate: Date.now(),
-            legalName: 'check legalData',
-            legalAddress: 'check legalData',
-            vatCondition: 'check legalData'
-        };
         newInvoice.receiver = {
             name: currentMember.persona.name,
             lastName: currentMember.persona.lastName,
-            cuit: 'hardcoded cuit',
+            cuit: currentMember.cuit,
             address: currentMember.persona.address
         };
         newInvoice.details = [
@@ -52,14 +44,17 @@ module.exports.create = async (memberId, invoice) => {
                 subtotal: currentMember.plan.price
             }
         ];
+        newInvoice.sender = LegalData.legalData;
+
+        console.log(newInvoice.sender);
 
         await InvoiceModel.create(newInvoice);
     }
     catch (err) {
-        if (err.name === 'ValidationError')
-            throw new error.BadRequest('Invalid Invoice data.');
-        if (!err.statusCode)
-            throw new error.InternalServerError('Unexpected error');
+        // if (err.name === 'ValidationError')
+        //     throw new error.BadRequest('Invalid Invoice data.');
+        // if (!err.statusCode)
+        //     throw new error.InternalServerError('Unexpected error');
         throw err;
     }
 };
@@ -78,7 +73,7 @@ const generateInvoiceNumber = async () => {
     }
 
     const numberString = number.toString();
-    const invoiceNumber = 'I-' + numberString.padStart(9 - numberString.length, '0');
+    const invoiceNumber = numberString.padStart(9 - numberString.length, '0');
 
     return invoiceNumber;
 };
