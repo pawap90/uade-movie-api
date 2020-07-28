@@ -51,6 +51,20 @@ paths:
           description: Another employee already exists with the same email
         500:
           description: Unexpected error
+  /employee/job-title:
+    get:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Employee
+      summary: Get all job titles and salaries.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Job titles and salaries retrieved correctly
+        500:
+          description: Unexpected error
   /employee/{id}:
     get:
       security:

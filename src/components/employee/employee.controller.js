@@ -2,6 +2,7 @@
 
 const employeeService = require('./employee.service');
 const remunerationService = require('./remuneration/remuneration.service');
+const jobTitleService = require('./job-title.service');
 
 /**
  * Get all employees
@@ -11,6 +12,20 @@ module.exports.getAll = async (req, res, next) => {
         const employees = await employeeService.getAll();
 
         return res.json(employees);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
+ * Get all job titles and salaries
+ */
+module.exports.getAllJobTitlesAndSalaries = async (req, res, next) => {
+    try {
+        const jobTitlesAndSalaries = jobTitleService.getAll();
+
+        return res.json(jobTitlesAndSalaries);
     }
     catch (err) {
         return next(err);
