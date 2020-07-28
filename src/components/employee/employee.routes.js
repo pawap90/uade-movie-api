@@ -37,6 +37,11 @@ router.put('/:id', authorize, employeeController.update);
 router.delete('/:id', authorize, employeeController.delete);
 
 /**
+ * Get a remuneration preview by employee id.
+ */
+router.get('/:employeeId/remuneration/preview', authorize, employeeController.previewRemuneration);
+
+/**
  * Creates a remuneration by an employee id.
  */
 router.post('/:employeeId/remuneration', authorize, employeeController.createRemunerationById);
