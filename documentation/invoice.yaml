@@ -34,3 +34,26 @@ paths:
           description: Validation error.
         500:
           description: Unexpected error
+  /member/{id}/invoice/preview:
+    get:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Member Invoice
+      summary: Get the invoice preview for a member.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Member's invoice successfully registered
+        400:
+          description: Invalid member id
+        500:
+          description: Unexpected error
