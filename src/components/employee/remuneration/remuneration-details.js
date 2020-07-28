@@ -35,7 +35,7 @@ module.exports.calculate = (employee) => {
         value: subtotal * 0.02 * (-1)
     });
 
-    // Retirement 
+    // Retirement
     details.push({
         description: 'Jubilación',
         value: subtotal * 0.11 * (-1)
@@ -82,4 +82,4 @@ module.exports.sumSubtotals = (details) => {
     }, 0);
 
     return total;
-}
+};
