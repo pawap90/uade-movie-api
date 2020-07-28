@@ -157,3 +157,17 @@ module.exports.getInvoicePreview = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Get all invoices
+ */
+module.exports.getAllInvoices = async (req, res, next) => {
+    try {
+        const invoices = await invoiceService.getAllInvoices();
+
+        return res.json(invoices);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
