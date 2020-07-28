@@ -5,6 +5,20 @@ securityDefinitions:
     name: Authorization
 
 paths:
+  /member/invoice:
+    get:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Member Invoice
+      summary: Get all invoices.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: All invoices retrieved correctly.
+        500:
+          description: Unexpected error
   /member/{id}/invoice:
     post:
       security:
