@@ -10,6 +10,25 @@ const PlanFrecuency = require('../../plan/plan-frecuency');
 const LegalData = require('../../../gym-legal-data');
 
 /**
+ * Get all invoices
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getAllInvoices = async () => {
+    try {
+        const invoices = await InvoiceModel.find()
+        .select('_id invoiceNumber invoiceType createDate status total receiver.name receiver.lastName')
+        .sort({ date: -1 });
+
+        return invoices;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error');
+        throw err;
+    }
+};
+
+/**
  * Creates a new invoice
  * @param {String} memberId Member identificator
  * @param {String} invoice Invoice data

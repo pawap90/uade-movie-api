@@ -12,6 +12,11 @@ const memberController = require('./member.controller');
 router.get('/payment', authorize, memberController.getAllPayments);
 
 /**
+ * Get all invoices.
+ */
+router.get('/invoice', authorize, memberController.getAllInvoices);
+
+/**
  * Get all members
  */
 router.get('/', authorize, memberController.getAll);
