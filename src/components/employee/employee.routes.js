@@ -12,6 +12,11 @@ const employeeController = require('./employee.controller');
 router.get('/', authorize, employeeController.getAll);
 
 /**
+ * Get all job titles and its salaries.
+ */
+router.get('/job-title', authorize, employeeController.getAllJobTitlesAndSalaries);
+
+/**
  * Get all remunerations.
  */
 router.get('/remuneration', authorize, employeeController.getAllRemunerations);

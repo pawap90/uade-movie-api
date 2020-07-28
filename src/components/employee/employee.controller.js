@@ -18,6 +18,20 @@ module.exports.getAll = async (req, res, next) => {
 };
 
 /**
+ * Get all job titles and salaries
+ */
+module.exports.getAllJobTitlesAndSalaries = async (req, res, next) => {
+    try {
+        const jobTitlesAndSalaries = await employeeService.getAllJobTitlesAndSalaries();
+
+        return res.json(jobTitlesAndSalaries);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
  * Get employee by id.
  */
 module.exports.getById = async (req, res, next) => {
