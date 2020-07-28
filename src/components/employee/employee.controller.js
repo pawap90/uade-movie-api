@@ -1,6 +1,7 @@
 'use strict';
 
 const employeeService = require('./employee.service');
+const remunerationService = require('./remuneration/remuneration.service');
 
 /**
  * Get all employees
@@ -75,9 +76,23 @@ module.exports.delete = async (req, res, next) => {
 /**
  * Create remuneration by an employee id.
  */
+module.exports.previewRemuneration = async (req, res, next) => {
+    try {
+        const remunerationPreview = await remunerationService.previewRemuneration(req.params.employeeId);
+
+        return res.json(remunerationPreview);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+
+/**
+ * Create remuneration by an employee id.
+ */
 module.exports.createRemunerationById = async (req, res, next) => {
     try {
-        await employeeService.createRemunerationById(req.params.employeeId, req.body);
+        await remunerationService.createRemunerationById(req.params.employeeId, req.body);
 
         return res.json({ message: 'success' });
     }
@@ -93,7 +108,7 @@ module.exports.getAllRemunerations = async (req, res, next) => {
     try {
         const { dateStart, dateEnd } = req.query;
 
-        const remunerations = await employeeService.getAllRemunerations(dateStart, dateEnd);
+        const remunerations = await remunerationService.getAllRemunerations(dateStart, dateEnd);
 
         return res.json(remunerations);
     }
@@ -107,7 +122,7 @@ module.exports.getAllRemunerations = async (req, res, next) => {
  */
 module.exports.getRemunerationsByEmployeeId = async (req, res, next) => {
     try {
-        const remunerations = await employeeService.getRemunerationsByEmployeeId(req.params.employeeId);
+        const remunerations = await remunerationService.getRemunerationsByEmployeeId(req.params.employeeId);
 
         return res.json(remunerations);
     }
@@ -123,7 +138,7 @@ module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (req, res, n
     try {
         const { employeeId, remunerationId } = req.params;
 
-        const remuneration = await employeeService.getRemunerationByEmployeeIdAndRemunerationId(employeeId, remunerationId);
+        const remuneration = await remunerationService.getRemunerationByEmployeeIdAndRemunerationId(employeeId, remunerationId);
 
         return res.json(remuneration);
     }
