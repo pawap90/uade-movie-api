@@ -5,7 +5,5 @@
 module.exports.calculate = (employee) => {
     const details = [];
 
-    
-
     return details;
-}
+};

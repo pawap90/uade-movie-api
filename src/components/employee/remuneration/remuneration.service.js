@@ -58,9 +58,9 @@ module.exports.previewRemuneration = async (employeeId) => {
             employee: employeeId,
             date: remunerationDate
         };
-        
-        remuneration.details = remunerationDetails.calculate(employee);
-        newRemuneration.total = remuneration.details.reduce((acc, det) => {
+
+        newRemuneration.details = remunerationDetails.calculate(employee);
+        newRemuneration.total = newRemuneration.details.reduce((acc, det) => {
             return det.value + acc;
         }, 0);
 
@@ -71,7 +71,7 @@ module.exports.previewRemuneration = async (employeeId) => {
             throw new error.InternalServerError('Unexpected error');
         else throw err;
     }
-}
+};
 
 /**
  * Get all remunerations.
