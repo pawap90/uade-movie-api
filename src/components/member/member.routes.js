@@ -56,4 +56,9 @@ router.post('/:id/payment', authorize, memberController.addPayment);
  */
 router.post('/:id/invoice', authorize, memberController.addInvoice);
 
+/**
+ * Get invoice preview.
+ */
+router.get('/:id/invoice/preview', authorize, memberController.getInvoicePreview);
+
 module.exports = router;
