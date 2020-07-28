@@ -108,6 +108,27 @@ paths:
           description: Remunerations successfully retrieved
         500:
           description: Unexpected error
+  /employee/{employeeId}/remuneration/preview:
+    get:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Employee remunerations
+      summary: Retrieve a remuneration preview for a specific employee.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          description: The employee identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Remuneration preview successfully retrieved
+        500:
+          description: Unexpected error
   /employee/{employeeId}/remuneration/{remunerationId}:
     get:
       security:
