@@ -60,9 +60,7 @@ module.exports.previewRemuneration = async (employeeId) => {
         };
 
         newRemuneration.details = remunerationDetails.calculate(employee);
-        newRemuneration.total = newRemuneration.details.reduce((acc, det) => {
-            return det.value + acc;
-        }, 0);
+        newRemuneration.total = remunerationDetails.sumSubtotals(newRemuneration.details);
 
         return newRemuneration;
     }
