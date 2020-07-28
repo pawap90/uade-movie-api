@@ -62,23 +62,14 @@ paths:
           name: body
           required: true
           example:
-            date: "2020-07-14"
             details: [
               {
-                description: "Gross monthly salary",
-                value: 2000
+                description: "Monto no remunerativo",
+                value: 5001
               },
               {
                 description: "Bonus",
                 value: 200
-              },
-              {
-                description: "Social security",
-                value: -200
-              },
-              {
-                description: "Taxes",
-                value: -300
               }
             ]
       responses:
