@@ -54,7 +54,7 @@ paths:
             type: string
       responses:
         200:
-          description: Member's invoice successfully registered
+          description: Member's invoice preview successfully retrieved
         400:
           description: Invalid member id
         409:
