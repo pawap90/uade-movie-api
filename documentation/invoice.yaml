@@ -32,5 +32,32 @@ paths:
           description: Member's invoice successfully registered
         400:
           description: Validation error.
+        409:
+          description: The time-period overlaps with another invoice.
+        500:
+          description: Unexpected error
+  /member/{id}/invoice/preview:
+    get:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Member Invoice
+      summary: Get the invoice preview for a member.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Member's invoice preview successfully retrieved
+        400:
+          description: Invalid member id
+        409:
+          description: The time-period overlaps with another invoice.
         500:
           description: Unexpected error

@@ -143,3 +143,17 @@ module.exports.addInvoice = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Get a preview of a member's invoice.
+ */
+module.exports.getInvoicePreview = async (req, res, next) => {
+    try {
+        const invoicePreview = await invoiceService.preview(req.params.id);
+
+        return res.json(invoicePreview);
+    }
+    catch (err) {
+        return next(err);
+    }
+};

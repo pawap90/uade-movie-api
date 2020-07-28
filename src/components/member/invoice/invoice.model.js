@@ -22,7 +22,8 @@ const receiverSchema = new mongoose.Schema({
     name: { type: String, required: true },
     lastName: { type: String, required: true },
     cuit: { type: String, required: true },
-    address: { type: String, required: true }
+    address: { type: String, required: true },
+    member: { type: mongoose.Schema.ObjectId, ref: 'member', required: true }
 });
 
 /**
@@ -48,6 +49,7 @@ const invoiceSchema = new mongoose.Schema({
     sender: { type: senderSchema, required: true },
     receiver: { type: receiverSchema, required: true },
     details: { type: [invoiceItemSchema], required: true },
+    subtotal: { type: Number, required: true },
     total: { type: Number, required: true },
     status: { type: String, required: true, default: 'pending' },
     paymentDate: { type: Date, required: false }
