@@ -83,3 +83,32 @@ module.exports.sumSubtotals = (details) => {
 
     return total;
 };
+
+/**
+ * Combine two arrays of details.
+ * @param {Array} details Original details
+ * @param {Array} newDetails New details
+ */
+module.exports.combine = (details, newDetails) => {
+    // Replace values.
+    for (const key in details) {
+        const item = details[key];
+
+        const newItem = newDetails.find((auxItem) => auxItem.description === item.description);
+        if (newItem) {
+            item.value = newItem.value;
+        }
+    }
+
+    // Add new values
+    for (const key in newDetails) {
+        const newItem = newDetails[key];
+
+        const itemExist = details.find((auxItem) => auxItem.description === newItem.description);
+        if (!itemExist) {
+            details.push(newItem);
+        }
+    }
+
+    return details;
+};
