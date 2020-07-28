@@ -16,8 +16,8 @@ const LegalData = require('../../../gym-legal-data');
 module.exports.getAllInvoices = async () => {
     try {
         const invoices = await InvoiceModel.find()
-        .select('_id invoiceNumber invoiceType createDate status total receiver.name receiver.lastName')
-        .sort({ date: -1 });
+            .select('_id invoiceNumber invoiceType createDate status total receiver.name receiver.lastName')
+            .sort({ date: -1 });
 
         return invoices;
     }
