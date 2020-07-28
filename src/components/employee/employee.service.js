@@ -30,7 +30,6 @@ module.exports.getAllJobTitlesAndSalaries = async () => {
     try {
         const jobTitlesAndSalaries = await EmployeeModel.find().select('-_id jobTitle grossSalary');
 
-
         fs.writeFile('./src/components/employee/job-titles-and-salaries.js', jobTitlesAndSalaries, (err) => {
             if (err) throw err;
         });
