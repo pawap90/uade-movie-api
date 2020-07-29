@@ -1,10 +1,10 @@
 const legalData = {
-    cuit: '12-12345678-9',
+    cuit: '30987654321',
     sellingAddressCode: '00001',
-    grossIncome: '12-12345678-9',
+    grossIncome: '30987654321',
     activityStartDate: '07-01-2020',
     legalName: 'Gimnasio A',
-    legalAddress: 'Calle A 1234 - Ciudad de buenos aires',
+    legalAddress: 'Calle Gym 546, CABA, Argentina',
     vatCondition: 'Responsable Inscripto'
 };
 

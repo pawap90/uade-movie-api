@@ -177,7 +177,7 @@ module.exports.getAllInvoices = async (req, res, next) => {
  */
 module.exports.payInvoice = async (req, res, next) => {
     try {
-        await invoiceService.payInvoice(req.params.memberId, req.params.invoiceId);
+        await invoiceService.payInvoice(req.params.memberId, req.params.invoiceId, req.body.card);
 
         return res.json({ message: 'Success' });
     }
