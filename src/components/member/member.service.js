@@ -4,6 +4,8 @@ const error = require('throw.js');
 
 const MemberModel = require('./member.model');
 
+const creditexService = require('../../external-services/creditex.service');
+
 /**
  * Get all members
  * @throws {InternalServerError} When there's an unexpected error.
@@ -207,5 +209,26 @@ module.exports.updatePlan = async (id, plan) => {
         if (err.name === 'ValidationError')
             throw new error.BadRequest('Invalid plan.');
         throw err;
+    }
+};
+
+/**
+ * Get member cards
+ * @param {String} memberId Member identifier
+ */
+module.exports.getMemberCards = async (memberId) => {
+    try {
+        const member = await this.getById(memberId);
+
+        const client = await creditexService.getClient(member.dni);
+
+        const cards = await creditexService.getClientCards(client.id);
+
+        return cards;
+    }
+    catch (err) {
+        if (!err.statusCode)
+            throw new error.InternalServerError('Unexpected error getting member cards');
+        else throw err;
     }
 };
