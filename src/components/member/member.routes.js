@@ -57,6 +57,11 @@ router.put('/:id/plan', authorize, memberController.updatePlan);
 router.post('/:id/payment', authorize, memberController.addPayment);
 
 /**
+ * Get invoice by id
+ */
+router.get('/:id/cards', authorize, memberController.getCards);
+
+/**
  * Add a new invoice for a member.
  */
 router.post('/:id/invoice', authorize, memberController.addInvoice);

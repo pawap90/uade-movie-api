@@ -199,3 +199,17 @@ module.exports.getInvoice = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Get member cards
+ */
+module.exports.getCards = async (req, res, next) => {
+    try {
+        const cards = await memberService.getMemberCards(req.params.id);
+
+        return res.json(cards);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
