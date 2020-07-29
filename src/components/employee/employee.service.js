@@ -91,7 +91,9 @@ module.exports.create = async (employee) => {
             cuit: employee.cuit,
             jobTitle: employee.jobTitle,
             grossSalary: employee.grossSalary,
-            entryDate: employee.entryDate
+            entryDate: employee.entryDate,
+            vacationStartDate: employee.vacationStartDate,
+            vacationEndDate: employee.vacationEndDate
         };
         newEmployee.persona = {
             name: employee.name,
@@ -134,6 +136,8 @@ module.exports.update = async (id, employee) => {
                 jobTitle: employee.jobTitle,
                 grossSalary: employee.grossSalary,
                 entryDate: employee.entryDate,
+                vacationStartDate: employee.vacationStartDate,
+                vacationEndDate: employee.vacationEndDate,
                 persona: {
                     name: employee.name,
                     lastName: employee.lastName,

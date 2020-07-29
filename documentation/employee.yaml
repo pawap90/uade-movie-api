@@ -42,6 +42,8 @@ paths:
             jobTitle: "Yoga teacher"
             grossSalary: 10000
             entryDate: 2020-07-03
+            vacationStartDate: 2021-01-03
+            vacationEndDate : 2021-01-10
       responses:
         200:
           description: Employee successfully created
@@ -119,6 +121,8 @@ paths:
             jobTitle: "Yoga teacher"
             grossSalary: 10000
             entryDate: 2020-07-03
+            vacationStartDate: 2021-02-03
+            vacationEndDate : 2021-02-10
       responses:
         200:
           description: Employee successfully updated
