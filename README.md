@@ -35,4 +35,5 @@ JWT_SIGNKEY=<jwt-sign-key>
 CRYPTO_KEY=<crypto-key>
 CRYPTO_ALG=<crypto-algoritm>
 CREDITEX_URL=<creditex-url>
+CREDITEXT_MERCHANT_ID=<creditex-merchant-id>
 ```
