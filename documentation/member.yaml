@@ -208,5 +208,7 @@ paths:
       responses:
         200:
           description: Member cards successfully retrieved
+        404:
+          description: Member doesn't have cards or account on creditex
         500:
           description: Unexpected error
