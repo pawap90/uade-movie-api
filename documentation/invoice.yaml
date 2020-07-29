@@ -97,6 +97,14 @@ paths:
           description: The invoice identifier
           schema:
             type: string
+        - in: body
+          name: body
+          required: true
+          example:
+            card:
+              cvv: '123'
+              cardNumber: '0123123123123123'
+              expiryDate: '0925'
       responses:
         200:
           description: Invoice successfully paid
