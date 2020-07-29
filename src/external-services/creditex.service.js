@@ -9,7 +9,8 @@ const SERVICE_NAME = 'CREDITEX';
 
 const endpoints = {
     GET_CLIENT_BY_DNI: `${process.env.CREDITEX_URL}/clients/dni/{dni}`,
-    CREATE_TRANSACTION: `${process.env.CREDITEX_URL}/transactions`
+    CREATE_TRANSACTION: `${process.env.CREDITEX_URL}/transactions`,
+    GET_CARDS: `${process.env.CREDITEX_URL}/cards/{clientId}/active`
 };
 
 /**
@@ -70,5 +71,26 @@ module.exports.createTransaction = async (card, amount) => {
     catch (err) {
         await logger.logError(SERVICE_NAME, method, endpoint, body, err);
         throw new error.InternalServerError('Creditex - Error creating transaction for client');
+    }
+};
+
+/**
+ * Get creditex client cards
+ * @param {String} clientId Client's identifier
+ */
+module.exports.getClientCards = async (clientId) => {
+    const endpoint = endpoints.GET_CARDS.replace('{clientId}', clientId);
+    try {
+        const res = await fetch(endpoint);
+
+        await logger.logResponse(SERVICE_NAME, 'GET', res, { clientId });
+
+        const cards = await res.json();
+
+        return cards;
+    }
+    catch (err) {
+        await logger.logError(SERVICE_NAME, 'GET', endpoint, { clientId }, err);
+        throw new error.InternalServerError('Creditex - Error getting cards');
     }
 };
