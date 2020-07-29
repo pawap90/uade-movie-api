@@ -171,3 +171,17 @@ module.exports.getAllInvoices = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Pay invoice
+ */
+module.exports.payInvoice = async (req, res, next) => {
+    try {
+        await invoiceService.payInvoice(req.params.memberId, req.params.invoiceId);
+
+        return res.json({ message: 'Success' });
+    }
+    catch (err) {
+        return next(err);
+    }
+};
