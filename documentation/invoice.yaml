@@ -103,7 +103,7 @@ paths:
           example:
             card:
               cvv: '123'
-              cardNumber: '0123123123123123'
+              number: '0123123123123123'
               expiryDate: '0925'
       responses:
         200:
