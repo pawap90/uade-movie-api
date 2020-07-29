@@ -66,4 +66,14 @@ router.post('/:id/invoice', authorize, memberController.addInvoice);
  */
 router.get('/:id/invoice/preview', authorize, memberController.getInvoicePreview);
 
+/**
+ * Pay invoice
+ */
+router.put('/:memberId/invoice/:invoiceId', authorize, memberController.payInvoice);
+
+/**
+ * Get invoice by id
+ */
+router.get('/:memberId/invoice/:invoiceId', authorize, memberController.getInvoice);
+
 module.exports = router;

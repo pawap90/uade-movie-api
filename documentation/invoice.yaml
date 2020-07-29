@@ -75,3 +75,62 @@ paths:
           description: The time-period overlaps with another invoice.
         500:
           description: Unexpected error
+  /member/{memberId}/invoice/{invoiceId}:
+    put:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Member Invoice
+      summary: Pay invoice
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+        - in: path
+          name: invoiceId
+          required: true
+          description: The invoice identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Invoice successfully paid
+        400:
+          description: Invalid member or invoice data
+        500:
+          description: Unexpected error
+    get:
+      security:
+        - APIKeyHeader: []
+      tags:
+        - Member Invoice
+      summary: Get invoice by id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          description: The member identifier
+          schema:
+            type: string
+        - in: path
+          name: invoiceId
+          required: true
+          description: The invoice identifier
+          schema:
+            type: string
+      responses:
+        200:
+          description: Invoice successfully paid
+        400:
+          description: Invalid member or invoice data
+        404:
+          description: Invoice not found
+        500:
+          description: Unexpected error
