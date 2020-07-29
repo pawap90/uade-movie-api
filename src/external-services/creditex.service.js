@@ -23,7 +23,7 @@ module.exports.getClient = async (dni) => {
         const res = await fetch(endpoint);
 
         if (res.status === 404)
-            throw new error.NotFound('Client not found');
+            throw new error.NotFound('Creditex - Client not found');
 
         await logger.logResponse(SERVICE_NAME, 'GET', res, { dni });
 
@@ -33,7 +33,9 @@ module.exports.getClient = async (dni) => {
     }
     catch (err) {
         await logger.logError(SERVICE_NAME, 'GET', endpoint, { dni }, err);
-        throw new error.InternalServerError('Creditex - Error getting client by DNI');
+        if (!err.statusCode)
+            throw new error.InternalServerError('Creditex - Error getting client by DNI');
+        throw err;
     }
 };
 
@@ -91,6 +93,8 @@ module.exports.getClientCards = async (clientId) => {
     }
     catch (err) {
         await logger.logError(SERVICE_NAME, 'GET', endpoint, { clientId }, err);
-        throw new error.InternalServerError('Creditex - Error getting cards');
+        if (!err.statusCode)
+            throw new error.InternalServerError('Creditex - Error getting cards');
+        throw err;
     }
 };
