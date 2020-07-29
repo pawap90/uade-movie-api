@@ -207,8 +207,8 @@ const validateDates = (firstDate, secondDate) => {
         if (!moment(firstDate).isAfter(new Date(), 'days'))
             return false;
         return moment(secondDate).isAfter(firstDate);
-    } catch (err) {
-        // throw new error.BadRequest('there was an unexpected error on the vacation dates');
-        throw err;
+    }
+    catch (err) {
+        throw new error.BadRequest('there was an unexpected error on the vacation dates');
     }
 };
