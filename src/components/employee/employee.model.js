@@ -15,7 +15,9 @@ const employeeSchema = new mongoose.Schema({
     jobTitle: { type: String, required: true },
     grossSalary: { type: Number, required: true },
     entryDate: { type: Date, required: true },
-    createDate: { type: Date, required: true, default: Date.now() }
+    createDate: { type: Date, required: true, default: Date.now() },
+    isUnionMember: { type: Boolean, required: true, default: false },
+    dni: { type: String, required: true }
 });
 
 module.exports = mongoose.model('employee', employeeSchema);
