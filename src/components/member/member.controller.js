@@ -185,3 +185,17 @@ module.exports.payInvoice = async (req, res, next) => {
         return next(err);
     }
 };
+
+/**
+ * Get invoice by id
+ */
+module.exports.getInvoice = async (req, res, next) => {
+    try {
+        const invoice = await invoiceService.getInvoice(req.params.memberId, req.params.invoiceId);
+
+        return res.json(invoice);
+    }
+    catch (err) {
+        return next(err);
+    }
+};
