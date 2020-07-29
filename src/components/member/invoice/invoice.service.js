@@ -9,6 +9,8 @@ const MemberService = require('../member.service');
 const PlanFrecuency = require('../../plan/plan-frecuency');
 const LegalData = require('../../../gym-legal-data');
 
+const creditexService = require('../../../external-services/creditex.service');
+
 /**
  * Get all invoices
  * @throws {InternalServerError} When there's an unexpected error.
@@ -128,11 +130,21 @@ module.exports.getInvoice = async (memberId, invoiceId) => {
  * @throws {BadRequest} When required info is not provided.
  * @throws {InternalServerError} When there's an unexpected error.
  */
-module.exports.payInvoice = async (memberId, invoiceId) => {
+module.exports.payInvoice = async (memberId, invoiceId, card) => {
     try {
-        if (!invoiceId || !memberId)
-            throw new error.BadRequest('Invoice id or member id was not provided');
+        if (!invoiceId || !memberId || !card)
+            throw new error.BadRequest('Invoice id, member id or card data was not provided');
 
+        const invoice = await InvoiceModel.findById(invoiceId).populate('receiver.member');
+
+        if (invoice.receiver.member.toString() !== memberId)
+            throw new error.BadRequest('Invoice doesnt belong to the specified member');
+
+        // Create transaction.
+        const client = await creditexService.getClient(invoice.receiver.member.dni);
+        await creditexService.createTransaction(client.id, card, invoice.total);
+
+        // Update invoice status.
         await InvoiceModel.findByIdAndUpdate(invoiceId, {
             $set: {
                 status: 'paid',
