@@ -92,6 +92,36 @@ module.exports.preview = async (memberId) => {
 };
 
 /**
+ * Get single invoice by id.
+ * @param {String} memberId Member identifier
+ * @param {String} invoiceId Invoice identifier
+ * @throws {BadRequest} When required info is not provided or memberId doesn't match invoice.
+ * @throws {NotFound} When the invoice is not found
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.getInvoice = async (memberId, invoiceId) => {
+    try {
+        if (!invoiceId || !memberId)
+            throw new error.BadRequest('Invoice id or member id was not provided');
+
+        const invoice = await InvoiceModel.findById(invoiceId);
+
+        if (!invoice)
+            throw new error.NotFound('Invoice not found');
+
+        if (invoice.receiver.member.toString() !== memberId)
+            throw new error.BadRequest('Invoice doesnt belong to the specified member');
+
+        return invoice;
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid invoice information.');
+        else throw err;
+    }
+};
+
+/**
  * Pay invoice
  * @param {String} memberId Member identifier
  * @param {String} invoiceId Invoice identifier
