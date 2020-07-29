@@ -135,14 +135,13 @@ module.exports.payInvoice = async (memberId, invoiceId, card) => {
         if (!invoiceId || !memberId || !card)
             throw new error.BadRequest('Invoice id, member id or card data was not provided');
 
-        const invoice = await InvoiceModel.findById(invoiceId).populate('receiver.member');
+        const invoice = await InvoiceModel.findById(invoiceId);
 
         if (invoice.receiver.member.toString() !== memberId)
             throw new error.BadRequest('Invoice doesnt belong to the specified member');
 
         // Create transaction.
-        const client = await creditexService.getClient(invoice.receiver.member.dni);
-        await creditexService.createTransaction(client.id, card, invoice.total);
+        await creditexService.createTransaction(card, invoice.total);
 
         // Update invoice status.
         await InvoiceModel.findByIdAndUpdate(invoiceId, {

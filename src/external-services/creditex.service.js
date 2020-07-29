@@ -9,7 +9,7 @@ const SERVICE_NAME = 'CREDITEX';
 
 const endpoints = {
     GET_CLIENT_BY_DNI: `${process.env.CREDITEX_URL}/clients/dni/{dni}`,
-    CREATE_TRANSACTION: `${process.env.CREDITEX_URL}/transactions/{clientId}`
+    CREATE_TRANSACTION: `${process.env.CREDITEX_URL}/transactions`
 };
 
 /**
@@ -42,8 +42,8 @@ module.exports.getClient = async (dni) => {
  * @param {Object} card Card data
  * @param {Number} amount Transaction amount
  */
-module.exports.createTransaction = async (clientId, card, amount) => {
-    const endpoint = endpoints.CREATE_TRANSACTION.replace('{clientId}', clientId);
+module.exports.createTransaction = async (card, amount) => {
+    const endpoint = endpoints.CREATE_TRANSACTION;
     const method = 'POST';
 
     const body = {
