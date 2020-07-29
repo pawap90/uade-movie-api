@@ -66,7 +66,7 @@ module.exports.previewRemuneration = async (employeeId) => {
             employeeNumber: employee.employeeNumber,
             cuit: employee.cuit,
             entryDate: employee.entryDate,
-            seniority: newRemuneration.details[1].value //corresponding position of the array to the seniority indicator
+            seniority: newRemuneration.details[1].value // corresponding position of the array to the seniority indicator
         };
 
         return newRemuneration;
