@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 /**
  * Generate an array of remunerations details following the rules defined by the labor union.
  * @param {Object} employee Employee object
@@ -67,6 +69,16 @@ module.exports.calculate = (employee) => {
     details.push({
         description: 'Monto no remunerativo',
         value: 5000
+    });
+
+    // Vacation
+    const a = moment(employee.vacationStartDate, 'DD/MM/YYYY');
+    const b = moment(employee.vacationEndDate, 'DD/MM/YYYY');
+    const vacationDays = b.diff(a, 'days');
+
+    details.push({
+        description: 'Vacation',
+        value: (employee.grossSalary / 25) * vacationDays
     });
 
     return details;
