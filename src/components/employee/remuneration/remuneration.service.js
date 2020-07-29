@@ -43,24 +43,38 @@ module.exports.previewRemuneration = async (employeeId) => {
         if (!employeeId)
             throw new error.BadRequest('employeeId not provided');
 
-        const employee = await employeeService.getById(employeeId);
+        const employee = await (await employeeService.getById(employeeId)).populate('employee', 'jobTitle employeeNumber cuit entryDate persona.name persona.lastName');
 
         let newRemuneration = new RemunerationModel();
         const remunerationDate = new Date();
+        const remunerationMonthName = remunerationDate.toLocaleString('es-AR', { month: 'long' });
+        const remunerationYear = employee.entryDate.getFullYear();
+
         newRemuneration = {
-            employee: employeeId,
-            date: remunerationDate
+            date: remunerationDate,
+            remunerationNumber: await generateRemunerationNumber(),
+            paymentPeriod: `${remunerationMonthName} ${remunerationYear}`
         };
 
         newRemuneration.details = remunerationDetails.calculate(employee);
         newRemuneration.total = remunerationDetails.sumSubtotals(newRemuneration.details);
+
+        newRemuneration.employeeData = {
+            employeeId: employeeId,
+            jobTitle: employee.jobTitle,
+            fullName: `${employee.persona.name} ${employee.persona.lastName}`,
+            employeeNumber: employee.employeeNumber,
+            cuit: employee.cuit,
+            entryDate: employee.entryDate,
+            seniority: newRemuneration.details[1].value //corresponding position of the array to the seniority indicator
+        };
 
         return newRemuneration;
     }
     catch (err) {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error');
-        else throw err;
+        throw err;
     }
 };
 
@@ -152,4 +166,23 @@ module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (employeeId,
             throw new error.InternalServerError('Unexpected error getting the remuneration');
         else throw err;
     }
+};
+
+/**
+ * Generate a secuential number for a new remuneration based on the previously generated remuneration.
+ * E.g: 00000001
+ */
+const generateRemunerationNumber = async () => {
+    let number = 1;
+    const lastRemuneration = await RemunerationModel.findOne().sort({ createDate: -1 });
+
+    if (lastRemuneration) {
+        const lastNumber = parseInt(lastRemuneration.remunerationNumber.replace('0', ''));
+        number = lastNumber + 1;
+    }
+
+    const numberString = number.toString();
+    const remunerationNumber = numberString.padStart(9 - numberString.length, '0');
+
+    return remunerationNumber;
 };
