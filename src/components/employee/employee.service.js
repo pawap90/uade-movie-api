@@ -2,6 +2,7 @@
 
 const error = require('throw.js');
 const fs = require('fs');
+const moment = require('moment');
 
 const EmployeeModel = require('./employee.model');
 
@@ -81,6 +82,9 @@ module.exports.create = async (employee) => {
         if (!employee)
             throw new error.BadRequest('employee data not provided');
 
+        if (!validateDates(employee.vacationStartDate, employee.vacationEndDate) && employee.vacationStartDate && employee.vacationEndDate)
+            throw new error.BadRequest('vacation dates are invalid');
+
         employee.email = employee.email ? employee.email.toLowerCase() : null;
 
         // Create an EmployeeModel instance to allow mongoose to validate the model.
@@ -126,6 +130,9 @@ module.exports.update = async (id, employee) => {
     try {
         if (!employee)
             throw new error.BadRequest('employee data not provided');
+
+        if (!validateDates(employee.vacationStartDate, employee.vacationEndDate) && employee.vacationStartDate && employee.vacationEndDate)
+            throw new error.BadRequest('vacation dates are invalid');
 
         employee.email = employee.email ? employee.email.toLowerCase() : null;
 
@@ -193,4 +200,15 @@ const generateEmployeeNumber = async () => {
     const employeeNumber = 'E-' + numberString.padStart(5 - numberString.length, '0');
 
     return employeeNumber;
+};
+
+const validateDates = (firstDate, secondDate) => {
+    try {
+        if (!moment(firstDate).isAfter(new Date(), 'days'))
+            return false;
+        return moment(secondDate).isAfter(firstDate);
+    } catch (err) {
+        // throw new error.BadRequest('there was an unexpected error on the vacation dates');
+        throw err;
+    }
 };
