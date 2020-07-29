@@ -92,6 +92,32 @@ module.exports.preview = async (memberId) => {
 };
 
 /**
+ * Pay invoice
+ * @param {String} memberId Member identifier
+ * @param {String} invoiceId Invoice identifier
+ * @throws {BadRequest} When required info is not provided.
+ * @throws {InternalServerError} When there's an unexpected error.
+ */
+module.exports.payInvoice = async (memberId, invoiceId) => {
+    try {
+        if (!invoiceId || !memberId)
+            throw new error.BadRequest('Invoice id or member id was not provided');
+
+        await InvoiceModel.findByIdAndUpdate(invoiceId, {
+            $set: {
+                status: 'paid',
+                paymentDate: new Date()
+            }
+        }, { runValidators: true });
+    }
+    catch (err) {
+        if (err.name === 'ValidationError')
+            throw new error.BadRequest('Invalid invoice information.');
+        else throw err;
+    }
+};
+
+/**
  * Generate a secuential number for a new invoice based on the previously generated number.
  * E.g: 00000001
  */
@@ -116,6 +142,9 @@ const generateInvoiceNumber = async () => {
  */
 const generateInvoice = async (memberId) => {
     const currentMember = await MemberService.getById(memberId);
+
+    if (!currentMember.plan)
+        throw new error.BadRequest('Member doesnt have a plan.');
 
     // Create an MemberModel instance to allow mongoose to validate the model.
     let newInvoice = new InvoiceModel();
