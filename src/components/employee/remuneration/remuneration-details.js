@@ -13,11 +13,10 @@ module.exports.calculate = (employee, remunerationDate) => {
 
     // Seniority
     const seniority = Math.floor(Math.abs(remunerationDate - employee.entryDate) / (1000 * 60 * 60 * 24 * 365));
-    if (seniority > 0)
-        details.push({
-            description: 'Antigüedad',
-            value: employee.grossSalary * 0.02 * seniority
-        });
+    details.push({
+        description: 'Antigüedad',
+        value: employee.grossSalary * 0.02 * seniority
+    });
 
     // Presenteeism
     // TO-DO Get from external service.
