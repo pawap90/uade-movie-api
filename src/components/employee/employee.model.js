@@ -16,6 +16,8 @@ const employeeSchema = new mongoose.Schema({
     grossSalary: { type: Number, required: true },
     entryDate: { type: Date, required: true },
     createDate: { type: Date, required: true, default: Date.now() },
+    isUnionMember: { type: Boolean, required: true, default: false },
+    dni: { type: String, required: true },
     vacationStartDate: { type: Date, required: false },
     vacationEndDate: { type: Date, required: false }
 });

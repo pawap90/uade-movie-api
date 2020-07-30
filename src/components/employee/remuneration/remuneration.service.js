@@ -5,6 +5,9 @@ const error = require('throw.js');
 const RemunerationModel = require('./remuneration.model');
 const remunerationDetails = require('./remuneration-details');
 const employeeService = require('../employee.service');
+const LegalData = require('../../../gym-legal-data');
+
+const iabankService = require('../../../external-services/iabank.service');
 
 /**
  * Creates a new remuneration by an employee id
@@ -20,8 +23,13 @@ module.exports.createRemunerationById = async (employeeId, remuneration) => {
 
         const newRemuneration = await this.previewRemuneration(employeeId);
 
-        if (remuneration.details.length > 0)
+        if (remuneration.details.length > 0) {
             newRemuneration.details = remunerationDetails.combine(newRemuneration.details, remuneration.details);
+            newRemuneration.total = remunerationDetails.sumSubtotals(newRemuneration.details);
+        }
+
+        const employee = await employeeService.getById(employeeId);
+        await createTransfer(employee.dni, newRemuneration.total);
 
         await RemunerationModel.create(newRemuneration);
     }
@@ -43,24 +51,45 @@ module.exports.previewRemuneration = async (employeeId) => {
         if (!employeeId)
             throw new error.BadRequest('employeeId not provided');
 
-        const employee = await employeeService.getById(employeeId);
+        const employee = await (await employeeService.getById(employeeId)).populate('employee', 'jobTitle employeeNumber cuit entryDate persona.name persona.lastName');
 
         let newRemuneration = new RemunerationModel();
-        const remunerationDate = new Date();
+
+        // Get the previous month
+        let remunerationDate = new Date();
+        remunerationDate = remunerationDate.setMonth(remunerationDate.getMonth() - 1);
+
+        const remunerationMonthName = remunerationDate.toLocaleString('es-AR', { month: 'long' });
+        const remunerationYear = employee.entryDate.getFullYear();
+
         newRemuneration = {
-            employee: employeeId,
-            date: remunerationDate
+            date: new Date(),
+            paymentPeriod: `${remunerationMonthName} ${remunerationYear}`
         };
 
-        newRemuneration.details = remunerationDetails.calculate(employee);
+        const seniority = Math.floor(Math.abs(remunerationDate - employee.entryDate) / (1000 * 60 * 60 * 24 * 365));
+
+        newRemuneration.employeeData = {
+            employeeId: employeeId,
+            jobTitle: employee.jobTitle,
+            fullName: `${employee.persona.name} ${employee.persona.lastName}`,
+            employeeNumber: employee.employeeNumber,
+            cuit: employee.cuit,
+            entryDate: employee.entryDate,
+            seniority: seniority
+        };
+
+        newRemuneration.details = remunerationDetails.calculate(employee, remunerationDate);
         newRemuneration.total = remunerationDetails.sumSubtotals(newRemuneration.details);
+
+        newRemuneration.legalData = LegalData.legalData;
 
         return newRemuneration;
     }
     catch (err) {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error');
-        else throw err;
+        throw err;
     }
 };
 
@@ -152,4 +181,17 @@ module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (employeeId,
             throw new error.InternalServerError('Unexpected error getting the remuneration');
         else throw err;
     }
+};
+
+/**
+ * Create bank transfer
+ * @param {String} employeeDni Employee dni
+ * @param {Number} amount Transfer amount
+ */
+const createTransfer = async (employeeDni, amount) => {
+    const client = await iabankService.getClient(employeeDni);
+
+    const account = await iabankService.getClientSavingsAccount(client.id);
+
+    await iabankService.createTransfer(account.id, amount, 'Liquidación de sueldo');
 };

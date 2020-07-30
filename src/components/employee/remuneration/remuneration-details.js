@@ -4,7 +4,7 @@ const moment = require('moment');
  * Generate an array of remunerations details following the rules defined by the labor union.
  * @param {Object} employee Employee object
  */
-module.exports.calculate = (employee) => {
+module.exports.calculate = (employee, remunerationDate) => {
     const details = [];
 
     // Gross salary
@@ -14,12 +14,11 @@ module.exports.calculate = (employee) => {
     });
 
     // Seniority
-    const seniority = (new Date()).getFullYear() - employee.entryDate.getFullYear();
-    if (seniority > 0)
-        details.push({
-            description: 'Antigüedad',
-            value: employee.grossSalary * 0.02 * seniority
-        });
+    const seniority = Math.floor(Math.abs(remunerationDate - employee.entryDate) / (1000 * 60 * 60 * 24 * 365));
+    details.push({
+        description: 'Antigüedad',
+        value: employee.grossSalary * 0.02 * seniority
+    });
 
     // Presenteeism
     // TO-DO Get from external service.
@@ -28,6 +27,22 @@ module.exports.calculate = (employee) => {
     // TO-DO Get from external service.
 
     const subtotal = this.sumSubtotals(details);
+
+    // Holiday plus
+    const a = moment(employee.vacationStartDate, 'DD/MM/YYYY');
+    const b = moment(employee.vacationEndDate, 'DD/MM/YYYY');
+    const vacationDays = b.diff(a, 'days');
+
+    details.push({
+        description: 'Vacation',
+        value: (employee.grossSalary / 25) * vacationDays
+    });
+
+    // Additional
+    details.push({
+        description: 'Monto no remunerativo',
+        value: 5000
+    });
 
     // Deductions
 
@@ -58,28 +73,10 @@ module.exports.calculate = (employee) => {
     // UTEDYC - Labor union affiliation
     if (employee.isUnionMember)
         details.push({
-            description: 'Afiliación a UTEDYC,',
+            description: 'Afiliación a UTEDYC',
             value: subtotal * 0.025 * (-1)
         });
 
-    // Holiday plus
-    // TO-DO
-
-    // Additional
-    details.push({
-        description: 'Monto no remunerativo',
-        value: 5000
-    });
-
-    // Vacation
-    const a = moment(employee.vacationStartDate, 'DD/MM/YYYY');
-    const b = moment(employee.vacationEndDate, 'DD/MM/YYYY');
-    const vacationDays = b.diff(a, 'days');
-
-    details.push({
-        description: 'Vacation',
-        value: (employee.grossSalary / 25) * vacationDays
-    });
 
     return details;
 };
