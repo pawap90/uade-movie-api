@@ -5,6 +5,7 @@ const error = require('throw.js');
 const RemunerationModel = require('./remuneration.model');
 const remunerationDetails = require('./remuneration-details');
 const employeeService = require('../employee.service');
+const LegalData = require('../../../gym-legal-data');
 
 const iabankService = require('../../../external-services/iabank.service');
 
@@ -59,7 +60,6 @@ module.exports.previewRemuneration = async (employeeId) => {
 
         newRemuneration = {
             date: remunerationDate,
-            remunerationNumber: await generateRemunerationNumber(),
             paymentPeriod: `${remunerationMonthName} ${remunerationYear}`
         };
 
@@ -73,8 +73,10 @@ module.exports.previewRemuneration = async (employeeId) => {
             employeeNumber: employee.employeeNumber,
             cuit: employee.cuit,
             entryDate: employee.entryDate,
-            seniority: newRemuneration.details[1].value // corresponding position of the array to the seniority indicator
+            seniority: (remunerationDate.getFullYear() - employee.entryDate.getFullYear())
         };
+
+        newRemuneration.legalData = LegalData.legalData;
 
         return newRemuneration;
     }
@@ -173,25 +175,6 @@ module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (employeeId,
             throw new error.InternalServerError('Unexpected error getting the remuneration');
         else throw err;
     }
-};
-
-/**
- * Generate a secuential number for a new remuneration based on the previously generated remuneration.
- * E.g: 00000001
- */
-const generateRemunerationNumber = async () => {
-    let number = 1;
-    const lastRemuneration = await RemunerationModel.findOne().sort({ createDate: -1 });
-
-    if (lastRemuneration) {
-        const lastNumber = parseInt(lastRemuneration.remunerationNumber.replace('0', ''));
-        number = lastNumber + 1;
-    }
-
-    const numberString = number.toString();
-    const remunerationNumber = numberString.padStart(9 - numberString.length, '0');
-
-    return remunerationNumber;
 };
 
 /**

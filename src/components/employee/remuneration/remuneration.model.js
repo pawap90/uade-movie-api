@@ -24,6 +24,19 @@ const employeeDataSchema = new mongoose.Schema({
 });
 
 /**
+ * Gym legal data.
+ */
+const legalDataSchema = new mongoose.Schema({
+    cuit: { type: String, required: true },
+    sellingAddressCode: { type: String, required: true },
+    grossIncome: { type: String, required: true },
+    activityStartDate: { type: Date, required: true },
+    legalName: { type: String, required: true },
+    legalAddress: { type: String, required: true },
+    vatCondition: { type: String, required: true }
+});
+
+/**
  * Remuneration model schema.
  */
 const remunerationSchema = new mongoose.Schema({
@@ -35,9 +48,9 @@ const remunerationSchema = new mongoose.Schema({
     cct: { type: String, required: true, default: '700/14' },
     medicalPlan: { type: String, required: true, default: 'OSPEDYC' },
     paymentPlace: { type: String, required: true, default: 'Buenos Aires' },
-    remunerationNumber: { type: String, required: true },
     paymentPeriod: { type: String, required: true },
-    employeeData: { type: employeeDataSchema, required: true }
+    employeeData: { type: employeeDataSchema, required: true },
+    legalData: { type: legalDataSchema, required: true }
 });
 
 module.exports = mongoose.model('remuneration', remunerationSchema);
