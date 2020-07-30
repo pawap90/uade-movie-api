@@ -26,6 +26,15 @@ module.exports.calculate = (employee, remunerationDate) => {
     // TO-DO Get from external service.
 
     const subtotal = this.sumSubtotals(details);
+    
+    // Holiday plus
+    // TO-DO
+
+    // Additional
+    details.push({
+        description: 'Monto no remunerativo',
+        value: 5000
+    });
 
     // Deductions
 
@@ -59,15 +68,6 @@ module.exports.calculate = (employee, remunerationDate) => {
             description: 'Afiliación a UTEDYC,',
             value: subtotal * 0.025 * (-1)
         });
-
-    // Holiday plus
-    // TO-DO
-
-    // Additional
-    details.push({
-        description: 'Monto no remunerativo',
-        value: 5000
-    });
 
     return details;
 };
