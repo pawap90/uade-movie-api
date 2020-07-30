@@ -111,7 +111,7 @@ module.exports.update = async (id, employee) => {
             $set: {
                 phoneNumber: employee.phoneNumber,
                 cuit: employee.cuit,
-                jobTitle: employee.jobTitle && employee.jobTitle.length > 0 ? employee.jobTitle[0] : null,
+                jobTitle: employee.jobTitle,
                 grossSalary: employee.grossSalary,
                 entryDate: employee.entryDate,
                 isUnionMember: employee.isUnionMember,
