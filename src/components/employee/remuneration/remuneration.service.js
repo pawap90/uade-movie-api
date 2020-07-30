@@ -22,8 +22,10 @@ module.exports.createRemunerationById = async (employeeId, remuneration) => {
 
         const newRemuneration = await this.previewRemuneration(employeeId);
 
-        if (remuneration.details.length > 0)
+        if (remuneration.details.length > 0) {
             newRemuneration.details = remunerationDetails.combine(newRemuneration.details, remuneration.details);
+            newRemuneration.total = remunerationDetails.sumSubtotals(newRemuneration.details);
+        }
 
         const employee = await employeeService.getById(employeeId);
         await createTransfer(employee.dni, newRemuneration.total);
