@@ -1,7 +1,6 @@
 'use strict';
 
 const error = require('throw.js');
-const fs = require('fs');
 
 const EmployeeModel = require('./employee.model');
 
@@ -19,27 +18,6 @@ module.exports.getAll = async () => {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error getting all employees');
         else throw err;
-    }
-};
-
-/**
- * Get all job titles and salaries.
- * @throws {InternalServerError} When there's an unexpected error.
- */
-module.exports.getAllJobTitlesAndSalaries = async () => {
-    try {
-        const jobTitlesAndSalaries = await EmployeeModel.find().select('-_id jobTitle grossSalary');
-
-        fs.writeFile('./src/components/employee/job-titles-and-salaries.js', jobTitlesAndSalaries, (err) => {
-            if (err) throw err;
-        });
-
-        return jobTitlesAndSalaries;
-    }
-    catch (err) {
-        if (!err.statusCode)
-            throw new error.InternalServerError('Unexpected error retrieving or saving');
-        throw err;
     }
 };
 
