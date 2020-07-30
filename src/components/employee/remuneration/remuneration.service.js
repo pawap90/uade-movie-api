@@ -54,7 +54,11 @@ module.exports.previewRemuneration = async (employeeId) => {
         const employee = await (await employeeService.getById(employeeId)).populate('employee', 'jobTitle employeeNumber cuit entryDate persona.name persona.lastName');
 
         let newRemuneration = new RemunerationModel();
-        const remunerationDate = new Date();
+
+        // Get the previous month
+        let remunerationDate = new Date();
+        remunerationDate = remunerationDate.setMonth(remunerationDate.getMonth() - 1);
+
         const remunerationMonthName = remunerationDate.toLocaleString('es-AR', { month: 'long' });
         const remunerationYear = employee.entryDate.getFullYear();
 
@@ -63,8 +67,7 @@ module.exports.previewRemuneration = async (employeeId) => {
             paymentPeriod: `${remunerationMonthName} ${remunerationYear}`
         };
 
-        newRemuneration.details = remunerationDetails.calculate(employee);
-        newRemuneration.total = remunerationDetails.sumSubtotals(newRemuneration.details);
+        const seniority = Math.floor(Math.abs(remunerationDate - employee.entryDate) / (1000 * 60 * 60 * 24 * 365));
 
         newRemuneration.employeeData = {
             employeeId: employeeId,
@@ -73,8 +76,11 @@ module.exports.previewRemuneration = async (employeeId) => {
             employeeNumber: employee.employeeNumber,
             cuit: employee.cuit,
             entryDate: employee.entryDate,
-            seniority: (remunerationDate.getFullYear() - employee.entryDate.getFullYear())
+            seniority: seniority
         };
+
+        newRemuneration.details = remunerationDetails.calculate(employee, remunerationDate);
+        newRemuneration.total = remunerationDetails.sumSubtotals(newRemuneration.details);
 
         newRemuneration.legalData = LegalData.legalData;
 
