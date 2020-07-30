@@ -26,7 +26,7 @@ module.exports.calculate = (employee, remunerationDate) => {
     // TO-DO Get from external service.
 
     const subtotal = this.sumSubtotals(details);
-    
+
     // Holiday plus
     // TO-DO
 
