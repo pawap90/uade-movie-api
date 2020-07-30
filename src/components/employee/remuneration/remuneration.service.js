@@ -63,7 +63,7 @@ module.exports.previewRemuneration = async (employeeId) => {
         const remunerationYear = employee.entryDate.getFullYear();
 
         newRemuneration = {
-            date: remunerationDate,
+            date: new Date(),
             paymentPeriod: `${remunerationMonthName} ${remunerationYear}`
         };
 

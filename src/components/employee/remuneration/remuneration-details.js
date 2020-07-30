@@ -65,7 +65,7 @@ module.exports.calculate = (employee, remunerationDate) => {
     // UTEDYC - Labor union affiliation
     if (employee.isUnionMember)
         details.push({
-            description: 'Afiliación a UTEDYC,',
+            description: 'Afiliación a UTEDYC',
             value: subtotal * 0.025 * (-1)
         });
 
