@@ -18,7 +18,7 @@ const creditexService = require('../../../external-services/creditex.service');
 module.exports.getAllInvoices = async () => {
     try {
         const invoices = await InvoiceModel.find()
-            .select('_id invoiceNumber invoiceType createDate status total receiver.name receiver.lastName')
+            .select('_id invoiceNumber invoiceType createDate status total receiver.name receiver.lastName receiver.member')
             .sort({ date: -1 });
 
         return invoices;

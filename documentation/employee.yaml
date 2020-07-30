@@ -38,10 +38,12 @@ paths:
             address: False street 123
             dateOfBirth: 1990-01-01
             phoneNumber: "11-1223-2312"
+            dni: "12123123"
             cuit: "20-12123123-2"
             jobTitle: "Yoga teacher"
             grossSalary: 10000
             entryDate: 2020-07-03
+            isUnionMember: false
       responses:
         200:
           description: Employee successfully created
@@ -115,10 +117,12 @@ paths:
             address: False street 123
             dateOfBirth: 1990-01-01
             phoneNumber: "11-1223-2312"
+            dni: "12123123"
             cuit: "20-12123123-2"
             jobTitle: "Yoga teacher"
             grossSalary: 10000
             entryDate: 2020-07-03
+            isUnionMember: false
       responses:
         200:
           description: Employee successfully updated

@@ -6,6 +6,8 @@ const RemunerationModel = require('./remuneration.model');
 const remunerationDetails = require('./remuneration-details');
 const employeeService = require('../employee.service');
 
+const iabankService = require('../../../external-services/iabank.service');
+
 /**
  * Creates a new remuneration by an employee id
  * @param {String} employeeId employee identifier
@@ -20,8 +22,13 @@ module.exports.createRemunerationById = async (employeeId, remuneration) => {
 
         const newRemuneration = await this.previewRemuneration(employeeId);
 
-        if (remuneration.details.length > 0)
+        if (remuneration.details.length > 0) {
             newRemuneration.details = remunerationDetails.combine(newRemuneration.details, remuneration.details);
+            newRemuneration.total = remunerationDetails.sumSubtotals(newRemuneration.details);
+        }
+
+        const employee = await employeeService.getById(employeeId);
+        await createTransfer(employee.dni, newRemuneration.total);
 
         await RemunerationModel.create(newRemuneration);
     }
@@ -185,4 +192,17 @@ const generateRemunerationNumber = async () => {
     const remunerationNumber = numberString.padStart(9 - numberString.length, '0');
 
     return remunerationNumber;
+};
+
+/**
+ * Create bank transfer
+ * @param {String} employeeDni Employee dni
+ * @param {Number} amount Transfer amount
+ */
+const createTransfer = async (employeeDni, amount) => {
+    const client = await iabankService.getClient(employeeDni);
+
+    const account = await iabankService.getClientSavingsAccount(client.id);
+
+    await iabankService.createTransfer(account.id, amount, 'Liquidación de sueldo');
 };
