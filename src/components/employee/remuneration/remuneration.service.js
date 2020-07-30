@@ -5,6 +5,7 @@ const error = require('throw.js');
 const RemunerationModel = require('./remuneration.model');
 const remunerationDetails = require('./remuneration-details');
 const employeeService = require('../employee.service');
+const LegalData = require('../../../gym-legal-data');
 
 const iabankService = require('../../../external-services/iabank.service');
 
@@ -50,24 +51,45 @@ module.exports.previewRemuneration = async (employeeId) => {
         if (!employeeId)
             throw new error.BadRequest('employeeId not provided');
 
-        const employee = await employeeService.getById(employeeId);
+        const employee = await (await employeeService.getById(employeeId)).populate('employee', 'jobTitle employeeNumber cuit entryDate persona.name persona.lastName');
 
         let newRemuneration = new RemunerationModel();
-        const remunerationDate = new Date();
+
+        // Get the previous month
+        let remunerationDate = new Date();
+        remunerationDate = remunerationDate.setMonth(remunerationDate.getMonth() - 1);
+
+        const remunerationMonthName = remunerationDate.toLocaleString('es-AR', { month: 'long' });
+        const remunerationYear = employee.entryDate.getFullYear();
+
         newRemuneration = {
-            employee: employeeId,
-            date: remunerationDate
+            date: remunerationDate,
+            paymentPeriod: `${remunerationMonthName} ${remunerationYear}`
         };
 
-        newRemuneration.details = remunerationDetails.calculate(employee);
+        const seniority = Math.floor(Math.abs(remunerationDate - employee.entryDate) / (1000 * 60 * 60 * 24 * 365));
+
+        newRemuneration.employeeData = {
+            employeeId: employeeId,
+            jobTitle: employee.jobTitle,
+            fullName: `${employee.persona.name} ${employee.persona.lastName}`,
+            employeeNumber: employee.employeeNumber,
+            cuit: employee.cuit,
+            entryDate: employee.entryDate,
+            seniority: seniority
+        };
+
+        newRemuneration.details = remunerationDetails.calculate(employee, remunerationDate);
         newRemuneration.total = remunerationDetails.sumSubtotals(newRemuneration.details);
+
+        newRemuneration.legalData = LegalData.legalData;
 
         return newRemuneration;
     }
     catch (err) {
         if (!err.statusCode)
             throw new error.InternalServerError('Unexpected error');
-        else throw err;
+        throw err;
     }
 };
 
