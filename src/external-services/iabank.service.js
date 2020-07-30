@@ -59,7 +59,9 @@ module.exports.getClientSavingsAccount = async (clientId) => {
         const accounts = await res.json();
 
         if (accounts != null && accounts.length > 0) {
-            const savingsAccount = accounts.find(a => { return a.account_type === 'SavingBank' });
+            const savingsAccount = accounts.find(a => {
+                return a.account_type === 'SavingBank';
+            });
 
             if (!savingsAccount)
                 throw new error.NotFound('IaBank - Savings account not found');
@@ -99,9 +101,9 @@ module.exports.createTransfer = async (destinationAccountId, amount, description
         for (var property in params) {
             var encodedKey = encodeURIComponent(property);
             var encodedValue = encodeURIComponent(params[property]);
-            formBody.push(encodedKey + "=" + encodedValue);
+            formBody.push(encodedKey + '=' + encodedValue);
         }
-        formBody = formBody.join("&");
+        formBody = formBody.join('&');
 
         const res = await fetch(endpoint, {
             method: method,

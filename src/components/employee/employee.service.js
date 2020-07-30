@@ -1,7 +1,6 @@
 'use strict';
 
 const error = require('throw.js');
-const fs = require('fs');
 
 const EmployeeModel = require('./employee.model');
 

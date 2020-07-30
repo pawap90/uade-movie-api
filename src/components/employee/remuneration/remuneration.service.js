@@ -165,9 +165,9 @@ module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (employeeId,
  * @param {Number} amount Transfer amount
  */
 const createTransfer = async (employeeDni, amount) => {
-    const client = await iabankService.getClient(memberDni);
+    const client = await iabankService.getClient(employeeDni);
 
     const account = await iabankService.getClientSavingsAccount(client.id);
 
-    await iabank.createTransfer(account.id, amount, 'Liquidación de sueldo');
-}
+    await iabankService.createTransfer(account.id, amount, 'Liquidación de sueldo');
+};
