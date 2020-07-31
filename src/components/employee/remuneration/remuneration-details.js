@@ -27,7 +27,12 @@ module.exports.calculate = (employee, remunerationDate) => {
     const subtotal = this.sumSubtotals(details);
 
     // Holiday plus
-    // TO-DO
+    const vacationDays = calculateVacationDays(employee.vacationStartDate, employee.vacationEndDate);
+    if (vacationDays > 0)
+        details.push({
+            description: 'Vacation',
+            value: (employee.grossSalary / 25) * vacationDays
+        });
 
     // Additional
     details.push({
@@ -110,4 +115,20 @@ module.exports.combine = (details, newDetails) => {
     }
 
     return details;
+};
+
+/**
+ * Calculate vacation days.
+ * @param {Date} startDate Vacation start date
+ * @param {Date} endDate Vacation end date
+ */
+const calculateVacationDays = (startDate, endDate) => {
+    if (startDate && endDate) {
+        const currentDate = new Date();
+        if (startDate.getMonth() === currentDate.getMonth() && startDate.getFullYear() === currentDate.getFullYear()) {
+            return Math.floor(Math.abs(endDate - startDate) / (1000 * 60 * 60 * 24));
+        }
+    }
+
+    return 0;
 };

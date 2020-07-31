@@ -59,6 +59,9 @@ module.exports.create = async (employee) => {
         if (!employee)
             throw new error.BadRequest('employee data not provided');
 
+        if (!validateDates(employee.vacationStartDate, employee.vacationEndDate) && employee.vacationStartDate && employee.vacationEndDate)
+            throw new error.BadRequest('vacation dates are invalid');
+
         employee.email = employee.email ? employee.email.toLowerCase() : null;
 
         // Create an EmployeeModel instance to allow mongoose to validate the model.
@@ -71,7 +74,9 @@ module.exports.create = async (employee) => {
             grossSalary: employee.grossSalary,
             entryDate: employee.entryDate,
             isUnionMember: employee.isUnionMember,
-            dni: employee.dni
+            dni: employee.dni,
+            vacationStartDate: employee.vacationStartDate,
+            vacationEndDate: employee.vacationEndDate
         };
         newEmployee.persona = {
             name: employee.name,
@@ -105,6 +110,9 @@ module.exports.update = async (id, employee) => {
         if (!employee)
             throw new error.BadRequest('employee data not provided');
 
+        if (!validateDates(employee.vacationStartDate, employee.vacationEndDate) && employee.vacationStartDate && employee.vacationEndDate)
+            throw new error.BadRequest('vacation dates are invalid');
+
         employee.email = employee.email ? employee.email.toLowerCase() : null;
 
         await EmployeeModel.findByIdAndUpdate(id, {
@@ -116,6 +124,8 @@ module.exports.update = async (id, employee) => {
                 entryDate: employee.entryDate,
                 isUnionMember: employee.isUnionMember,
                 dni: employee.dni,
+                vacationStartDate: employee.vacationStartDate,
+                vacationEndDate: employee.vacationEndDate,
                 persona: {
                     name: employee.name,
                     lastName: employee.lastName,
@@ -171,4 +181,14 @@ const generateEmployeeNumber = async () => {
     const employeeNumber = 'E-' + numberString.padStart(5 - numberString.length, '0');
 
     return employeeNumber;
+};
+
+/**
+ * Returns `false` if startDate is after (greater than) end date
+ * or if any date is undefined.
+ * @param {Date} startDate Start date
+ * @param {Date} endDate End date
+ */
+const validateDates = (startDate, endDate) => {
+    return startDate && endDate && startDate < endDate;
 };
