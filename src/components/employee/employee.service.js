@@ -1,7 +1,6 @@
 'use strict';
 
 const error = require('throw.js');
-const moment = require('moment');
 
 const EmployeeModel = require('./employee.model');
 
@@ -184,13 +183,12 @@ const generateEmployeeNumber = async () => {
     return employeeNumber;
 };
 
-const validateDates = (firstDate, secondDate) => {
-    try {
-        if (!moment(firstDate).isAfter(new Date(), 'days'))
-            return false;
-        return moment(secondDate).isAfter(firstDate);
-    }
-    catch (err) {
-        throw new error.BadRequest('there was an unexpected error on the vacation dates');
-    }
+/**
+ * Returns `false` if startDate is after (greater than) end date
+ * or if any date is undefined.
+ * @param {Date} startDate Start date
+ * @param {Date} endDate End date
+ */
+const validateDates = (startDate, endDate) => {
+    return startDate && endDate && startDate < endDate;
 };

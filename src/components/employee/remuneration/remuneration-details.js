@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 /**
  * Generate an array of remunerations details following the rules defined by the labor union.
  * @param {Object} employee Employee object
@@ -29,14 +27,12 @@ module.exports.calculate = (employee, remunerationDate) => {
     const subtotal = this.sumSubtotals(details);
 
     // Holiday plus
-    const a = moment(employee.vacationStartDate, 'DD/MM/YYYY');
-    const b = moment(employee.vacationEndDate, 'DD/MM/YYYY');
-    const vacationDays = b.diff(a, 'days');
-
-    details.push({
-        description: 'Vacation',
-        value: (employee.grossSalary / 25) * vacationDays
-    });
+    const vacationDays = calculateVacationDays(employee.vacationStartDate, employee.vacationEndDate);
+    if (vacationDays > 0)
+        details.push({
+            description: 'Vacation',
+            value: (employee.grossSalary / 25) * vacationDays
+        });
 
     // Additional
     details.push({
@@ -76,7 +72,6 @@ module.exports.calculate = (employee, remunerationDate) => {
             description: 'Afiliación a UTEDYC',
             value: subtotal * 0.025 * (-1)
         });
-
 
     return details;
 };
@@ -120,4 +115,20 @@ module.exports.combine = (details, newDetails) => {
     }
 
     return details;
+};
+
+/**
+ * Calculate vacation days.
+ * @param {Date} startDate Vacation start date
+ * @param {Date} endDate Vacation end date
+ */
+const calculateVacationDays = (startDate, endDate) => {
+    if (startDate && endDate) {
+        const currentDate = new Date();
+        if (startDate.getMonth() === currentDate.getMonth() && startDate.getFullYear() === currentDate.getFullYear()) {
+            return Math.floor(Math.abs(endDate - startDate) / (1000 * 60 * 60 * 24));
+        }
+    }
+
+    return 0;
 };
