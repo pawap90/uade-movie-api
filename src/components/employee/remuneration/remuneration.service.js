@@ -8,6 +8,7 @@ const employeeService = require('../employee.service');
 const LegalData = require('../../../gym-legal-data');
 
 const iabankService = require('../../../external-services/iabank.service');
+const mongoose = require('mongoose');
 
 const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
@@ -125,9 +126,8 @@ module.exports.getAllRemunerations = async (dateStart, dateEnd) => {
 
         // Execute query.
         const remunerations = await RemunerationModel.find(filter)
-            .select('date total employee')
-            .sort({ date: -1 })
-            .populate('employee', 'employeeNumber persona.name persona.lastName');
+            .select('date total employeeData')
+            .sort({ date: -1 });
 
         return remunerations;
     }
@@ -149,10 +149,9 @@ module.exports.getRemunerationsByEmployeeId = async (employeeId) => {
         if (!employeeId)
             throw new error.BadRequest('employee id not provided');
 
-        const remunerations = await RemunerationModel.find({ employee: employeeId })
-            .select('date total employee')
-            .sort({ date: -1 })
-            .populate('employee', 'employeeNumber persona.name persona.lastName');
+        const remunerations = await RemunerationModel.find({ 'employeeData.employeeId': mongoose.Types.ObjectId(employeeId) })
+            .select('date total employeeData')
+            .sort({ date: -1 });
 
         return remunerations;
     }
@@ -175,8 +174,7 @@ module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (employeeId,
         if (!employeeId || !remunerationId)
             throw new error.BadRequest('employeeId or remunerationId were not provided');
 
-        const remuneration = await RemunerationModel.find({ employee: employeeId, _id: remunerationId })
-            .populate('employee');
+        const remuneration = await RemunerationModel.find({ 'employeeData.employeeId': mongoose.Types.ObjectId(employeeId), _id: mongoose.Types.ObjectId(remunerationId) });
 
         return remuneration;
     }
