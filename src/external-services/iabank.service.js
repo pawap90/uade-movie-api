@@ -111,6 +111,9 @@ module.exports.createTransfer = async (destinationAccountId, amount, description
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         });
 
+        if (res.status === 400)
+            throw new error.Conflict(`IaBank - Transfer failed ${JSON.stringify(await res.json())}`);
+
         if (!res.ok)
             throw new error.CustomError('IaBank error', `Error creating transfer ${JSON.stringify(await res.json())}`, res.status);
 
@@ -122,6 +125,8 @@ module.exports.createTransfer = async (destinationAccountId, amount, description
     }
     catch (err) {
         await logger.logError(SERVICE_NAME, method, endpoint, params, err);
-        throw new error.InternalServerError('IaBank - Error creating transfer for client');
+        if (!err.statusCode)
+            throw new error.InternalServerError('IaBank - Error creating transfer for client');
+        throw err;
     }
 };

@@ -25,6 +25,9 @@ module.exports.getClient = async (dni) => {
         if (res.status === 404)
             throw new error.NotFound('Creditex - Client not found');
 
+        if (!res.ok)
+            throw new error.CustomError('Creditex error', `Error getting client ${JSON.stringify(await res.json())}`, res.status);
+
         await logger.logResponse(SERVICE_NAME, 'GET', res, { dni });
 
         const client = await res.json();
@@ -64,6 +67,9 @@ module.exports.createTransaction = async (card, amount) => {
             headers: { 'Content-Type': 'application/json' }
         });
 
+        if (!res.ok)
+            throw new error.CustomError('Creditex error', `Error creating transaction ${JSON.stringify(await res.json())}`, res.status);
+
         await logger.logResponse(SERVICE_NAME, method, res, body);
 
         const result = await res.json();
@@ -72,7 +78,9 @@ module.exports.createTransaction = async (card, amount) => {
     }
     catch (err) {
         await logger.logError(SERVICE_NAME, method, endpoint, body, err);
-        throw new error.InternalServerError('Creditex - Error creating transaction for client');
+        if (!err.statusCode)
+            throw new error.InternalServerError('Creditex - Error creating transaction for client');
+        throw err;
     }
 };
 
@@ -84,6 +92,9 @@ module.exports.getClientCards = async (clientId) => {
     const endpoint = endpoints.GET_CARDS.replace('{clientId}', clientId);
     try {
         const res = await fetch(endpoint);
+
+        if (!res.ok)
+            throw new error.CustomError('Creditex error', `Error getting client cards ${JSON.stringify(await res.json())}`, res.status);
 
         await logger.logResponse(SERVICE_NAME, 'GET', res, { clientId });
 

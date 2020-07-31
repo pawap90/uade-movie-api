@@ -77,6 +77,8 @@ paths:
           description: Remuneration successfully created
         400:
           description: Validation error. Verify the request's body.
+        409:
+          description: Bank transfer failed.
         500:
           description: Unexpected error
     get:

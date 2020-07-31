@@ -9,6 +9,10 @@ const LegalData = require('../../../gym-legal-data');
 
 const iabankService = require('../../../external-services/iabank.service');
 
+const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
+
 /**
  * Creates a new remuneration by an employee id
  * @param {String} employeeId employee identifier
@@ -57,10 +61,10 @@ module.exports.previewRemuneration = async (employeeId) => {
 
         // Get the previous month
         let remunerationDate = new Date();
-        remunerationDate = remunerationDate.setMonth(remunerationDate.getMonth() - 1);
+        remunerationDate = new Date(remunerationDate.setMonth(remunerationDate.getMonth() - 1));
 
-        const remunerationMonthName = remunerationDate.toLocaleString('es-AR', { month: 'long' });
-        const remunerationYear = employee.entryDate.getFullYear();
+        const remunerationMonthName = monthNames[remunerationDate.getMonth()];
+        const remunerationYear = remunerationDate.getFullYear();
 
         newRemuneration = {
             date: new Date(),
