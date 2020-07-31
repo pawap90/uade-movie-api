@@ -174,7 +174,10 @@ module.exports.getRemunerationByEmployeeIdAndRemunerationId = async (employeeId,
         if (!employeeId || !remunerationId)
             throw new error.BadRequest('employeeId or remunerationId were not provided');
 
-        const remuneration = await RemunerationModel.find({ 'employeeData.employeeId': mongoose.Types.ObjectId(employeeId), _id: mongoose.Types.ObjectId(remunerationId) });
+        const remuneration = await RemunerationModel.findById(remunerationId);
+
+        if (remuneration.employeeData.employeeId.toString() !== employeeId)
+            return null;
 
         return remuneration;
     }
